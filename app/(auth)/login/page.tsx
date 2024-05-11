@@ -10,7 +10,7 @@ import CustomModal from '@/app/CustomModal';
 import LoadingModal from '@/app/LoadingModal';
 
 type FormValues = {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -22,7 +22,7 @@ export default function LoginPage() {
 
     const form = useForm<FormValues>({
         defaultValues: {
-            username: '',
+            email: '',
             password: ''
         }
     })
@@ -33,31 +33,6 @@ export default function LoginPage() {
     const handleFormSubmit = (formData: FormValues) => {
         console.log('Aprete login: ', formData);
         setShowLoading(true);
-        // fetch(`http://grupo-4.2023.tecnicasdedisenio.com.ar:34001/login`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         username: formData.username,
-        //         password: formData.password,
-        //         role: 'USER'
-        //     })
-        // })
-        //     .then((res) => {
-        //         if (res.status == 401) {
-        //             setShowErrorModal(true);
-        //         } else {
-        //             setShowLoading(false);
-        //             router.push('../events');
-        //         }
-        //         return res.json()
-        //     })
-        //     .then((data) => {
-        //         console.log('Got data from event id: ', data)
-        //         localStorage.setItem('jwtToken', data.Token);
-
-        //     })
     };
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -109,14 +84,18 @@ export default function LoginPage() {
                         onSubmit={handleSubmit(handleFormSubmit)}
                     >
                         <TextField
-                            id="username"
-                            label="Username"
+                            id="email"
+                            label="Email"
                             sx={{ marginTop: 5 }}
-                            {...register('username', {
-                                required: 'Ingrese el username',
+                            {...register('email', {
+                                required: 'Enter you email',
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                    message: 'Enter a valid email'
+                                }
                             })}
-                            error={!!errors.username}
-                            helperText={errors.username?.message}
+                            error={!!errors.email}
+                            helperText={errors.email?.message}
                         />
                         <TextField
                             label="Password"
