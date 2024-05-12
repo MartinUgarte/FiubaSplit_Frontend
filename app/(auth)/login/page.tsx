@@ -48,7 +48,7 @@ export default function LoginPage() {
             alignItems="center"
             justifyContent="center"
         >
-            {showErrorModal && (<CustomModal open={showErrorModal} onClose={() => setShowErrorModal(false)} text="Usuario o contraseña incorrectos" />)}
+            {showErrorModal && (<CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text="Usuario o contraseña incorrectos" buttonText='Close'/>)}
             <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
             <Box
                 display="flex"

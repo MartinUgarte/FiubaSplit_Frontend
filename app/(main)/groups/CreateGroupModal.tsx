@@ -49,7 +49,7 @@ type CreateGroupModalProps = {
 type FormValues = {
     name: string;
     description: string;
-    distance: number;
+    category: string;
 }
 
 export default function CreateGroupModal({ open, onClose, getGroups }: CreateGroupModalProps) {
@@ -61,6 +61,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
         defaultValues: {
             name: '',
             description: '',
+            category: '',
         }
     })
 

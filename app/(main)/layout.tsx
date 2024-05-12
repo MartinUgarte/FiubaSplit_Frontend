@@ -12,8 +12,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export const metadata = {
@@ -24,7 +23,7 @@ export const metadata = {
 const DRAWER_WIDTH = 240;
 
 const LINKS = [
-    { text: 'Groups', href: '/groups', icon: DirectionsRunIcon },
+    { text: 'Groups', href: '/groups', icon: GroupsIcon },
 ];
 
 const PLACEHOLDER_LINKS = [
