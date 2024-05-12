@@ -18,6 +18,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorText, setErrorText] = useState('');
     const [showLoading, setShowLoading] = useState(false);
 
     const form = useForm<FormValues>({
@@ -33,6 +34,33 @@ export default function LoginPage() {
     const handleFormSubmit = (formData: FormValues) => {
         console.log('Aprete login: ', formData);
         setShowLoading(true);
+        fetch(`http://localhost:8000/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: "user2@example.com",
+                password: "string"
+            })
+        })
+            .then((res) => {
+                console.log(res)
+                if (res.status != 200 && res.status != 201) {
+                    //setErrorText(res.)
+                    setShowErrorModal(true);
+                } else {
+                    setShowLoading(false);
+                    //router.push('../events');
+                    console.log(res)
+                }
+                return res.json()
+            })
+            .then((data) => {
+                console.log('Got data from login id: ', data)
+                localStorage.setItem('jwtToken', data.Token);
+
+            })
     };
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -47,7 +75,7 @@ export default function LoginPage() {
             alignItems="center"
             justifyContent="center"
         >
-            {showErrorModal && (<CustomModal open={showErrorModal} onClose={() => setShowErrorModal(false)} text="Usuario o contraseña incorrectos" />)}
+            {showErrorModal && (<CustomModal open={showErrorModal} onClose={() => setShowErrorModal(false)} text={errorText} />)}
             <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
             <Box
                 display="flex"
