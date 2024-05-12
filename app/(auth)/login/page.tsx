@@ -33,6 +33,7 @@ export default function LoginPage() {
     const handleFormSubmit = (formData: FormValues) => {
         console.log('Aprete login: ', formData);
         setShowLoading(true);
+        router.push('../groups');
     };
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
