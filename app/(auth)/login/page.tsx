@@ -40,26 +40,27 @@ export default function LoginPage() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: "user2@example.com",
-                password: "string"
+                email: formData.email,
+                password: formData.password
             })
         })
             .then((res) => {
                 console.log(res)
-                if (res.status != 200 && res.status != 201) {
-                    //setErrorText(res.)
+                if (res.status == 401) {
+                    setErrorText("User not found");
                     setShowErrorModal(true);
-                } else {
+                }
+                else if (res.status == 200) {
                     setShowLoading(false);
                     //router.push('../events');
-                    console.log(res)
                 }
                 return res.json()
             })
             .then((data) => {
-                console.log('Got data from login id: ', data)
-                localStorage.setItem('jwtToken', data.Token);
-
+                if (data.detail != "Invalid credentials."){
+                    console.log('Got data from login id: ', data)
+                    localStorage.setItem('jwtToken', data.Token);
+                }
             })
     };
 
@@ -75,7 +76,7 @@ export default function LoginPage() {
             alignItems="center"
             justifyContent="center"
         >
-            {showErrorModal && (<CustomModal open={showErrorModal} onClose={() => setShowErrorModal(false)} text={errorText} />)}
+            <CustomModal open={showErrorModal} onClose={() => setShowErrorModal(false)} text={errorText} />
             <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
             <Box
                 display="flex"
