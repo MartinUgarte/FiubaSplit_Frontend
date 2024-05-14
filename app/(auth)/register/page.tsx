@@ -102,6 +102,7 @@ export default function RegisterPage() {
               setShowErrorModal(true);
             }
         })
+        router.push('../groups');
   };
   
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -120,7 +121,7 @@ export default function RegisterPage() {
       alignItems="center"
       justifyContent="center"
     >
-      <CustomModal open={showErrorModal} onClose={() => setShowErrorModal(false)} text={errorText} />
+      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <Box
         display="flex"

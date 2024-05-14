@@ -52,7 +52,6 @@ export default function LoginPage() {
                 }
                 else if (res.status == 200) {
                     setShowLoading(false);
-                    //router.push('../events');
                 }
                 return res.json()
             })
@@ -62,6 +61,7 @@ export default function LoginPage() {
                     localStorage.setItem('jwtToken', data.Token);
                 }
             })
+        router.push('../groups');
     };
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -76,7 +76,7 @@ export default function LoginPage() {
             alignItems="center"
             justifyContent="center"
         >
-            <CustomModal open={showErrorModal} onClose={() => setShowErrorModal(false)} text={errorText} />
+            {showErrorModal && (<CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text="Usuario o contraseña incorrectos" buttonText='Close'/>)}
             <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
             <Box
                 display="flex"
