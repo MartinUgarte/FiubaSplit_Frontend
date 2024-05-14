@@ -16,10 +16,12 @@ const style = {
 type CustomModalProps = {
     open: boolean,
     onClose: () => void,
+    onClick: () => void,
     text: string,
+    buttonText: string,
 }
 
-export default function CustomModal({open, onClose, text}: CustomModalProps) {    
+export default function CustomModal({open, onClose, onClick, text, buttonText}: CustomModalProps) {    
     return (
         <Modal 
             open={open}
@@ -34,9 +36,9 @@ export default function CustomModal({open, onClose, text}: CustomModalProps) {
                         type="submit"
                         variant="contained"
                         sx={{ height: 40 }}
-                        onClick={() => onClose()}
+                        onClick={() => onClick()}
                     >
-                        Cerrar
+                        {buttonText}
                     </Button>
                 </Box>
             </Box>
