@@ -20,31 +20,32 @@ export default function GroupsHome() {
     }, [])
 
     const getGroups = () => {
-        // const jwt = localStorage.getItem('jwtToken');
-
-        // fetch(`http://localhost:8000/groups`, {
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${jwt}`
-        //     }
-        // })
-        //     .then((res) => {
-        //         if (!res.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return res.json()
-        //     })
-        //     .then((data) => {
-        //         console.log("Got groups: ", data)
-        //         setGroups(data.map((group: Groups) => {
-        //             return {
-        //                 id: group.id,
-        //                 name: group.name,
-        //                 description: group.description,
-        //             }
-        //         }))
-        //     })
+        const jwt = localStorage.getItem('jwtToken');
+        fetch(`http://localhost:8000/groups`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            }
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return res.json()
+            })
+            .then((data) => {
+                console.log("Got groups: ", data)
+                setGroups(data.map((group: Group) => {
+                    return {
+                        id: group.id,
+                        name: group.name,
+                        description: group.description,
+                        creator_id: group.creator_id,
+                        category: group.category
+                    }
+                }))
+            })
 
     }
 
@@ -65,9 +66,7 @@ export default function GroupsHome() {
                     {groups.map((group) => (
                         <Grid item xs={6} key={group.id}>
                             <GroupCard
-                                id={group.id}
-                                name={group.name}
-                                description={group.description}
+                                group={group}
                                 getGroups={() => getGroups()}
                             />
                         </Grid>

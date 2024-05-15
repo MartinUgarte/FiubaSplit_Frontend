@@ -18,6 +18,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorText, setErrorText] = useState('');
     const [showLoading, setShowLoading] = useState(false);
 
     const form = useForm<FormValues>({
@@ -30,10 +31,68 @@ export default function LoginPage() {
     const { register, handleSubmit, formState } = form;
     const { errors } = formState;
 
+    const getMe = () => {
+        const jwt = localStorage.getItem('jwtToken');
+        fetch(`http://localhost:8000/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+        })
+            .then((res) => {
+                console.log(res)
+                if (res.status == 401) {
+                    setErrorText("User not found");
+                    setShowErrorModal(true);
+                }
+                else if (res.status == 200) {
+                    setShowLoading(false);
+                }
+                return res.json()
+            })
+            .then((data) => {
+                console.log("La data: ", data);
+                if (data.id){
+                    console.log('Got data from login id: ', data)
+                    localStorage.setItem('userId', data.id);
+                    router.push('../groups');
+                }
+            })
+    }
+
     const handleFormSubmit = (formData: FormValues) => {
-        console.log('Aprete login: ', formData);
         setShowLoading(true);
-        router.push('../groups');
+        fetch(`http://localhost:8000/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: formData.email,
+                password: formData.password
+            })
+        })
+            .then((res) => {
+                console.log(res)
+                if (res.status == 401) {
+                    setErrorText("User not found");
+                    setShowErrorModal(true);
+                    setShowLoading(false);
+                }
+                else if (res.status == 200) {
+                    setShowLoading(false);
+                }
+                return res.json()
+            })
+            .then((data) => {
+                console.log("La data: ", data);
+                if (data.access_token){
+                    console.log('Got data from login id: ', data)
+                    localStorage.setItem('jwtToken', data.access_token);
+                    getMe();
+                }
+            })
     };
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);

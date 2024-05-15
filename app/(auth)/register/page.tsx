@@ -18,7 +18,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useRouter } from "next/navigation";
 import { JSX, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-
+import CustomModal from '@/app/CustomModal';
+import LoadingModal from '@/app/LoadingModal';
 
 type FormValues = {
   name: string;
@@ -29,10 +30,16 @@ type FormValues = {
   date_of_birth: Dayjs;
 };
 
+type ResponseError = {
+  msg: string
+}
+
 export default function RegisterPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>();
+  const [showLoading, setShowLoading] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorText, setErrorText] = useState('');
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -49,9 +56,54 @@ export default function RegisterPage() {
   const { errors } = formState;
 
   const handleFormSubmit = (formData: FormValues) => {
-    console.log(formData);
+    console.log('Aprete login: ', formData);
+    
+    const currDate: Dayjs = dayjs()
+    const dateOfBirth: Dayjs = dayjs(formData.date_of_birth)
+    if (dateOfBirth.isAfter(currDate)) {
+      setErrorText("Invalid date of birth");
+      setShowErrorModal(true);
+      return
+    }
+    setShowLoading(true);
+    fetch(`http://localhost:8000/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: formData.name,
+            surname: formData.surname,
+            email: formData.email,
+            password: formData.password,
+            phone: formData.phone,
+            date_of_birth: formData.date_of_birth
+        })
+    })
+        .then((res) => {
+          setShowLoading(false)
+            if (res.status == 201) {
+                //router.push('../events');
+            }
+            return res.json()
+        })
+        .then((data) => {
+            if (data.id){
+                console.log('Got data from login id: ', data)
+            } else if (Array.isArray(data.detail)) {
+              data.detail.forEach((element: ResponseError) => {
+                setErrorText(element.msg);
+                setShowErrorModal(true);
+              })
+            }
+            else {
+              setErrorText(data.detail);
+              setShowErrorModal(true);
+            }
+        })
+        router.push('../login');
   };
-
+  
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
@@ -68,6 +120,8 @@ export default function RegisterPage() {
       alignItems="center"
       justifyContent="center"
     >
+      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+      <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <Box
         display="flex"
         flex="1"
