@@ -110,10 +110,14 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
 
                     <TextField
                         fullWidth
-                        label="Nombre"
+                        label="Name"
                         sx={{ marginTop: 2 }}
                         {...register('name', {
                             required: 'Enter a name',
+                            minLength: {
+                                value: 3,
+                                message: 'Name must be at least 3 chars long'
+                            }
                         })}
                         error={!!errors.name}
                         helperText={errors.name?.message}
@@ -124,10 +128,8 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                     <TextField
                         fullWidth
                         sx={{ marginTop: 2 }}
-                        label="Descripción"
-                        {...register('description', {
-                            required: 'Enter a description',
-                        })}
+                        label="Description"
+                        {...register('description', {})}
                         error={!!errors.description}
                         helperText={errors.description?.message}
                     >

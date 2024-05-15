@@ -94,14 +94,12 @@ export default function EditGroupModal({
             creator_id: group.creator_id
         })
     }).then((res) => {
-        console.log("Response del edit: ", res);
         if (!res.ok) {
             console.log(res);
             throw new Error('Network response was not ok');
         }
         return res.json()
     }).then((data) => {
-        console.log("Data for edit: ", data)
         onClose();
         getGroups()
     })
@@ -152,6 +150,10 @@ export default function EditGroupModal({
             label="Name"
             {...register("name", {
               required: "Enter a name",
+              minLength: {
+                value: 3,
+                message: 'Name must be at least 3 chars long'
+            }
             })}
             error={!!errors.name}
             helperText={errors.name?.message}
@@ -163,9 +165,7 @@ export default function EditGroupModal({
             fullWidth
             sx={{ marginTop: 2 }}
             label="Description"
-            {...register("description", {
-              required: "Enter a description",
-            })}
+            {...register("description", {})}
             error={!!errors.description}
             helperText={errors.description?.message}
           >
@@ -195,7 +195,7 @@ export default function EditGroupModal({
           alignItems="center"
         >
           <Button type="submit" variant="contained" sx={{ height: 40 }}>
-            Editar
+            Edit
           </Button>
         </Box>
       </Box>

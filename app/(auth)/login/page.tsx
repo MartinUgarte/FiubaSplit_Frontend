@@ -31,6 +31,36 @@ export default function LoginPage() {
     const { register, handleSubmit, formState } = form;
     const { errors } = formState;
 
+    const getMe = () => {
+        const jwt = localStorage.getItem('jwtToken');
+        fetch(`http://localhost:8000/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+        })
+            .then((res) => {
+                console.log(res)
+                if (res.status == 401) {
+                    setErrorText("User not found");
+                    setShowErrorModal(true);
+                }
+                else if (res.status == 200) {
+                    setShowLoading(false);
+                }
+                return res.json()
+            })
+            .then((data) => {
+                console.log("La data: ", data);
+                if (data.id){
+                    console.log('Got data from login id: ', data)
+                    localStorage.setItem('userId', data.id);
+                    router.push('../groups');
+                }
+            })
+    }
+
     const handleFormSubmit = (formData: FormValues) => {
         setShowLoading(true);
         fetch(`http://localhost:8000/login`, {
@@ -48,6 +78,7 @@ export default function LoginPage() {
                 if (res.status == 401) {
                     setErrorText("User not found");
                     setShowErrorModal(true);
+                    setShowLoading(false);
                 }
                 else if (res.status == 200) {
                     setShowLoading(false);
@@ -59,7 +90,7 @@ export default function LoginPage() {
                 if (data.access_token){
                     console.log('Got data from login id: ', data)
                     localStorage.setItem('jwtToken', data.access_token);
-                    router.push('../groups');
+                    getMe();
                 }
             })
     };

@@ -21,7 +21,6 @@ export default function GroupsHome() {
 
     const getGroups = () => {
         const jwt = localStorage.getItem('jwtToken');
-        console.log('TOKEN (en el get): ', jwt)
         fetch(`http://localhost:8000/groups`, {
             method: 'GET',
             headers: {

@@ -45,6 +45,10 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
         setShowDeleteConfirmationModal(false)
     }
 
+    const checkAdmin = () => {
+        return localStorage.getItem('userId') == group.creator_id
+    }
+
     return (
         <Card style={{ borderTop: '2px solid blue' }}>
             <EditGroupModal open={showEditGroupModal} onClose={() => setShowEditGroupModal(false)} getGroups={() => getGroups()} group={group} />
@@ -70,7 +74,7 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
                         flexDirection="row"
                         justifyContent="left"
                     >
-                        <Button size="small" onClick={() => setShowEditGroupModal(true)}>Edit</Button>
+                        {checkAdmin() && <Button size="small" onClick={() => setShowEditGroupModal(true)}>Edit</Button>}
                         <Button size="small" onClick={() => handleDetails()}>Group details</Button>
                     </Box>
                     <Box
@@ -79,9 +83,9 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
                         flexDirection="row"
                         justifyContent="right"
                     >
-                        <IconButton color="primary" onClick={() => setShowDeleteConfirmationModal(true)}>
+                        {checkAdmin() && <IconButton color="primary" onClick={() => setShowDeleteConfirmationModal(true)}>
                             <DeleteIcon />
-                        </IconButton>
+                        </IconButton>}
                     </Box>
                 </Box>
             </CardActions>
