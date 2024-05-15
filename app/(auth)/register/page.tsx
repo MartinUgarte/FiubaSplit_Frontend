@@ -88,9 +88,8 @@ export default function RegisterPage() {
             return res.json()
         })
         .then((data) => {
-            if (data.Token){
+            if (data.id){
                 console.log('Got data from login id: ', data)
-                localStorage.setItem('jwtToken', data.Token);
             } else if (Array.isArray(data.detail)) {
               data.detail.forEach((element: ResponseError) => {
                 setErrorText(element.msg);
@@ -102,7 +101,7 @@ export default function RegisterPage() {
               setShowErrorModal(true);
             }
         })
-        router.push('../groups');
+        router.push('../login');
   };
   
   const handleClickShowPassword = () => setShowPassword(!showPassword);

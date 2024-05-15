@@ -12,8 +12,16 @@ import { Box } from '@mui/material';
 import { useState } from 'react';
 import EditGroupModal from './EditGroupModal';
 import CustomModal from '@/app/CustomModal';
+import { Group } from '@/app/types';
 
-export default function GroupCard({ name, id, description, getGroups }: { name: string; description: string, id: number, getGroups: () => void }) {
+
+type GroupCardProps = {
+    group: Group;
+    getGroups: () => void;
+
+}
+
+export default function GroupCard({ group, getGroups}: GroupCardProps) {
     const router = useRouter();
     const [showEditGroupModal, setShowEditGroupModal] = useState(false);
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
@@ -24,29 +32,29 @@ export default function GroupCard({ name, id, description, getGroups }: { name: 
     }
 
     const handleDelete = () => {
-        // const jwt = localStorage.getItem("jwtToken");
-        // fetch(`http://localhost:8000/groups/${id}`, {
-        //     method: 'DELETE',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${jwt}`
-        //     },
-        // }).then((res) => {
-        //     getGroups();
-        // })
+        const jwt = localStorage.getItem("jwtToken");
+        fetch(`http://localhost:8000/groups/${group.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+        }).then((res) => {
+            getGroups();
+        })
         setShowDeleteConfirmationModal(false)
     }
 
     return (
         <Card style={{ borderTop: '2px solid blue' }}>
-            <EditGroupModal open={showEditGroupModal} onClose={() => setShowEditGroupModal(false)} getGroups={() => getGroups()} id={id} />
+            <EditGroupModal open={showEditGroupModal} onClose={() => setShowEditGroupModal(false)} getGroups={() => getGroups()} group={group} />
             {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => handleDelete()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm'/>)}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {name}
+                    {group.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {description}
+                    {group.description}
                 </Typography>
             </CardContent>
             <CardActions>

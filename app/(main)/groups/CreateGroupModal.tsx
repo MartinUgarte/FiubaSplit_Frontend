@@ -37,7 +37,7 @@ const categories = [
     {
         value: "Health",
         label: "Health"
-    }
+    },
 ];
 
 type CreateGroupModalProps = {
@@ -54,40 +54,39 @@ type FormValues = {
 
 export default function CreateGroupModal({ open, onClose, getGroups }: CreateGroupModalProps) {
 
-    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
-    const [selectedCategory, setSelectedCategory] = useState<string>("Dua");
+    const [selectedCategory, setSelectedCategory] = useState<string>("Entertaiment");
 
     const form = useForm<FormValues>({
         defaultValues: {
             name: '',
             description: '',
-            category: '',
+            category: 'Category',
         }
     })
 
     const handleCreateGroup = (formData: FormValues) => {
-    //     const jwt = localStorage.getItem('jwtToken');
-
-    //     fetch(`http://localhost:8000/groups`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${jwt}`
-    //         },
-    //         body: JSON.stringify({
-    //             name: formData.name,
-    //             description: formData.description,
-    //         })
-    //     }).then((res) => {
-    //         if (!res.ok) {
-    //             console.log(res);
-    //             throw new Error('Network response was not ok');
-    //         }
-    //         return res.json()
-    //     }).then((data) => {
-    //         onClose();
-    //         getGroups()
-    //     })
+        const jwt = localStorage.getItem('jwtToken');
+        fetch(`http://localhost:8000/groups`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify({
+                name: formData.name,
+                description: formData.description,
+                category: selectedCategory,
+            })
+        }).then((res) => {
+            if (!res.ok) {
+                console.log(res);
+                throw new Error('Network response was not ok');
+            }
+            return res.json()
+        }).then((data) => {
+            onClose();
+            getGroups()
+        })
 
     }
 

@@ -32,7 +32,6 @@ export default function LoginPage() {
     const { errors } = formState;
 
     const handleFormSubmit = (formData: FormValues) => {
-        console.log('Aprete login: ', formData);
         setShowLoading(true);
         fetch(`http://localhost:8000/login`, {
             method: 'POST',
@@ -56,12 +55,13 @@ export default function LoginPage() {
                 return res.json()
             })
             .then((data) => {
-                if (data.detail != "Invalid credentials."){
+                console.log("La data: ", data);
+                if (data.access_token){
                     console.log('Got data from login id: ', data)
-                    localStorage.setItem('jwtToken', data.Token);
+                    localStorage.setItem('jwtToken', data.access_token);
+                    router.push('../groups');
                 }
             })
-        router.push('../groups');
     };
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);

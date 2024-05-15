@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { Group } from "@/app/types";
 
 const style = {
   position: "absolute" as "absolute",
@@ -52,7 +53,7 @@ type EditGroupModalProps = {
   open: boolean;
   onClose: () => void;
   getGroups: () => void;
-  id: number;
+  group: Group;
 };
 
 type FormValues = {
@@ -65,40 +66,47 @@ export default function EditGroupModal({
   open,
   onClose,
   getGroups,
-  id,
+  group
 }: EditGroupModalProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>("Dua");
+  const [selectedCategory, setSelectedCategory] = useState<string>(group.category);
 
   const form = useForm<FormValues>({
     defaultValues: {
-      name: "",
-      category: "",
-      description: "",
+      name: group.name,
+      category: group.category,
+      description: group.description,
     },
   });
 
-  const handleCreateEvent = (formData: FormValues) => {
-    // const jwt = localStorage.getItem('jwtToken');
-    // fetch(`http://localhost:8000/groups/${id}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${jwt}`
-    //     },
-    //     body: JSON.stringify({
-    //         name: formData.name,
-    //         category: selectedCategory
-    //     })
-    // }).then((res) => {
-    //     if (!res.ok) {
-    //         console.log(res);
-    //         throw new Error('Network response was not ok');
-    //     }
-    //     return res.json()
-    // }).then((data) => {
-    //     getGroups()
-    // })
-  };
+
+  const handleEditGroup = (formData: FormValues) => {
+    const jwt = localStorage.getItem('jwtToken');
+    fetch(`http://localhost:8000/groups/${group.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`
+        },
+        body: JSON.stringify({
+            name: formData.name,
+            description: formData.description,
+            category: selectedCategory,
+            creator_id: group.creator_id
+        })
+    }).then((res) => {
+        console.log("Response del edit: ", res);
+        if (!res.ok) {
+            console.log(res);
+            throw new Error('Network response was not ok');
+        }
+        return res.json()
+    }).then((data) => {
+        console.log("Data for edit: ", data)
+        onClose();
+        getGroups()
+    })
+
+}
 
   const handleChangeCategory = (group: SelectChangeEvent) => {
     setSelectedCategory(group.target.value as string);
@@ -116,7 +124,7 @@ export default function EditGroupModal({
         justifyContent="center"
         alignItems="center"
         sx={style}
-        onSubmit={handleSubmit(handleCreateEvent)}
+        onSubmit={handleSubmit(handleEditGroup)}
         component="form"
       >
         <Box
