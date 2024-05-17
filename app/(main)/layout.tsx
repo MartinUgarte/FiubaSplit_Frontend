@@ -14,6 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person2';
 
 export const metadata = {
     title: 'FIUBASPLIT',
@@ -23,11 +24,12 @@ export const metadata = {
 const DRAWER_WIDTH = 240;
 
 const LINKS = [
-    { text: 'Groups', href: '/groups', icon: GroupsIcon },
+    { text: 'Grupos', href: '/groups', icon: GroupsIcon },
+    { text: 'Perfil', href: '/profile', icon: PersonIcon },
 ];
 
 const PLACEHOLDER_LINKS = [
-    { text: 'Logout', href: '/login', icon: LogoutIcon },
+    { text: 'Cerrar Sesión', href: '/login', icon: LogoutIcon },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
