@@ -90,6 +90,7 @@ export default function RegisterPage() {
         .then((data) => {
             if (data.id){
                 console.log('Got data from login id: ', data)
+                router.push('../login');
             } else if (Array.isArray(data.detail)) {
               data.detail.forEach((element: ResponseError) => {
                 setErrorText(element.msg);
@@ -101,7 +102,6 @@ export default function RegisterPage() {
               setShowErrorModal(true);
             }
         })
-        router.push('../login');
   };
   
   const handleClickShowPassword = () => setShowPassword(!showPassword);

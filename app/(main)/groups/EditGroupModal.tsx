@@ -17,6 +17,7 @@ import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Group } from "@/app/types";
+import CustomModal from "@/app/CustomModal";
 
 const style = {
   position: "absolute" as "absolute",
@@ -66,9 +67,13 @@ export default function EditGroupModal({
   open,
   onClose,
   getGroups,
-  group
+  group,
 }: EditGroupModalProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>(group.category);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorText, setErrorText] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    group.category
+  );
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -78,33 +83,35 @@ export default function EditGroupModal({
     },
   });
 
-
   const handleEditGroup = (formData: FormValues) => {
-    const jwt = localStorage.getItem('jwtToken');
+    const jwt = localStorage.getItem("jwtToken");
     fetch(`http://localhost:8000/groups/${group.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwt}`
-        },
-        body: JSON.stringify({
-            name: formData.name,
-            description: formData.description,
-            category: selectedCategory,
-            creator_id: group.creator_id
-        })
-    }).then((res) => {
-        if (!res.ok) {
-            console.log(res);
-            throw new Error('Network response was not ok');
-        }
-        return res.json()
-    }).then((data) => {
-        onClose();
-        getGroups()
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        description: formData.description,
+        category: selectedCategory,
+        creator_id: group.creator_id,
+        members: group.members
+      }),
     })
-
-}
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data == "This name is alredy used") {
+          setErrorText(data);
+          setShowErrorModal(true);
+        } else {
+          onClose();
+          getGroups();
+        }
+      });
+  };
 
   const handleChangeCategory = (group: SelectChangeEvent) => {
     setSelectedCategory(group.target.value as string);
@@ -125,6 +132,7 @@ export default function EditGroupModal({
         onSubmit={handleSubmit(handleEditGroup)}
         component="form"
       >
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
         <Box
           display="flex"
           flex="0.2"
@@ -152,8 +160,8 @@ export default function EditGroupModal({
               required: "Enter a name",
               minLength: {
                 value: 3,
-                message: 'Name must be at least 3 chars long'
-            }
+                message: "Name must be at least 3 chars long",
+              },
             })}
             error={!!errors.name}
             helperText={errors.name?.message}

@@ -1,13 +1,9 @@
 import { Box, Typography, Button, InputAdornment, TextField, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import CustomModal from '@/app/CustomModal';
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -55,6 +51,8 @@ type FormValues = {
 export default function CreateGroupModal({ open, onClose, getGroups }: CreateGroupModalProps) {
 
     const [selectedCategory, setSelectedCategory] = useState<string>("Entertaiment");
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorText, setErrorText] = useState('');
 
     const form = useForm<FormValues>({
         defaultValues: {
@@ -78,14 +76,15 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                 category: selectedCategory,
             })
         }).then((res) => {
-            if (!res.ok) {
-                console.log(res);
-                throw new Error('Network response was not ok');
-            }
             return res.json()
         }).then((data) => {
-            onClose();
-            getGroups()
+            if (data == "This name is alredy used") {
+                setErrorText(data);
+                setShowErrorModal(true);
+            } else {
+                onClose();
+                getGroups()    
+            }
         })
 
     }
@@ -101,8 +100,9 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
         <Modal
             open={open}
             onClose={() => onClose()}
-        >
+        >   
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} onSubmit={handleSubmit(handleCreateGroup)} component="form">
+                <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
                 <Box display='flex' flex='0.2' flexDirection='column' width='100%' height='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
                     <Typography color='white'>Create Group</Typography>
                 </Box>
