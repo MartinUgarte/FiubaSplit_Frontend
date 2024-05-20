@@ -33,20 +33,20 @@ const style = {
 
 const categories = [
   {
-    value: "Friends",
-    label: "Friends",
+    value: "Amigos",
+    label: "Amigos",
   },
   {
-    value: "Family",
-    label: "Family",
+    value: "Familia",
+    label: "Familia",
   },
   {
-    value: "Entertaiment",
-    label: "Entertaiment",
+    value: "Entretenimiento",
+    label: "Entretenimiento",
   },
   {
-    value: "Health",
-    label: "Health",
+    value: "Salud",
+    label: "Salud",
   },
 ];
 
@@ -96,7 +96,8 @@ export default function EditGroupModal({
         description: formData.description,
         category: selectedCategory,
         creator_id: group.creator_id,
-        members: group.members
+        members: group.members,
+        admin: group.admins
       }),
     })
       .then((res) => {
@@ -155,29 +156,29 @@ export default function EditGroupModal({
           <TextField
             sx={{ marginTop: 2 }}
             fullWidth
-            label="Name"
+            label="Nombre"
             {...register("name", {
-              required: "Enter a name",
+              required: "Ingresar un nombre",
               minLength: {
                 value: 3,
-                message: "Name must be at least 3 chars long",
+                message: "El nombre debe tener como minimo 3 caracteres",
               },
             })}
             error={!!errors.name}
             helperText={errors.name?.message}
           >
-            Name
+            Nombre
           </TextField>
 
           <TextField
             fullWidth
             sx={{ marginTop: 2 }}
-            label="Description"
+            label="Descripcion"
             {...register("description", {})}
             error={!!errors.description}
             helperText={errors.description?.message}
           >
-            Description
+            Descripcion
           </TextField>
 
           <Select
@@ -185,7 +186,7 @@ export default function EditGroupModal({
             labelId="project-leader-select-label"
             id="project-leader-select"
             fullWidth
-            label="Category"
+            label="Categoria"
             value={selectedCategory}
             onChange={handleChangeCategory}
           >
@@ -203,7 +204,7 @@ export default function EditGroupModal({
           alignItems="center"
         >
           <Button type="submit" variant="contained" sx={{ height: 40 }}>
-            Edit
+            Editar
           </Button>
         </Box>
       </Box>

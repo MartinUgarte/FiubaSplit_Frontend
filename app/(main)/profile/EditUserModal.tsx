@@ -28,20 +28,20 @@ const style = {
 
 const categories = [
   {
-    value: "Friends",
-    label: "Friends",
+    value: "Amigos",
+    label: "Amigos",
   },
   {
-    value: "Family",
-    label: "Family",
+    value: "Familia",
+    label: "Familia",
   },
   {
-    value: "Entertaiment",
-    label: "Entertaiment",
+    value: "Entretenimiento",
+    label: "Entretenimiento",
   },
   {
-    value: "Health",
-    label: "Health",
+    value: "Salud",
+    label: "Salud",
   },
 ];
 
