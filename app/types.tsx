@@ -6,7 +6,8 @@ export type Group = {
     description: string,
     category: string,
     creator_id: string,
-    members: string[]
+    members: string[],
+    admins: string[]
 }
 
 export const dumpGroup = {
@@ -15,7 +16,8 @@ export const dumpGroup = {
     description: 'dumpGroupDescription',
     category: 'dumpGroupCategory',
     creator_id: "0",
-    members: ["0"]
+    members: ["0"],
+    admins: ["0"]
 }
 
 export type User = {
