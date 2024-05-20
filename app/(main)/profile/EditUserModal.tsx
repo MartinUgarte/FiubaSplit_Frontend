@@ -9,13 +9,8 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Group, User } from "@/app/types";
 import CustomModal from "@/app/CustomModal";
 
@@ -82,14 +77,18 @@ export default function EditUserModal({
       surname: user.surname,
       phone: user.phone,
       date_of_birth: new Date(user.date_of_birth).toISOString().split("T")[0],
+      cbu: user.cbu
     },
   });
 
   const handleEditUser = (formData: FormValues) => {
     const jwt = localStorage.getItem("jwtToken");
-    const userId = localStorage.getItem("userId");
-    fetch(`http://localhost:8000/users/${userId}`, {
-      method: "PUT",
+    console.log("El form es: ", formData)
+    if (formData.cbu == "") {
+      formData.cbu = null
+    }
+    fetch(`http://localhost:8000/users`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
@@ -99,6 +98,7 @@ export default function EditUserModal({
         surname: formData.surname,
         phone: formData.phone,
         date_of_birth: formData.date_of_birth,
+        cbu: formData.cbu
       }),
     })
       .then((res) => {
@@ -194,9 +194,18 @@ export default function EditUserModal({
             fullWidth
             sx={{ marginTop: 2 }}
             label="CBU"
-            {...register("cbu", {})}
-            error={!!errors.phone}
-            helperText={errors.phone?.message}
+            {...register("cbu", {
+              minLength: {
+                value: 22,
+                message: "El cbu debe tener 22 caracteres",
+              },
+              maxLength: {
+                value: 22,
+                message: "El cbu debe tener 22 caracteres",
+              },
+            })}
+            error={!!errors.cbu}
+            helperText={errors.cbu?.message}
           >
             CBU
           </TextField>
