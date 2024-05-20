@@ -17,3 +17,25 @@ export const dumpGroup = {
     creator_id: "0",
     members: ["0"]
 }
+
+export type User = {
+    id: string,
+    name: string,
+    surname: string,
+    email: string
+    password: string,
+    phone: string,
+    date_of_birth: Date
+    cbu: string
+}
+
+export const dumpUser = {
+    id: '',
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    phone: '',
+    date_of_birth: new Date(),
+    cbu: ''
+}
