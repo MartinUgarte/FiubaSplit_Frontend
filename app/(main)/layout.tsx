@@ -15,6 +15,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person2';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export const metadata = {
     title: 'FIUBASPLIT',
@@ -26,6 +27,7 @@ const DRAWER_WIDTH = 240;
 const LINKS = [
     { text: 'Grupos', href: '/groups', icon: GroupsIcon },
     { text: 'Perfil', href: '/profile', icon: PersonIcon },
+    { text: 'Notificaciones', href: '/notifications', icon: NotificationsIcon },
 ];
 
 const PLACEHOLDER_LINKS = [

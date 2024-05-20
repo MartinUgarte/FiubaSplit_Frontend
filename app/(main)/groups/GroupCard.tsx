@@ -48,6 +48,8 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     }
 
     const checkAdmin = () => {
+        console.log('YO: ', localStorage.getItem('userId'))
+        console.log('ADMIN: ', group.creator_id)
         return localStorage.getItem('userId') == group.creator_id
     }
 
@@ -77,7 +79,7 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
                         justifyContent="left"
                     >
                         {checkAdmin() && <Button size="small" onClick={() => setShowEditGroupModal(true)}>Edit</Button>}
-                        <Button size="small" onClick={() => handleDetails()}>Group details</Button>
+                        <Button size="small" onClick={() => handleDetails()}>Detalles del grupo</Button>
                     </Box>
                     <Box
                         display="flex"
