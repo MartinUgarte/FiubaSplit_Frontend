@@ -2,7 +2,7 @@
 
 import { Box, IconButton, Divider, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import IconTextRow from "./IconTextRow";
+import IconTextRow from "../IconTextRow";
 import LoadingModal from "@/app/LoadingModal";
 import { dumpUser } from "@/app/types";
 import EmailIcon from "@mui/icons-material/Email";

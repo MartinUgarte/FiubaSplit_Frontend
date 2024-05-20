@@ -27,9 +27,11 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
 
     const handleDetails = () => {
-        //localStorage.setItem('groupId', id.toString());
-        //router.push(`group/${id}`)
-    }
+        console.log('ID: ', group.id);
+        localStorage.setItem('groupId', group.id.toString());
+        router.push(`groups/${group.id}`)
+      }
+    
 
     const handleDelete = () => {
         const jwt = localStorage.getItem("jwtToken");
