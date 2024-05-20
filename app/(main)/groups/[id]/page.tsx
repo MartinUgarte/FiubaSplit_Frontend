@@ -62,6 +62,10 @@ export default function GroupDetails() {
     }
   }, []);
 
+  const checkAdmin = () => {
+    return localStorage.getItem('userId') == group.creator_id
+  }
+
   return (
     <Box
       display="flex"
@@ -101,15 +105,15 @@ export default function GroupDetails() {
           alignItems="center"
           sx={{height: '100%', width: '100%'}}
         >
-          <Button variant="contained" onClick={() => setShowInvitationModal(true)}>
+          {checkAdmin() && <Button variant="contained" onClick={() => setShowInvitationModal(true)}>
             Añadir miembro
-          </Button>
+          </Button>}
           <IconButton
             sx={{ marginRight: 10, marginLeft: 5 }}
             aria-label="edit"
             onClick={() => setShowEditModal(true)}
           >
-            <EditIcon sx={{ fontSize: 40 }} />
+            {checkAdmin() && <EditIcon sx={{ fontSize: 40 }} />}
           </IconButton>
         </Box>
       </Box>

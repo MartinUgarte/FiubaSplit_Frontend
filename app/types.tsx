@@ -41,3 +41,19 @@ export const dumpUser = {
     date_of_birth: new Date(),
     cbu: ''
 }
+
+export type Invitation = {
+    id: string,
+    group_id: string,
+    invited_by_id: string,
+    invited_user_id: string,
+    status: string,
+}
+
+export const dumpInvitation = {
+    id: "",
+    group_id: "",
+    invited_by_id: "",
+    invited_user_id: "",
+    status: "",
+}

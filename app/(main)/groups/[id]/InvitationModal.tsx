@@ -1,3 +1,4 @@
+import CustomModal from "@/app/CustomModal";
 import LoadingModal from "@/app/LoadingModal";
 import { Box, Typography, Button, TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
@@ -39,7 +40,9 @@ export default function InvitationModal({
     const { register, handleSubmit, formState } = form;
     const { errors } = formState;
     const [showLoading, setShowLoading] = useState(false);
-
+    const [showErrorModal, setShowErrorModal] = useState(false)
+    const [errorText, setErrorText] = useState('');
+    
     const sendInvitation = (formData: FormValues) => {
         setShowLoading(true)
         const jwt = localStorage.getItem("jwtToken");
@@ -65,6 +68,11 @@ export default function InvitationModal({
             })
             .then((data) => {
                 console.log("La data: ", data);
+                if (!data.id) {
+                  setShowLoading(false);
+                  setErrorText(data)
+                  setShowErrorModal(true)
+                }
             })
     }
 
@@ -81,6 +89,7 @@ export default function InvitationModal({
         sx={style}
       >
         <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
         <Box
           display="flex"
           flex="0.3"
