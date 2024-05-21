@@ -13,15 +13,19 @@ import LoadingModal from "@/app/LoadingModal";
 import { dumpGroup, dumpUser } from "@/app/types";
 import PersonIcon from "@mui/icons-material/Person";
 import EditIcon from "@mui/icons-material/Edit";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import CategoryIcon from '@mui/icons-material/Category';
+import DescriptionIcon from '@mui/icons-material/Description';
 import IconTextRow from "../../IconTextRow";
 import InvitationModal from "./InvitationModal";
+import MembersModal from "./MembersModal";
+import EditGroupModal from "../EditGroupModal";
 
 export default function GroupDetails() {
   const [group, setGroup] = useState(dumpGroup);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditGroupModal, setShowEditGroupModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  const [showInvitationModal, setShowInvitationModal] = useState(false)
+  const [showInvitationModal, setShowInvitationModal] = useState(false);
+  const [showMembersModal, setShowMembersModal] = useState(false);
 
   const formatDate = (date: Date) => {
     return `${date.getDate().toString()}/${
@@ -29,13 +33,15 @@ export default function GroupDetails() {
     }/${date.getFullYear()}`;
   };
 
-  const getGroup = (id: string) => {
+  const getGroup = () => {
     const jwt = localStorage.getItem("jwtToken");
-    setShowLoading(true);
-    if (!jwt) {
+    const groupId = localStorage.getItem("groupId");
+    
+    if (!jwt || !groupId) {
       return;
     }
-    fetch(`http://localhost:8000/groups/${id}`, {
+    setShowLoading(true);
+    fetch(`http://localhost:8000/groups/${groupId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -56,10 +62,7 @@ export default function GroupDetails() {
   };
 
   useEffect(() => {
-    const storedId = localStorage.getItem("groupId");
-    if (storedId) {
-      getGroup(storedId);
-    }
+      getGroup();
   }, []);
 
   const checkAdmin = () => {
@@ -77,6 +80,7 @@ export default function GroupDetails() {
     >
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <InvitationModal open={showInvitationModal} onClose={() => setShowInvitationModal(false)} />
+      <MembersModal open={showMembersModal} onClose={() => setShowMembersModal(false)} group={group} getGroup={() => getGroup()}/>
       <Box
         sx={{ marginTop: 5 }}
         flex="0.2"
@@ -105,16 +109,12 @@ export default function GroupDetails() {
           alignItems="center"
           sx={{height: '100%', width: '100%'}}
         >
-          {checkAdmin() && <Button variant="contained" onClick={() => setShowInvitationModal(true)}>
+          <Button variant="contained" onClick={() => setShowMembersModal(true)}>
+            Ver miembros
+          </Button>
+          {checkAdmin() && <Button sx={{marginLeft: 2, marginRight: 5}}variant="contained" onClick={() => setShowInvitationModal(true)}>
             Añadir miembro
           </Button>}
-          <IconButton
-            sx={{ marginRight: 10, marginLeft: 5 }}
-            aria-label="edit"
-            onClick={() => setShowEditModal(true)}
-          >
-            {checkAdmin() && <EditIcon sx={{ fontSize: 40 }} />}
-          </IconButton>
         </Box>
       </Box>
 
@@ -126,8 +126,8 @@ export default function GroupDetails() {
         flex="0.8"
         width="100%"
       >
-        <IconTextRow icon={<PersonIcon />} text={group.description} />
-        <IconTextRow icon={<PersonIcon />} text={group.category} />
+        {group.description != "" && (<IconTextRow icon={<DescriptionIcon />} text={group.description} />)}
+        <IconTextRow icon={<CategoryIcon />} text={group.category} />
       </Box>
     </Box>
   );

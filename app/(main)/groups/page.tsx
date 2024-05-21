@@ -21,8 +21,6 @@ export default function GroupsHome() {
 
   const checkMember = (group: Group) => {
     const userId = localStorage.getItem("userId");
-    console.log("GROUP: ", group);
-    console.log("ID del user: ", userId);
     if (userId) {
       return group.members.includes(userId);
     }
