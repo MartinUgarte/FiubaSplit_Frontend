@@ -59,7 +59,7 @@ type FormValues = {
   date_of_birth: string;
   phone: string;
   email: string;
-  cbu: string;
+  cbu: string | undefined;
 };
 
 export default function EditUserModal({
@@ -85,7 +85,7 @@ export default function EditUserModal({
     const jwt = localStorage.getItem("jwtToken");
     console.log("El form es: ", formData)
     if (formData.cbu == "") {
-      formData.cbu = null
+      formData.cbu = undefined
     }
     fetch(`http://localhost:8000/users`, {
       method: "PATCH",
