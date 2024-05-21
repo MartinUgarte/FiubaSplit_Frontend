@@ -20,6 +20,7 @@ export default function GroupsHome() {
     useState<Filters>(defaultFilters);
 
   useEffect(() => {
+    setSelectedFilters(defaultFilters)
     getGroups();
   }, []);
 
@@ -105,14 +106,14 @@ export default function GroupsHome() {
       <Box display="flex" flex="0.1" justifyContent="flex-end">
         <Button
           variant="outlined"
-          sx={{ height: 40 }}
+          sx={{ height: 40}}
           onClick={() => setShowCreateGroupModal(true)}
         >
-          Create group
+          Crear Grupo
         </Button>
         <Button
           variant="outlined"
-          sx={{ height: 40 }}
+          sx={{ height: 40, marginLeft: 2 }}
           onClick={() => setShowFilters(true)}
         >
           Filtros
