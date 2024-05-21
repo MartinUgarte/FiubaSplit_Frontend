@@ -40,8 +40,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body>
                 <AppBar position="fixed" sx={{ zIndex: 2000 }}>
                     <Toolbar sx={{ backgroundColor: 'background.paper' }}>
-                        <DashboardIcon sx={{ color: '#444', mr: 2, transform: 'translateY(-2px)' }} />
-                        <Typography variant="h6" noWrap component="div" color="black">
+                    <Box
+                        component="img"
+                        sx={{
+                        height: 40,
+                        width: 40,
+                        marginRight: 2
+                        }}
+                        alt="The house from the offer."
+                        src="https://i.imgur.com/ZP4O5bA.png"
+                    />
+                        <Typography variant="h6" noWrap component="div" color="black" sx={{marginTop: 1}}>
                             FiubaSplit
                         </Typography>
                     </Toolbar>

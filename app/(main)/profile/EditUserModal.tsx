@@ -19,7 +19,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 700,
+  width: 400,
   height: 700,
   bgcolor: "background.paper",
   border: "2px solid #000",
@@ -36,13 +36,21 @@ const categories = [
     label: "Familia",
   },
   {
+      value: "Pareja",
+      label: "Pareja",
+  },
+  {
     value: "Entretenimiento",
     label: "Entretenimiento",
   },
   {
-    value: "Salud",
-    label: "Salud",
+    value: "Viaje",
+    label: "Viaje",
   },
+  {
+      value: "Comida",
+      label: "Comida"
+  }
 ];
 
 type EditUserModalProps = {
@@ -60,6 +68,7 @@ type FormValues = {
   phone: string;
   email: string;
   cbu: string | undefined;
+  alias: string | undefined;
 };
 
 export default function EditUserModal({
@@ -77,7 +86,8 @@ export default function EditUserModal({
       surname: user.surname,
       phone: user.phone,
       date_of_birth: new Date(user.date_of_birth).toISOString().split("T")[0],
-      cbu: user.cbu
+      cbu: user.cbu,
+      alias: user.alias
     },
   });
 
@@ -87,6 +97,9 @@ export default function EditUserModal({
     if (formData.cbu == "") {
       formData.cbu = undefined
     }
+    if (formData.alias == "") {
+      formData.alias = undefined
+    } 
     fetch(`http://localhost:8000/users`, {
       method: "PATCH",
       headers: {
@@ -98,7 +111,8 @@ export default function EditUserModal({
         surname: formData.surname,
         phone: formData.phone,
         date_of_birth: formData.date_of_birth,
-        cbu: formData.cbu
+        cbu: formData.cbu,
+        alias: formData.alias
       }),
     })
       .then((res) => {
@@ -134,7 +148,7 @@ export default function EditUserModal({
         />
         <Box
           display="flex"
-          flex="0.2"
+          flex="0.1"
           flexDirection="column"
           width="100%"
           height="100%"
@@ -146,13 +160,13 @@ export default function EditUserModal({
         </Box>
         <Box
           display="flex"
-          flex="0.6"
+          flex="0.9"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
         >
           <TextField
-            sx={{ marginTop: 2 }}
+            sx={{ marginTop: 6 }}
             fullWidth
             label="Nombre"
             {...register("name", {
@@ -208,6 +222,13 @@ export default function EditUserModal({
             helperText={errors.cbu?.message}
           >
             CBU
+          </TextField>
+
+          <TextField
+            fullWidth
+            sx={{ marginTop: 2 }}
+            label="Alias"          >
+            Alias
           </TextField>
 
           <TextField

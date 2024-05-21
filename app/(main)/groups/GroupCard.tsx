@@ -48,8 +48,6 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     }
 
     const checkAdmin = () => {
-        console.log('YO: ', localStorage.getItem('userId'))
-        console.log('ADMIN: ', group.creator_id)
         return localStorage.getItem('userId') == group.creator_id
     }
 
