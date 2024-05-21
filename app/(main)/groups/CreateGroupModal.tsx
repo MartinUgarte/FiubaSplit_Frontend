@@ -10,8 +10,8 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
-    height: 700,
+    width: 400,
+    height: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 10,
@@ -27,14 +27,22 @@ const categories = [
       label: "Familia",
     },
     {
+        value: "Pareja",
+        label: "Pareja",
+    },
+    {
       value: "Entretenimiento",
       label: "Entretenimiento",
     },
     {
-      value: "Salud",
-      label: "Salud",
+      value: "Viaje",
+      label: "Viaje",
     },
-  ];
+    {
+        value: "Comida",
+        label: "Comida"
+    }
+];
 
 type CreateGroupModalProps = {
     open: boolean,
@@ -50,7 +58,6 @@ type FormValues = {
 
 export default function CreateGroupModal({ open, onClose, getGroups }: CreateGroupModalProps) {
 
-    const [selectedCategory, setSelectedCategory] = useState<string>("Entertaiment");
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorText, setErrorText] = useState('');
 
@@ -58,12 +65,13 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
         defaultValues: {
             name: '',
             description: '',
-            category: 'Category',
+            category: '',
         }
     })
 
     const handleCreateGroup = (formData: FormValues) => {
         const jwt = localStorage.getItem('jwtToken');
+        console.log('Creando grupo: ', formData);
         fetch(`http://localhost:8000/groups`, {
             method: 'POST',
             headers: {
@@ -73,7 +81,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
             body: JSON.stringify({
                 name: formData.name,
                 description: formData.description,
-                category: selectedCategory,
+                category: formData.category,
             })
         }).then((res) => {
             return res.json()
@@ -89,10 +97,6 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
 
     }
 
-    const handleChangeCategory = (group: SelectChangeEvent) => {
-        setSelectedCategory(group.target.value as string);
-    };
-
     const { register, handleSubmit, formState } = form;
     const { errors } = formState
 
@@ -106,7 +110,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                 <Box display='flex' flex='0.2' flexDirection='column' width='100%' height='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
                     <Typography color='white'>Create Group</Typography>
                 </Box>
-                <Box display='flex' flex='0.6' flexDirection="column" justifyContent='center' alignItems='center'>
+                <Box display='flex' flex='0.8' flexDirection="column" justifyContent='center' alignItems='center'>
 
                     <TextField
                         fullWidth
@@ -135,22 +139,21 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                     >
                         Description
                     </TextField>
-
-                    <Select
-                        sx={{ marginTop: 2 }}
-                        labelId='project-leader-select-label'
-                        id='project-leader-select'
+                        
+                    <TextField
                         fullWidth
-                        label='Category'
-                        value={selectedCategory}
-                        onChange={handleChangeCategory}
+                        id='category-select'
+                        select
+                        label='Categoria'
+                        {...register('category', {})}
+                        sx={{ marginTop: 2 }}
                     >
                         {categories.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.value}
                             </MenuItem>
                         ))}
-                    </Select>
+                    </TextField>
                 </Box>
                 <Box display='flex' flex='0.2' justifyContent='center' alignItems='center'>
                     <Button

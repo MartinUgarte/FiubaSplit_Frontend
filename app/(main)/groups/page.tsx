@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import GroupCard from "./GroupCard";
 import { Box, Button, Grid } from "@mui/material";
-import { Group, dumpGroup } from "@/app/types";
+import { Filters, Group, defaultFilters, dumpGroup } from "@/app/types";
 import CreateGroupModal from "./CreateGroupModal";
+import GroupFilterModal from "./GroupFilterModal";
 
 type FormValues = {
   name: string;
@@ -14,10 +15,20 @@ type FormValues = {
 export default function GroupsHome() {
   const [groups, setGroups] = useState<Group[]>([dumpGroup]);
   const [showCreateGroupModal, setShowCreateGroupModal] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedFilters, setSelectedFilters] =
+    useState<Filters>(defaultFilters);
 
   useEffect(() => {
     getGroups();
   }, []);
+
+  const submitFilters = () => {
+    console.log('FILTROS SELECCIONAOS: ', selectedFilters);
+    setSelectedFilters(defaultFilters);
+    getGroups();
+    setShowFilters(false);
+  };
 
   const checkMember = (group: Group) => {
     const userId = localStorage.getItem("userId");
@@ -30,7 +41,24 @@ export default function GroupsHome() {
 
   const getGroups = () => {
     const jwt = localStorage.getItem("jwtToken");
-    fetch(`http://localhost:8000/groups`, {
+
+    const nameParam = selectedFilters.name ? selectedFilters.name : '';
+    const descriptionParam = selectedFilters.description ? selectedFilters.description : '';
+    const categoryParam = selectedFilters.category ? selectedFilters.category : '';
+    
+    const paramsArray: [string, string | undefined][] = [
+      ['name', nameParam],
+      ['description', descriptionParam],
+      ['category', categoryParam],
+    ];
+
+    const filteredParams = paramsArray.filter(([_, value]) => value !== '');
+
+    const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
+    console.log('queryParams: ', queryParams.toString())
+
+    fetch(`http://localhost:8000/groups?${queryParams.toString()}`, {
+    // fetch(`http://localhost:8000/groups`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -67,6 +95,13 @@ export default function GroupsHome() {
         onClose={() => setShowCreateGroupModal(false)}
         getGroups={() => getGroups()}
       />
+      <GroupFilterModal
+        open={showFilters}
+        onClose={() => setShowFilters(false)}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+        submitFilters={() => submitFilters()}
+      />
       <Box display="flex" flex="0.1" justifyContent="flex-end">
         <Button
           variant="outlined"
@@ -74,6 +109,13 @@ export default function GroupsHome() {
           onClick={() => setShowCreateGroupModal(true)}
         >
           Create group
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ height: 40 }}
+          onClick={() => setShowFilters(true)}
+        >
+          Filtros
         </Button>
       </Box>
       <Box display="flex" flex="0.9">

@@ -12,12 +12,12 @@ export type Group = {
 
 export const dumpGroup = {
     id: 0,
-    name: 'dumpGroupName',
-    description: 'dumpGroupDescription',
-    category: 'dumpGroupCategory',
-    creator_id: "0",
-    members: ["0"],
-    admins: ["0"]
+    name: '',
+    description: '',
+    category: '',
+    creator_id: "",
+    members: [],
+    admins: []
 }
 
 export type User = {
@@ -27,8 +27,9 @@ export type User = {
     email: string
     password: string,
     phone: string,
-    date_of_birth: Date
-    cbu: string
+    date_of_birth: Date,
+    cbu: string,
+    alias: string
 }
 
 export const dumpUser = {
@@ -39,7 +40,8 @@ export const dumpUser = {
     password: '',
     phone: '',
     date_of_birth: new Date(),
-    cbu: ''
+    cbu: '',
+    alias: ''
 }
 
 export type Invitation = {
@@ -56,4 +58,17 @@ export const dumpInvitation = {
     invited_by_id: "",
     invited_user_id: "",
     status: "",
+}
+
+export type Filters = {
+    description: string | undefined,
+    category: string | undefined,
+    name: string | undefined,
+}
+
+
+export const defaultFilters: Filters = {
+    description: '',
+    category: '',
+    name: '',
 }

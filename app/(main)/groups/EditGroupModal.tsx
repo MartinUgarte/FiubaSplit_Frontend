@@ -41,13 +41,21 @@ const categories = [
     label: "Familia",
   },
   {
+      value: "Pareja",
+      label: "Pareja",
+  },
+  {
     value: "Entretenimiento",
     label: "Entretenimiento",
   },
   {
-    value: "Salud",
-    label: "Salud",
+    value: "Viaje",
+    label: "Viaje",
   },
+  {
+      value: "Comida",
+      label: "Comida"
+  }
 ];
 
 type EditGroupModalProps = {
