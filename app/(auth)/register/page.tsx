@@ -147,7 +147,7 @@ export default function RegisterPage() {
           width="30%"
         >
           <Typography variant="h5" align="center">
-            ¡Welcome!
+            ¡Bienvenido!
           </Typography>
           <Box
             component="form"
@@ -158,7 +158,7 @@ export default function RegisterPage() {
           >
             <TextField
               id="name"
-              label="Name"
+              label="Nombre"
               sx={{ marginTop: 5 }}
               {...register("name", {
                 required: "Enter your name",
@@ -168,7 +168,7 @@ export default function RegisterPage() {
             />
             <TextField
               id="surname"
-              label="Surname"
+              label="Apellido"
               sx={{ marginTop: 5 }}
               {...register("surname", {
                 required: "Enter your surname",
@@ -181,7 +181,7 @@ export default function RegisterPage() {
               label="Email"
               sx={{ marginTop: 5 }}
               {...register("email", {
-                required: "Enter you email",
+                required: "Ingrese su email",
                 pattern: {
                   value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                   message: "Enter a valid email",
@@ -191,7 +191,7 @@ export default function RegisterPage() {
               helperText={errors.email?.message}
             />
             <TextField
-              label="Password"
+              label="Contraseña"
               id="password"
               type={showPassword ? "text" : "password"}
               sx={{ marginTop: 5 }}
@@ -216,7 +216,7 @@ export default function RegisterPage() {
             />
             <TextField
               id="phone"
-              label="Phone"
+              label="Telefono"
               sx={{ marginTop: 5 }}
               {...register("phone", {
                 required: "Enter your phone",
@@ -227,7 +227,7 @@ export default function RegisterPage() {
             <TextField
               id="date_of_birth"
               type='date'
-              label="Birthday"
+              label="Fecha de cumpleaños"
               sx={{ marginTop: 5 }}
               {...register("date_of_birth", {
                 required: "Enter your birthday",
