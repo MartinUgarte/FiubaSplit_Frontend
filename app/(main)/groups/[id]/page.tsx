@@ -11,14 +11,12 @@ import {
 import React, { useEffect, useState } from "react";
 import LoadingModal from "@/app/LoadingModal";
 import { dumpGroup, dumpUser } from "@/app/types";
-import PersonIcon from "@mui/icons-material/Person";
-import EditIcon from "@mui/icons-material/Edit";
 import CategoryIcon from '@mui/icons-material/Category';
 import DescriptionIcon from '@mui/icons-material/Description';
 import IconTextRow from "../../IconTextRow";
 import InvitationModal from "./InvitationModal";
 import MembersModal from "./MembersModal";
-import EditGroupModal from "../EditGroupModal";
+import CreateExpenseModal from "./ChooseExpenseParticipantsModal";
 
 export default function GroupDetails() {
   const [group, setGroup] = useState(dumpGroup);
@@ -26,6 +24,7 @@ export default function GroupDetails() {
   const [showLoading, setShowLoading] = useState(false);
   const [showInvitationModal, setShowInvitationModal] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
+  const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
 
   const formatDate = (date: Date) => {
     return `${date.getDate().toString()}/${
@@ -80,6 +79,7 @@ export default function GroupDetails() {
     >
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <InvitationModal open={showInvitationModal} onClose={() => setShowInvitationModal(false)} />
+      <CreateExpenseModal group={group} open={showNewExpenseModal} onClose={() => setShowNewExpenseModal(false)} />
       <MembersModal open={showMembersModal} onClose={() => setShowMembersModal(false)} group={group} getGroup={() => getGroup()}/>
       <Box
         sx={{ marginTop: 5 }}
@@ -109,7 +109,10 @@ export default function GroupDetails() {
           alignItems="center"
           sx={{height: '100%', width: '100%'}}
         >
-          <Button variant="contained" onClick={() => setShowMembersModal(true)}>
+          <Button variant="contained" onClick={() => setShowNewExpenseModal(true)}>
+            Añadir gasto
+          </Button>
+          <Button sx={{marginLeft: 2}} variant="contained" onClick={() => setShowMembersModal(true)}>
             Ver miembros
           </Button>
           {checkAdmin() && <Button sx={{marginLeft: 2, marginRight: 5}}variant="contained" onClick={() => setShowInvitationModal(true)}>
