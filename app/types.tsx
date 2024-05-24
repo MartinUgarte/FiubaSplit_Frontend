@@ -29,7 +29,6 @@ export type User = {
     phone: string,
     date_of_birth: Date,
     cbu: string,
-    alias: string
 }
 
 export const dumpUser = {
@@ -41,7 +40,6 @@ export const dumpUser = {
     phone: '',
     date_of_birth: new Date(),
     cbu: '',
-    alias: ''
 }
 
 export type Invitation = {

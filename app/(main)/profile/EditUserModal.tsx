@@ -60,6 +60,10 @@ type EditUserModalProps = {
   user: User;
 };
 
+type ResponseError = {
+  msg: string
+}
+
 type FormValues = {
   id: string;
   name: string;
@@ -68,7 +72,6 @@ type FormValues = {
   phone: string;
   email: string;
   cbu: string | undefined;
-  alias: string | undefined;
 };
 
 export default function EditUserModal({
@@ -87,7 +90,6 @@ export default function EditUserModal({
       phone: user.phone,
       date_of_birth: new Date(user.date_of_birth).toISOString().split("T")[0],
       cbu: user.cbu,
-      alias: user.alias
     },
   });
 
@@ -97,9 +99,6 @@ export default function EditUserModal({
     if (formData.cbu == "") {
       formData.cbu = undefined
     }
-    if (formData.alias == "") {
-      formData.alias = undefined
-    } 
     fetch(`http://localhost:8000/users`, {
       method: "PATCH",
       headers: {
@@ -112,15 +111,21 @@ export default function EditUserModal({
         phone: formData.phone,
         date_of_birth: formData.date_of_birth,
         cbu: formData.cbu,
-        alias: formData.alias
       }),
     })
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        getMe();
-        onClose();
+        if (Array.isArray(data.detail)) {
+          data.detail.forEach((element: ResponseError) => {
+            setErrorText(element.msg);
+            setShowErrorModal(true);
+          })
+        } else {
+          getMe();
+          onClose();
+        }
       });
   };
 
@@ -139,6 +144,7 @@ export default function EditUserModal({
         onSubmit={handleSubmit(handleEditUser)}
         component="form"
       >
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
         <CustomModal
           open={showErrorModal}
           onClick={() => setShowErrorModal(false)}
@@ -222,13 +228,6 @@ export default function EditUserModal({
             helperText={errors.cbu?.message}
           >
             CBU
-          </TextField>
-
-          <TextField
-            fullWidth
-            sx={{ marginTop: 2 }}
-            label="Alias"          >
-            Alias
           </TextField>
 
           <TextField
