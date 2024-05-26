@@ -70,3 +70,22 @@ export const defaultFilters: Filters = {
     category: '',
     name: '',
 }
+
+export type Amount = {
+    amount: number,
+    percentage: number,
+}
+
+export const defaultAmount: Amount = {
+    amount: 0,
+    percentage: 0
+}
+
+export type Expense = {
+    group_id: string,
+    name: string,
+    amount: number,
+    payers: { [key: string]: Amount },
+    created_date: Date,
+    balance: { [key: string]: { [key: string]: number}}
+}

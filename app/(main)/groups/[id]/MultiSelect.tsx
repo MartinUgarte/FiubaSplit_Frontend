@@ -15,17 +15,17 @@ import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 type MultiSelectProps = {
-    selectedParticipants: string[];
-  setSelectedParticipants: (creditors: string[]) => void;
+  selectedPayersNames: string[];
+  setSelectedPayersNames: (creditors: string[]) => void;
   names: string[];
   text: string;
 }
 
-export default function MultiSelect ({selectedParticipants, setSelectedParticipants, names, text}: MultiSelectProps ) {
+export default function MultiSelect ({selectedPayersNames, setSelectedPayersNames, names, text}: MultiSelectProps ) {
   
-    const handleChange = (event: SelectChangeEvent<typeof selectedParticipants>) => {
+    const handleChange = (event: SelectChangeEvent<typeof selectedPayersNames>) => {
       const value = event.target.value as string[];
-      setSelectedParticipants(value);
+      setSelectedPayersNames(value);
     };
 
     return (
@@ -33,7 +33,7 @@ export default function MultiSelect ({selectedParticipants, setSelectedParticipa
         <InputLabel>{text}</InputLabel>
         <Select
           multiple
-          value={selectedParticipants}
+          value={selectedPayersNames}
           onChange={handleChange}
           input={<OutlinedInput label="Multiple Select" />}
           renderValue={(selected) => (
@@ -43,8 +43,8 @@ export default function MultiSelect ({selectedParticipants, setSelectedParticipa
                   key={value}
                   label={value}
                   onDelete={() =>
-                    setSelectedParticipants(
-                        selectedParticipants.filter((item) => item !== value)
+                    setSelectedPayersNames(
+                      selectedPayersNames.filter((item) => item !== value)
                     )
                   }
                   deleteIcon={
@@ -64,7 +64,7 @@ export default function MultiSelect ({selectedParticipants, setSelectedParticipa
               sx={{ justifyContent: "space-between" }}
             >
               {name}
-              {selectedParticipants.includes(name) ? <CheckIcon color="info" /> : null}
+              {selectedPayersNames.includes(name) ? <CheckIcon color="info" /> : null}
             </MenuItem>
           ))}
         </Select>
