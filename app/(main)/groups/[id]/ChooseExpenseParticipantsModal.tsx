@@ -45,6 +45,8 @@ export default function ChooseExpenseParticipantsModal({
   onClose,
   group,
 }: ChooseExpenseParticipantsModalProps) {
+  const [expenseName, setExpenseName] = useState<string>("");
+  const [expenseAmount, setExpenseAmount] = useState<number>(0);
   const [participants, setParticipants] = useState<{ [key: string]: string }>({});
   const [selectedPayers, setSelectedPayers] = useState<{ [key: string]: Amount}>({});
   const [showChoosePayersAmountModal, setShowChoosePayersAmountModal] =
@@ -86,7 +88,8 @@ export default function ChooseExpenseParticipantsModal({
     }));
   };
 
-  const createExpense = (formData: FormValues) => {
+  const createExpense = () => {
+    console.log('expense payers: ', selectedPayers);
     const jwt = localStorage.getItem("jwtToken");
     return fetch(`http://localhost:8000/expenses`, {
       method: "POST",
@@ -96,8 +99,9 @@ export default function ChooseExpenseParticipantsModal({
       },
       body: JSON.stringify({
         group_id: group.id,
-        name: formData.expense_name,
-        amount: formData.expense_amount,
+        name: expenseName,
+        amount: expenseAmount,
+        payers: selectedPayers
         
       }),
     })
@@ -158,7 +162,8 @@ export default function ChooseExpenseParticipantsModal({
 
   const handleNewExpense = (formData: FormValues) => {
     handleAddPayers()
-    console.log('PAYERS: ', selectedPayers)
+    setExpenseName(formData.expense_name)
+    setExpenseAmount(formData.expense_amount)
     setShowChoosePayersAmountModal(true);
   };
 
@@ -195,8 +200,12 @@ export default function ChooseExpenseParticipantsModal({
         <ChooseExpensePercentagesModal
           open={showChooseExpensePercentagesModal}
           onClose={() => setShowChooseExpensePercentagesModal(false)}
-          members={Object.values(participants)}
+          selectedPayers={selectedPayers}
+          selectedPayersNames={selectedPayersNames}
+          participants={participants}
+          setSelectedPayers={setSelectedPayers}
           closeAllModals={() => closeAllModals()}
+          createExpense={createExpense}
         />
         <Box
           display="flex"
