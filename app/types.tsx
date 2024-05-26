@@ -82,10 +82,19 @@ export const defaultAmount: Amount = {
 }
 
 export type Expense = {
+    id: string,
     group_id: string,
     name: string,
     amount: number,
     payers: { [key: string]: Amount },
     created_date: Date,
     balance: { [key: string]: { [key: string]: number}}
+}
+
+export type ExpenseFilters = {
+    name: string   
+}
+
+export const defaultExpenseFilters = {
+    name: ''
 }

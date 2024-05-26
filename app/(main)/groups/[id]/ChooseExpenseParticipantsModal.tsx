@@ -32,6 +32,7 @@ type ChooseExpenseParticipantsModalProps = {
   open: boolean;
   onClose: () => void;
   group: Group;
+  getExpenses: () => void;
 };
 
 type FormValues = {
@@ -44,6 +45,7 @@ export default function ChooseExpenseParticipantsModal({
   open,
   onClose,
   group,
+  getExpenses,
 }: ChooseExpenseParticipantsModalProps) {
   const [expenseName, setExpenseName] = useState<string>("");
   const [expenseAmount, setExpenseAmount] = useState<number>(0);
@@ -113,6 +115,7 @@ export default function ChooseExpenseParticipantsModal({
       })
       .then((data) => {
         console.log(data)
+        getExpenses()
       })
   };
 
