@@ -86,6 +86,8 @@ export type Expense = {
     group_id: string,
     name: string,
     amount: number,
+    category: string,
+    description: string,
     payers: { [key: string]: Amount },
     created_date: Date,
     balance: { [key: string]: { [key: string]: number}}
