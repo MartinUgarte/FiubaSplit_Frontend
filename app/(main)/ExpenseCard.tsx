@@ -10,7 +10,7 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Expense, Invitation } from "@/app/types";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import EditExpenseModal from "./EditExpenseModal";
+import EditExpenseModal from "./groups/[id]/EditExpenseModal";
 
 type ExpenseCardProps = {
   expense: Expense;

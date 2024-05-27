@@ -6,7 +6,7 @@ import { Box, Button, Grid } from "@mui/material";
 import { Group, Invitation, dumpGroup, dumpInvitation } from "@/app/types";
 import LoadingModal from '@/app/LoadingModal';
 
-export default function GroupsHome() {
+export default function NotificationsHome() {
   const [invitations, setInvitations] = useState<Invitation[]>([dumpInvitation]);
   const [showCreateGroupModal, setShowCreateGroupModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);

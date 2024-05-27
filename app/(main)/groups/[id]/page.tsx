@@ -18,8 +18,8 @@ import IconTextRow from "../../IconTextRow";
 import InvitationModal from "./InvitationModal";
 import MembersModal from "./MembersModal";
 import CreateExpenseModal from "./ChooseExpenseParticipantsModal";
-import ExpenseCard from "./ExpenseCard";
-import FilterExpenseModal from "./FilterExpenseModal";
+import ExpenseCard from "../../ExpenseCard";
+import FilterExpenseModal from "../../FilterExpenseModal";
 
 export default function GroupDetails() {
   const [expenses, setExpenses] = useState<Expense[]>([])
