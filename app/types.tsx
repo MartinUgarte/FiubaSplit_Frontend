@@ -82,6 +82,7 @@ export const defaultAmount: Amount = {
 }
 
 export type Expense = {
+    creator_id: string
     id: string,
     group_id: string,
     name: string,

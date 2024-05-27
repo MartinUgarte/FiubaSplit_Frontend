@@ -17,10 +17,30 @@ type ExpenseCardProps = {
   getExpenses: () => void;
 };
 
-export default function ExpenseCard({ expense, getExpenses }: ExpenseCardProps) {
+export default function ExpenseCard({
+  expense,
+  getExpenses,
+}: ExpenseCardProps) {
   const router = useRouter();
   const [showEditExpenseModal, setShowEditExpenseModal] = useState(false)
 
+  const checkCreator = () => {
+    const userId = localStorage.getItem("userId");
+    return userId == expense.creator_id;
+  };
+
+  const deleteExpense = () => {
+    const jwt = localStorage.getItem("jwtToken");
+    fetch(`http://localhost:8000/expenses/${expense.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    }).then((res) => {
+      getExpenses();
+    });
+  };
 
   return (
     <Card style={{ borderTop: "2px solid blue", height: 100 }}>
@@ -30,26 +50,47 @@ export default function ExpenseCard({ expense, getExpenses }: ExpenseCardProps) 
             <GroupAddIcon sx={{fontSize: 40}}/>
             <Typography gutterBottom variant="h5" component="div" sx={{marginTop: 2, marginLeft: 2}}>
             {expense.name}
-            </Typography>
+          </Typography>
         </Box>
-        <Box flex='0.3' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{marginLeft: 5}}>
-        <Typography gutterBottom variant="h5" component="div" sx={{marginTop: 2, marginLeft: 2}}>
+        <Box
+          flex="0.3"
+          display="flex"
+          flexDirection="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          sx={{ marginLeft: 5 }}
+        >
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ marginTop: 2, marginLeft: 2 }}
+          >
             {expense.amount}
-        </Typography>
+          </Typography>
         </Box>
-        <Box flex='0.4' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{marginLeft: 5}}>
+        <Box
+          flex="0.4"
+          display="flex"
+          flexDirection="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          sx={{ marginLeft: 5 }}
+        >
+
+          {/* {checkCreator() && ( */}
+            <IconButton color="primary" onClick={() => deleteExpense()} sx={{marginRight:5, marginLeft:2}}>
+              <DeleteIcon />
+            </IconButton>
+          {/* )} */}
           
             <IconButton sx={{marginRight: 10}} aria-label="edit" onClick={() => setShowEditExpenseModal(true)}>
                 <EditIcon sx={{fontSize: 30}} />
             </IconButton>
 
-            <Button variant='outlined' size="small" sx={{marginLeft: 2}} >
-              Eliminar
-            </Button>
+         
         </Box>
-        
-    </Box>
-
+      </Box>
     </Card>
   );
 }
