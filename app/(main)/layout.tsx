@@ -11,11 +11,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person2';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 export const metadata = {
     title: 'FIUBASPLIT',
@@ -28,6 +28,7 @@ const LINKS = [
     { text: 'Grupos', href: '/groups', icon: GroupsIcon },
     { text: 'Perfil', href: '/profile', icon: PersonIcon },
     { text: 'Notificaciones', href: '/notifications', icon: NotificationsIcon },
+    { text: 'Gastos', href: '/expenses', icon: AttachMoneyIcon },
 ];
 
 const PLACEHOLDER_LINKS = [
