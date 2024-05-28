@@ -14,11 +14,13 @@ import EditExpenseModal from "./groups/[id]/EditExpenseModal";
 type ExpenseCardProps = {
   expense: Expense;
   getExpenses: () => void;
+  route: string;
 };
 
 export default function ExpenseCard({
   expense,
   getExpenses,
+  route,
 }: ExpenseCardProps) {
   const router = useRouter();
   const [showEditExpenseModal, setShowEditExpenseModal] = useState(false)
@@ -45,7 +47,7 @@ export default function ExpenseCard({
   const handleDetails = () => {
     console.log('ID: ', expense.id);
     localStorage.setItem('expenseId', expense.id);
-    router.push(`expenses/${expense.id}`)
+    router.push(`${route}/${expense.id}`)
   }
 
   return (

@@ -144,7 +144,7 @@ export default function Expenses() {
         <Box display='flex' flex='0.2' flexDirection='row' width='100%'>
             <Button
             variant="outlined"
-            sx={{ height: 40, marginLeft: 2 }}
+            sx={{ marginLeft: 2 }}
             onClick={() => setShowFilterExpensesModal(true)}
             >
             Filtros
@@ -156,7 +156,7 @@ export default function Expenses() {
                 (expense) =>
                 (
                     <Grid item xs={12} key={expense.id}>
-                        <ExpenseCard expense={expense} getExpenses={() => getExpenses()} />
+                        <ExpenseCard route={'expenses'} expense={expense} getExpenses={() => getExpenses()} />
                     </Grid>
                 )
             )}

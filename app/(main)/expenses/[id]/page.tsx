@@ -4,12 +4,7 @@ import { Box, IconButton, Divider, TextField, Typography, Grid } from "@mui/mate
 import React, { useEffect, useState } from "react";
 import IconTextRow from "../../IconTextRow";
 import LoadingModal from "@/app/LoadingModal";
-import { dumpExpense, dumpUser } from "@/app/types";
-import EmailIcon from "@mui/icons-material/Email";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import CakeIcon from "@mui/icons-material/Cake";
-import PersonIcon from "@mui/icons-material/Person";
-import EditIcon from "@mui/icons-material/Edit";
+import { User, dumpExpense, dumpUser } from "@/app/types";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
@@ -19,13 +14,23 @@ import ParticipantCard from "./ParticipantCard";
 export default function Expense() {
   const [expense, setExpense] = useState(dumpExpense);
   const [showLoading, setShowLoading] = useState(false);
-  const [members, setMembers] = useState<string[]>([''])
-  const [group, setGroup] = useState<string>('')
+  const [members, setMembers] = useState<{[key: string]: string}>({}) // Key: userId, Value: userName
+  const [balances, setBalances] = useState<{[key: string]: {[key: string]: number}}>({})
+  const [group, setGroup] = useState<string>('');
+  const [barrier, setBarrier] = useState<boolean>(false);
 
   const formatDate = (date: Date) => {
     return `${date.getDate().toString()}/${
       date.getMonth() + 1
     }/${date.getFullYear()}`;
+  };
+
+  const handleAddMember = (key: string, name: string) => {
+    console.log('El nombre que llega es: ', name)
+    setMembers((prevMembers) => ({
+      ...prevMembers,
+      [key]: name,
+    }));
   };
 
     const getExpense = () => {
@@ -46,46 +51,42 @@ export default function Expense() {
           return res.json();
         })
         .then((data) => {
-          console.log("LA EXPENSE: ", data);
           if (data.id) {
             setExpense(data);
-            console.log("El expense es: ", expense);
-
-            setMembers(Object.keys(data.balance).map((memberId: string) => {
-                return getUser(memberId)
-            }))
-
+            setBalances(data.balances)
             getGroup(data.group_id)
-            
+            setBarrier(true)
           }
         });
     };
 
-  const getUser = (userId: string) => {
-    const jwt = localStorage.getItem("jwtToken");
-    fetch(`http://localhost:8000/users/${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.status == 200) {
-          setShowLoading(false);
-        }
-        return res.json();
+    const getUser = (memberId: string) => {
+      const jwt = localStorage.getItem("jwtToken");
+      if (!jwt) {
+        return Promise.reject(new Error("JWT not found"));
+      }
+      return fetch(`http://localhost:8000/users/${memberId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
       })
-      .then((data) => {
-        console.log("La data: ", data);
-        if (data.id) {
-          return data.name
-        }
-      });
-      return ''
-  };
-
+        .then((res) => {
+          console.log("El res es: ", res);
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
+        .then((data) => data)
+        .catch((error) => {
+          console.error("Error fetching user:", error);
+          return null;
+        });
+    };
+  
+  
   const getGroup = (groupId: string) => {
     const jwt = localStorage.getItem("jwtToken");
 
@@ -113,6 +114,21 @@ export default function Expense() {
   useEffect(() => {
     getExpense();
   }, []);
+
+  useEffect(() => {
+    if(barrier) {
+      Promise.all(Object.keys(balances).map((id) => getUser(id)))
+      .then((users) => {
+        users.map((user: User) => {
+            handleAddMember(user.id, user.name);
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching users: ", error);
+      });
+    }
+    console.log("Quedaron los members: ", members)
+  }, [barrier])
 
   return (
     <Box
@@ -143,7 +159,7 @@ export default function Expense() {
         sx={{ marginBottom: 2, marginTop: 3 }}
         display="flex"
         flexDirection="column"
-        flex="0.8"
+        flex="0.3"
         width="100%"
       >
         <IconTextRow icon={<GroupsIcon />} text={group} />
@@ -155,16 +171,16 @@ export default function Expense() {
         />
         
        </Box>
-      {/*<Box display="flex" flex="0.9">
+       <Box sx={{width:"100%"}} display="flex" flex="0.5" flexDirection="column">
         <Grid container spacing={5} sx={{ marginTop: 1 }}>
-          {members.map(
-            (member) =>
-                <Grid item xs={6} key={group.id}>
-                  <ParticipantCard group={group} getGroups={() => getGroups()} />
+          {Object.entries(balances).map(
+            ([memberId, balance]) =>
+                <Grid item xs={12} key={memberId}>
+                  <ParticipantCard memberId={memberId} balance={balance} members={members} />
                 </Grid>
           )}
         </Grid>
-      </Box> */}
+      </Box> 
     </Box>
   );
 }

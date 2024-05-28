@@ -25,6 +25,7 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     const router = useRouter();
     const [showEditGroupModal, setShowEditGroupModal] = useState(false);
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false)
 
     const handleDetails = () => {
         console.log('ID: ', group.id);
@@ -42,6 +43,11 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
                 'Authorization': `Bearer ${jwt}`
             },
         }).then((res) => {
+            if (res.status == 403) {
+                console.log(res)
+                setShowErrorModal(true)
+                return
+            }
             getGroups();
         })
         setShowDeleteConfirmationModal(false)
@@ -54,6 +60,7 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     return (
         <Card style={{ borderTop: '2px solid blue' }}>
             <EditGroupModal open={showEditGroupModal} onClose={() => setShowEditGroupModal(false)} getGroups={() => getGroups()} group={group} />
+            <CustomModal open={showErrorModal} onClick={() => handleDelete()} onClose={() => setShowErrorModal(false)} text="No se puede eliminar este grupo porque tiene deudas pendientes" buttonText='Confirm'/>
             {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => handleDelete()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm'/>)}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

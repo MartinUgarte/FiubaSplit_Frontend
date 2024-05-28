@@ -229,7 +229,7 @@ export default function GroupDetails() {
             (expense) =>
               (
                 <Grid item xs={12} key={expense.id}>
-                  <ExpenseCard expense={expense} getExpenses={() => getExpenses()} />
+                  <ExpenseCard expense={expense} getExpenses={() => getExpenses()} route={'../expenses'}/>
                 </Grid>
               )
           )}

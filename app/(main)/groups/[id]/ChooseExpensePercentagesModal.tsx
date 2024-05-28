@@ -78,15 +78,9 @@ export default function ChooseExpensePercentagesAmountModal({
       return; 
     }
 
-    console.log("A ChooseExpensePercentagesModal le llego participants con: ", participants)
-    console.log('SelecetedPlayerNames es', selectedPayersNames)
-    console.log("El formData con los payers es: ", formData)
     formData.payers.map((payer) => {
-      // console.log("Participants es: ", participants)
       const userId = participants[payer.name]
-      console.log("El payer tiene nombre : ", payer.name)
-      console.log("El payer tiene id : ", userId)
-      // const userAmount = selectedPayers[userId].amount 
+
       var userAmount = 0;
       if (userId in selectedPayers) {
         userAmount = selectedPayers[userId].amount
