@@ -1,12 +1,11 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import EditIcon from '@mui/icons-material/Edit';
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Expense, Invitation } from "@/app/types";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -31,6 +30,7 @@ export default function ExpenseCard({
 
   const deleteExpense = () => {
     const jwt = localStorage.getItem("jwtToken");
+    console.log('EL ID ES: ', expense.id)
     fetch(`http://localhost:8000/expenses/${expense.id}`, {
       method: "DELETE",
       headers: {
@@ -41,6 +41,12 @@ export default function ExpenseCard({
       getExpenses();
     });
   };
+
+  const handleDetails = () => {
+    console.log('ID: ', expense.id);
+    localStorage.setItem('expenseId', expense.id);
+    router.push(`expenses/${expense.id}`)
+  }
 
   return (
     <Card style={{ borderTop: "2px solid blue", height: 100 }}>
@@ -78,15 +84,21 @@ export default function ExpenseCard({
           sx={{ marginLeft: 5 }}
         >
 
-          {/* {checkCreator() && ( */}
+          {checkCreator() && (
+            <>
             <IconButton color="primary" onClick={() => deleteExpense()} sx={{marginRight:5, marginLeft:2}}>
               <DeleteIcon />
             </IconButton>
-          {/* )} */}
+         
           
             <IconButton sx={{marginRight: 10}} aria-label="edit" onClick={() => setShowEditExpenseModal(true)}>
                 <EditIcon sx={{fontSize: 30}} />
             </IconButton>
+
+            <Button size="small" onClick={() => handleDetails()}>Detalles del gasto</Button>
+
+            </>
+          )}
 
          
         </Box>

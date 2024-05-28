@@ -16,7 +16,7 @@ import {
   import { useState } from "react";
   import dayjs, { Dayjs } from "dayjs";
   import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-  import { Expense, Group } from "@/app/types";
+  import { Expense, Group, expense_categories } from "@/app/types";
   import CustomModal from "@/app/CustomModal";
   
   const style = {
@@ -24,39 +24,14 @@ import {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 700,
+    width: 400,
     height: 700,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 10,
   };
 
-  const categories = [
-    {
-      value: "Regalo",
-      label: "Regalo",
-    },
-    {
-      value: "Compras",
-      label: "Compras",
-    },
-    {
-        value: "Pareja",
-        label: "Pareja",
-    },
-    {
-      value: "Salud y Bienestar",
-      label: "Salud y Bienestar",
-    },
-    {
-      value: "Vivienda",
-      label: "Vivienda",
-    },
-    {
-        value: "Supermercado",
-        label: "Supermercado"
-    }
-];
+
   
   type EditExpenseModalProps = {
     open: boolean;
@@ -91,7 +66,7 @@ import {
     const handleEditExpense = (formData: FormValues) => {
       const jwt = localStorage.getItem("jwtToken");
       fetch(`http://localhost:8000/expenses/${expense.id}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${jwt}`,
@@ -187,7 +162,7 @@ import {
                 {...register('category', {})}
                 sx={{ marginTop: 2 }}
             >
-                {categories.map((option) => (
+                {expense_categories.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                         {option.value}
                     </MenuItem>

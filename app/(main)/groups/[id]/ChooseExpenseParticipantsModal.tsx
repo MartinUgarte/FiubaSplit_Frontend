@@ -1,4 +1,11 @@
-import { Amount, Filters, Group, User, defaultAmount } from "@/app/types";
+import {
+  Amount,
+  Filters,
+  Group,
+  User,
+  defaultAmount,
+  expense_categories,
+} from "@/app/types";
 import {
   Box,
   Typography,
@@ -38,7 +45,9 @@ type ChooseExpenseParticipantsModalProps = {
 type FormValues = {
   expense_amount: number;
   expense_name: string;
-  payers: { [key: string]: Amount}
+  payers: { [key: string]: Amount };
+  expense_description: string;
+  expense_category: string;
 };
 
 export default function ChooseExpenseParticipantsModal({
@@ -49,11 +58,17 @@ export default function ChooseExpenseParticipantsModal({
 }: ChooseExpenseParticipantsModalProps) {
   const [expenseName, setExpenseName] = useState<string>("");
   const [expenseAmount, setExpenseAmount] = useState<number>(0);
-  const [participants, setParticipants] = useState<{ [key: string]: string }>({});
-  const [selectedPayers, setSelectedPayers] = useState<{ [key: string]: Amount}>({});
+  const [expenseDescription, setExpenseDescription] = useState<string>("");
+  const [expenseCategory, setExpenseCategory] = useState<string>("");
+  const [participants, setParticipants] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [selectedPayers, setSelectedPayers] = useState<{
+    [key: string]: Amount;
+  }>({});
   const [showChoosePayersAmountModal, setShowChoosePayersAmountModal] =
     useState<boolean>(false);
-  const [selectedPayersNames, setSelectedPayersNames] = useState<string[]>([]); 
+  const [selectedPayersNames, setSelectedPayersNames] = useState<string[]>([]);
   const [
     showChooseExpensePercentagesModal,
     setShowChooseExpensePercentagesModal,
@@ -63,6 +78,8 @@ export default function ChooseExpenseParticipantsModal({
     defaultValues: {
       expense_amount: 0,
       expense_name: "",
+      expense_description: "",
+      expense_category: "",
     },
   });
 
@@ -72,26 +89,26 @@ export default function ChooseExpenseParticipantsModal({
   const expense_amount = watch("expense_amount");
 
   const handleAddPayers = () => {
-    selectedPayersNames.map(name => {
-      const id = participants[name]
+    selectedPayersNames.map((name) => {
+      const id = participants[name];
 
-      setSelectedPayers(prevPayers => ({
+      setSelectedPayers((prevPayers) => ({
         ...prevPayers,
-        [id]: defaultAmount
+        [id]: defaultAmount,
       }));
-    })
-
+    });
   };
 
   const handleAddParticipant = (key: string, name: string) => {
-    setParticipants(prevParticipants => ({
+    setParticipants((prevParticipants) => ({
       ...prevParticipants,
-      [key]: name
+      [key]: name,
     }));
+    console.log("Se llenaron todos los participants y quedo: ", participants)
   };
 
   const createExpense = () => {
-    console.log('expense payers: ', selectedPayers);
+    console.log("Creando gasto con: ", selectedPayers);
     const jwt = localStorage.getItem("jwtToken");
     return fetch(`http://localhost:8000/expenses`, {
       method: "POST",
@@ -103,8 +120,9 @@ export default function ChooseExpenseParticipantsModal({
         group_id: group.id,
         name: expenseName,
         amount: expenseAmount,
-        payers: selectedPayers
-        
+        payers: selectedPayers,
+        description: expenseDescription,
+        category: expenseCategory,
       }),
     })
       .then((res) => {
@@ -114,9 +132,9 @@ export default function ChooseExpenseParticipantsModal({
         return res.json();
       })
       .then((data) => {
-        console.log(data)
-        getExpenses()
-      })
+        console.log(data);
+        getExpenses();
+      });
   };
 
   const getUser = (memberId: string) => {
@@ -132,6 +150,7 @@ export default function ChooseExpenseParticipantsModal({
       },
     })
       .then((res) => {
+        console.log("El res es: ", res);
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
@@ -146,11 +165,11 @@ export default function ChooseExpenseParticipantsModal({
 
   const fetchUsers = () => {
     Promise.all(group.members.map((id) => getUser(id)))
-      .then(users => {
+      .then((users) => {
         users.map((user: User) => {
-          //handleAddPayer(user.id, defaultAmount) 
-          handleAddParticipant(user.name, user.id)
-        })
+          //handleAddPayer(user.id, defaultAmount)
+          handleAddParticipant(user.name, user.id);
+        });
       })
       .catch((error) => {
         console.error("Error fetching users: ", error);
@@ -163,10 +182,15 @@ export default function ChooseExpenseParticipantsModal({
     }
   }, [open]);
 
-  const handleNewExpense = (formData: FormValues) => {
-    handleAddPayers()
-    setExpenseName(formData.expense_name)
-    setExpenseAmount(formData.expense_amount)
+  const openChoosePayersAmountModal = (formData: FormValues) => {
+    console.log("open choose");
+    handleAddPayers();
+    console.log("Se agregaron los selectedPayers a partir de: ", selectedPayersNames)
+    console.log("Los selectedPayeres quedaron: ", selectedPayers)
+    setExpenseName(formData.expense_name);
+    setExpenseAmount(formData.expense_amount);
+    setExpenseDescription(formData.expense_description);
+    setExpenseCategory(formData.expense_category);
     setShowChoosePayersAmountModal(true);
   };
 
@@ -178,16 +202,7 @@ export default function ChooseExpenseParticipantsModal({
 
   return (
     <Modal open={open} onClose={() => onClose()}>
-      <Box
-        component="form"
-        onSubmit={handleSubmit(handleNewExpense)}
-        display="flex"
-        flex="1"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        sx={style}
-      >
+      <>
         <ChoosePayersAmountModal
           setShowChooseExpensePercentagesModal={() =>
             setShowChooseExpensePercentagesModal(true)
@@ -195,7 +210,6 @@ export default function ChooseExpenseParticipantsModal({
           open={showChoosePayersAmountModal}
           total_amount={expense_amount}
           onClose={() => setShowChoosePayersAmountModal(false)}
-          selectedPayers={selectedPayers}
           selectedPayersNames={selectedPayersNames}
           participants={participants}
           setSelectedPayers={setSelectedPayers}
@@ -211,69 +225,107 @@ export default function ChooseExpenseParticipantsModal({
           createExpense={createExpense}
         />
         <Box
+          component="form"
+          onSubmit={handleSubmit(openChoosePayersAmountModal)}
           display="flex"
-          flex="0.2"
+          flex="1"
           flexDirection="column"
-          width="100%"
-          height="100%"
           justifyContent="center"
           alignItems="center"
-          sx={{ backgroundColor: "blue" }}
+          sx={style}
         >
-          <Typography color="white">Crear Gasto</Typography>
-        </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          flex="0.8"
-          justifyContent="center"
-          alignItems="center"
-          width="80%"
-          height="80%"
-        >
-          <TextField
-            fullWidth
-            sx={{ marginTop: 2 }}
-            label="Nombre"
-            {...register("expense_name", {
-              required: "Ingresa el nombre del gasto",
-            })}
-            error={!!errors.expense_name}
-            helperText={errors.expense_name?.message}
+          <Box
+            display="flex"
+            flex="0.2"
+            flexDirection="column"
+            width="100%"
+            height="100%"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ backgroundColor: "blue" }}
           >
-            Nombre
-          </TextField>
-          <TextField
-            fullWidth
-            type="number"
-            sx={{ marginTop: 2 }}
-            label="Monto"
-            {...register("expense_amount", {
-              required: "Ingrese un monto",
-            })}
-            error={!!errors.expense_amount}
-            helperText={errors.expense_amount?.message}
+            <Typography color="white">Crear Gasto</Typography>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            flex="0.8"
+            justifyContent="center"
+            alignItems="center"
+            width="80%"
+            height="80%"
           >
-            Monto
-          </TextField>
-          <MultiSelect
-            selectedPayersNames={selectedPayersNames}
-            setSelectedPayersNames={(payers: string[]) => setSelectedPayersNames(payers)}
-            names={Object.keys(participants)}
-            text={"Pagadores"}
-          />
+            <TextField
+              fullWidth
+              sx={{ marginTop: 2 }}
+              label="Nombre"
+              {...register("expense_name", {
+                required: "Ingresa el nombre del gasto",
+              })}
+              error={!!errors.expense_name}
+              helperText={errors.expense_name?.message}
+            >
+              Nombre
+            </TextField>
+            <TextField
+              fullWidth
+              type="number"
+              sx={{ marginTop: 2 }}
+              label="Monto"
+              {...register("expense_amount", {
+                required: "Ingrese un monto",
+              })}
+              error={!!errors.expense_amount}
+              helperText={errors.expense_amount?.message}
+            >
+              Monto
+            </TextField>
+            <TextField
+              fullWidth
+              sx={{ marginTop: 2 }}
+              label="Descripción"
+              {...register("expense_description", {})}
+              error={!!errors.expense_amount}
+              helperText={errors.expense_amount?.message}
+            >
+              Descripción
+            </TextField>
+            <TextField
+              fullWidth
+              id="category-select"
+              select
+              label="Categoria"
+              {...register("expense_category", {})}
+              sx={{ marginTop: 2 }}
+            >
+              {expense_categories.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.value}
+                </MenuItem>
+              ))}
+            </TextField>
+            <MultiSelect
+              selectedPayersNames={selectedPayersNames}
+              setSelectedPayersNames={(payers: string[]) =>
+                setSelectedPayersNames(payers)
+                
+              }
+              names={Object.keys(participants)}
+              text={"Pagadores"}
+            />
+          </Box>
+          <Box
+            display="flex"
+            flex="0.2"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Button variant="contained" sx={{ height: 40 }} type="submit">
+              Continuar
+            </Button>
+          </Box>
         </Box>
-        <Box
-          display="flex"
-          flex="0.2"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button variant="contained" sx={{ height: 40 }} type="submit">
-            Continuar
-          </Button>
-        </Box>
-      </Box>
+      </>
     </Modal>
   );
 }
