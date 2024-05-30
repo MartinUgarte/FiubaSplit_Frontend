@@ -8,12 +8,14 @@ import {
   Select,
   MenuItem,
   InputAdornment,
+  FormControlLabel
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import MultiSelect from "./MultiSelect";
 import { useForm, useFieldArray } from "react-hook-form";
 import CustomModal from "@/app/CustomModal";
+import Checkbox from '@mui/material/Checkbox';
 
 const style = {
   position: "absolute" as "absolute",
@@ -54,6 +56,7 @@ export default function ChooseExpensePercentagesAmountModal({
 }: ChooseExpensePercentagesAmountModalProps) {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [readyToGo, setReadyToGo] = useState(false);
+  const [equalParts, setEqualParts] = useState(false);
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -61,11 +64,19 @@ export default function ChooseExpensePercentagesAmountModal({
     },
   });
 
-  const { register, handleSubmit, formState: { errors }, control } = form;
+  const { register, handleSubmit, formState: { errors }, control, setValue, reset } = form;
   const { fields } = useFieldArray({
     control,
     name: "payers"
   });
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEqualParts(event.target.checked);
+    const equalPercentage = event.target.checked ? (100 / fields.length).toString() : '';
+    fields.forEach((field, index) => {
+      setValue(`payers.${index}.percentage`, equalPercentage);
+    });
+  };
 
   const handleNewExpense = (formData: FormValues) => {
     const totalPercentage = formData.payers.reduce((acc, current) => {
@@ -100,6 +111,9 @@ useEffect(() => {
   if (readyToGo) {
     setReadyToGo(false)
     createExpense()
+    reset({
+      payers: Object.keys(participants).map(name => ({ name, percentage: '' }))
+    });
     closeAllModals()
   }
 }, [readyToGo])
@@ -157,8 +171,19 @@ useEffect(() => {
               })}
               error={!!errors.payers?.[index]?.percentage}
               helperText={errors.payers?.[index]?.percentage?.message}
+              focused
             />
           ))}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={equalParts}
+                onChange={handleCheckboxChange}
+                color="primary"
+              />
+            }
+            label="Partes iguales"
+          />
         </Box>
         <Box
           display="flex"

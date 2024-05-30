@@ -150,12 +150,6 @@ export default function LoginPage() {
             alt="The house from the offer."
             src="https://i.imgur.com/ZP4O5bA.png"
           />
-          {/* <Image
-                        src="logo.png"
-                        width={500}
-                        height={500}
-                        alt="Logo"
-                    /> */}
           <Typography variant="h4">FIUBASPLIT</Typography>
         </Box>
         <Box

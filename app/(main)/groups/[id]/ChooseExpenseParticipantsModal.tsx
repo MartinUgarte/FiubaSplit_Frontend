@@ -83,7 +83,7 @@ export default function ChooseExpenseParticipantsModal({
     },
   });
 
-  const { register, watch, handleSubmit, formState } = form;
+  const { register, watch, handleSubmit, formState, reset } = form;
   const { errors } = formState;
 
   const expense_amount = watch("expense_amount");
@@ -98,6 +98,11 @@ export default function ChooseExpenseParticipantsModal({
       }));
     });
   };
+
+  const resetContext = () => {
+    setSelectedPayersNames([])
+    setSelectedPayers({})
+  }
 
   const handleAddParticipant = (key: string, name: string) => {
     setParticipants((prevParticipants) => ({
@@ -134,6 +139,7 @@ export default function ChooseExpenseParticipantsModal({
       .then((data) => {
         console.log(data);
         getExpenses();
+        resetContext()
       });
   };
 

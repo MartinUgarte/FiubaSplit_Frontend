@@ -51,7 +51,7 @@ export default function ChoosePayersAmountModal({
   setShowChooseExpensePercentagesModal,
 }: ChoosePayersAmountModalProps) {
   const [showErrorModal, setShowErrorModal] = useState(false);
-
+  
   const form = useForm<FormValues>({
     defaultValues: {
       payers: selectedPayersNames.map(name => ({ name, amount: '' }))
@@ -95,6 +95,14 @@ useEffect(() => {
     });
   }
 }, [selectedPayersNames, form]);
+
+useEffect(() => {
+  if (open == false) {
+    form.reset({
+      payers: selectedPayersNames.map(name => ({ name, amount: '' }))
+    });
+  }
+}, [open])
 
   return (
     <Modal open={open} onClose={() => onClose()}>

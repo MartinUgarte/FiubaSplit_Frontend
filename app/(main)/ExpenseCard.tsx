@@ -83,7 +83,7 @@ export default function ExpenseCard({
           flexDirection="row"
           justifyContent="flex-end"
           alignItems="center"
-          sx={{ marginLeft: 5 }}
+          sx={{ marginLeft: 5, marginRight: 5}}
         >
 
           {checkCreator() && (
