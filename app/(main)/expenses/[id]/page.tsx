@@ -10,6 +10,8 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ParticipantCard from "./ParticipantCard";
+import CategoryIcon from '@mui/icons-material/Category';
+
 
 export default function Expense() {
   const [expense, setExpense] = useState(dumpExpense);
@@ -176,6 +178,7 @@ export default function Expense() {
         <IconTextRow icon={<GroupsIcon />} text={group} />
         <IconTextRow icon={<TextSnippetIcon />} text={expense.description} />
         <IconTextRow icon={<AttachMoneyIcon />} text={expense.amount.toString()} />
+        <IconTextRow icon={<CategoryIcon />} text={expense.category} />
         <IconTextRow
           icon={<CalendarMonthIcon />}
           text={formatDate(new Date(expense.created_date))}

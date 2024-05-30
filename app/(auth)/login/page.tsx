@@ -150,7 +150,7 @@ export default function LoginPage() {
             alt="The house from the offer."
             src="https://i.imgur.com/ZP4O5bA.png"
           />
-          <Typography variant="h4">FIUBASPLIT</Typography>
+          <Typography variant="h4" fontFamily={'Roboto'}>FIUBASPLIT</Typography>
         </Box>
         <Box
           display="flex"
@@ -160,7 +160,7 @@ export default function LoginPage() {
           width="30%"
           sx={{marginTop: 7}}
         >
-          <Typography variant="h5">Login</Typography>
+          <Typography variant="h5" fontFamily={'Roboto'}>Login</Typography>
           <Box
             component="form"
             display="flex"
