@@ -9,7 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import CustomModal from "@/app/CustomModal"; 
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import BalanceModal from "./BalanceModal";

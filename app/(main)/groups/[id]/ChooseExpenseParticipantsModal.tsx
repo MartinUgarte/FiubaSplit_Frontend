@@ -22,6 +22,7 @@ import MultiSelect from "./MultiSelect";
 import { useForm } from "react-hook-form";
 import ChoosePayersAmountModal from "./ChoosePayersAmountModal";
 import ChooseExpensePercentagesModal from "./ChooseExpensePercentagesModal";
+import CustomModal from "@/app/CustomModal";
 
 const style = {
   position: "absolute" as "absolute",
@@ -60,6 +61,7 @@ export default function ChooseExpenseParticipantsModal({
   const [expenseAmount, setExpenseAmount] = useState<number>(0);
   const [expenseDescription, setExpenseDescription] = useState<string>("");
   const [expenseCategory, setExpenseCategory] = useState<string>("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [participants, setParticipants] = useState<{ [key: string]: string }>(
     {}
   );
@@ -83,7 +85,7 @@ export default function ChooseExpenseParticipantsModal({
     },
   });
 
-  const { register, watch, handleSubmit, formState } = form;
+  const { register, watch, handleSubmit, formState, reset } = form;
   const { errors } = formState;
 
   const expense_amount = watch("expense_amount");
@@ -98,6 +100,11 @@ export default function ChooseExpenseParticipantsModal({
       }));
     });
   };
+
+  const resetContext = () => {
+    setSelectedPayersNames([])
+    setSelectedPayers({})
+  }
 
   const handleAddParticipant = (key: string, name: string) => {
     setParticipants((prevParticipants) => ({
@@ -134,6 +141,7 @@ export default function ChooseExpenseParticipantsModal({
       .then((data) => {
         console.log(data);
         getExpenses();
+        resetContext()
       });
   };
 
@@ -183,10 +191,11 @@ export default function ChooseExpenseParticipantsModal({
   }, [open]);
 
   const openChoosePayersAmountModal = (formData: FormValues) => {
-    console.log("open choose");
+    if (selectedPayersNames.length == 0) {
+      setShowErrorModal(true)
+      return
+    }
     handleAddPayers();
-    console.log("Se agregaron los selectedPayers a partir de: ", selectedPayersNames)
-    console.log("Los selectedPayeres quedaron: ", selectedPayers)
     setExpenseName(formData.expense_name);
     setExpenseAmount(formData.expense_amount);
     setExpenseDescription(formData.expense_description);
@@ -223,6 +232,13 @@ export default function ChooseExpenseParticipantsModal({
           setSelectedPayers={setSelectedPayers}
           closeAllModals={() => closeAllModals()}
           createExpense={createExpense}
+        />
+          <CustomModal
+          open={showErrorModal}
+          onClick={() => setShowErrorModal(false)}
+          onClose={() => setShowErrorModal(false)}
+          text="Se debe elegir al menos un pagador"
+          buttonText="Cerrar"
         />
         <Box
           component="form"
@@ -275,6 +291,9 @@ export default function ChooseExpenseParticipantsModal({
               {...register("expense_amount", {
                 required: "Ingrese un monto",
               })}
+              InputProps={{
+                inputProps: { min: 1 }
+              }}
               error={!!errors.expense_amount}
               helperText={errors.expense_amount?.message}
             >
@@ -295,8 +314,12 @@ export default function ChooseExpenseParticipantsModal({
               id="category-select"
               select
               label="Categoria"
-              {...register("expense_category", {})}
+              {...register("expense_category", {
+                required: "Ingrese una categoria",
+              })}
               sx={{ marginTop: 2 }}
+              error={!!errors.expense_category}
+              helperText={errors.expense_category?.message}
             >
               {expense_categories.map((option) => (
                 <MenuItem key={option.value} value={option.value}>

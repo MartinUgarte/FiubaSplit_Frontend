@@ -83,7 +83,7 @@ export default function ExpenseCard({
           flexDirection="row"
           justifyContent="flex-end"
           alignItems="center"
-          sx={{ marginLeft: 5 }}
+          sx={{ marginLeft: 5, marginRight: 5}}
         >
 
           {checkCreator() && (
@@ -96,11 +96,11 @@ export default function ExpenseCard({
             <IconButton sx={{marginRight: 10}} aria-label="edit" onClick={() => setShowEditExpenseModal(true)}>
                 <EditIcon sx={{fontSize: 30}} />
             </IconButton>
+            </>
 
+          )}
             <Button size="small" onClick={() => handleDetails()}>Detalles del gasto</Button>
 
-            </>
-          )}
 
          
         </Box>
