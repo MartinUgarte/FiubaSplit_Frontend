@@ -7,8 +7,8 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
-    height: 600,
+    width: 400,
+    height: 400,
     bgcolor: 'background.paper',
     boxShadow: 5,
 };
@@ -24,6 +24,14 @@ type BalanceModalProps = {
 
 export default function BalanceModal({ open, onClose, memberId, members, balance}: BalanceModalProps) {
 
+    const balanceText = (memberName: string, balance: number) => {
+        if (balance > 0) {
+            return <Typography color='red'>{memberName} le debe a {members[memberId]} ${balance}</Typography>
+        } else if (balance < 0) {
+            return <Typography color='green'> {members[memberId]} le debe a {memberName} ${balance * -1}</Typography>
+        }
+    }
+
     return (
         <Modal
             open={open}
@@ -31,20 +39,14 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
         >
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} >
                 <Box display='flex' flex='0.2' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
-                    <Typography color='white'>Miembros</Typography>
+                    <Typography color='white'>Balance de {members[memberId]}</Typography>
                 </Box>
 
                 <Box display='flex' flex='0.8' justifyContent='center' alignItems='center' flexDirection="column" width='100%'>
                     <Box width='100%' display='flex' flexDirection='column' alignItems='center' sx={{ maxHeight: '300px', overflowY: 'auto' }}>
                         {Object.keys(members).map((member_id) => (
                             <Box key={member_id} width='90%'>
-                                {memberId != member_id && <Typography>{members[member_id]}  balance:   {balance[member_id]}</Typography>}
-                                {/* <MemberCard
-                                    memberId={member}
-                                    creatorId={group.creator_id}
-                                    getGroup={getGroup}
-                                /> */}
-                                 {/* {index < group.members.length - 1 && <Divider sx={{ marginBottom: 2, marginX: 10 }} />} */}
+                                {memberId != member_id && balanceText(members[member_id], balance[member_id])}
                             </Box>
                         ))}
                     </Box>
