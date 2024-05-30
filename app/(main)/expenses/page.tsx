@@ -8,6 +8,7 @@ import ExpenseCard from "../ExpenseCard";
 import FilterExpenseModal from "../FilterExpenseModal";
 
 export default function Expenses() {
+  const [groups, setGroups] = useState<Group[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [showLoading, setShowLoading] = useState(false);
   const [showFilterExpensesModal, setShowFilterExpensesModal] = useState(false);
@@ -19,19 +20,22 @@ export default function Expenses() {
 
   const getExpenses = () => {
     const jwt = localStorage.getItem("jwtToken");
-    const groupId = localStorage.getItem("groupId");
 
-    if (!jwt || !groupId) {
+    if (!jwt) {
       return;
     }
     setShowLoading(true);
 
-    const groupParam = groupId;
+    const groupParam = selectedExpensesFilters.group ? selectedExpensesFilters.group : '';
     const nameParam = selectedExpensesFilters.name ? selectedExpensesFilters.name : '';
+    const descriptionParam = selectedExpensesFilters.description ? selectedExpensesFilters.description : '';
+    const categoryParam = selectedExpensesFilters.category ? selectedExpensesFilters.category : '';
 
     const paramsArray: [string, string | undefined][] = [
       ['group_id', groupParam],
-      ['name', nameParam]
+      ['name', nameParam],
+      ['description', descriptionParam],
+      ['category', categoryParam]
     ];
 
     const filteredParams = paramsArray.filter(([_, value]) => value !== '');
@@ -63,12 +67,59 @@ export default function Expenses() {
               payers: expense.payers,
               created_date: expense.created_date,
               balance: expense.balance,
+              id: expense.id,
+              description: expense.description,
+              creator_id: expense.creator_id,
+              category: expense.category
             };
           }))
           
         setShowLoading(false);
       });
   };
+
+  const getGroups = () => {
+    const jwt = localStorage.getItem("jwtToken");
+    const userId = localStorage.getItem("userId");
+    if (userId == null) {
+      return
+    }
+
+    fetch(`http://localhost:8000/groups`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Got groups: ", data);
+        const myGroups = data.filter((group: Group) => group.members.includes(userId));
+        setGroups(
+          myGroups.map((group: Group) => {
+            return {
+              id: group.id,
+              name: group.name,
+              description: group.description,
+              creator_id: group.creator_id,
+              category: group.category,
+              members: group.members,
+            };
+          })
+        );
+      });
+  };
+
+  useEffect(() => {
+    console.log('Got my groups: ', groups)
+    getGroups()
+}, []);
 
   const submitFilters = () => {
     console.log('FILTROS SELECCIONAOS: ', selectedExpensesFilters);
@@ -81,17 +132,19 @@ export default function Expenses() {
     <Box display="flex" flex="1" flexDirection="column">
         <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
         <FilterExpenseModal
+        groups={groups}
         open={showFilterExpensesModal}
         onClose={() => setShowFilterExpensesModal(false)}
         selectedFilters={selectedExpensesFilters}
         setSelectedFilters={setSelectedExpensesFilters}
         submitFilters={() => submitFilters()}
+        filterByGroup={''}
       />
         
         <Box display='flex' flex='0.2' flexDirection='row' width='100%'>
             <Button
             variant="outlined"
-            sx={{ height: 40, marginLeft: 2 }}
+            sx={{ marginLeft: 2 }}
             onClick={() => setShowFilterExpensesModal(true)}
             >
             Filtros
@@ -103,7 +156,7 @@ export default function Expenses() {
                 (expense) =>
                 (
                     <Grid item xs={12} key={expense.id}>
-                        <ExpenseCard expense={expense} getExpenses={() => getExpenses()} />
+                        <ExpenseCard route={'expenses'} expense={expense} getExpenses={() => getExpenses()} />
                     </Grid>
                 )
             )}

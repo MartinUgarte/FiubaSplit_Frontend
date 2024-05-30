@@ -1,4 +1,4 @@
-import { Amount, Filters, Group, defaultAmount } from "@/app/types";
+import { Amount, Filters, Group } from "@/app/types";
 import {
   Box,
   Typography,
@@ -30,7 +30,6 @@ const style = {
 type ChoosePayersAmountModalProps = {
   open: boolean;
   onClose: () => void;
-  selectedPayers: { [key: string]: Amount};
   selectedPayersNames: string[];
   total_amount: number;
   participants: { [key: string]: string};
@@ -45,7 +44,6 @@ type FormValues = {
 export default function ChoosePayersAmountModal({
   open,
   onClose,
-  selectedPayers,
   selectedPayersNames,
   total_amount,
   participants,
@@ -77,17 +75,15 @@ export default function ChoosePayersAmountModal({
       return; 
     }
 
+    console.log("A ChoosePayersAmountModal le llego participants con: ", participants)
     formData.payers.map((payer) => {
       const userId = participants[payer.name]
-        
         setSelectedPayers(prevPayers => ({
           ...prevPayers,
           [userId]: {amount: Number(payer.amount), percentage: 0}
         }));
       
     })
-
-    console.log("Payer modificado es:. ", selectedPayers)
 
     setShowChooseExpensePercentagesModal()
 }

@@ -1,4 +1,4 @@
-import { Amount, Filters, Group, defaultAmount } from "@/app/types";
+import { Amount, Filters, Group } from "@/app/types";
 import {
   Box,
   Typography,
@@ -80,12 +80,16 @@ export default function ChooseExpensePercentagesAmountModal({
 
     formData.payers.map((payer) => {
       const userId = participants[payer.name]
-      const userAmount = selectedPayers[userId].amount
 
-        setSelectedPayers(prevPayers => ({
-          ...prevPayers,
-          [userId]: {amount: userAmount, percentage: Number(payer.percentage) / 100}
-        }));
+      var userAmount = 0;
+      if (userId in selectedPayers) {
+        userAmount = selectedPayers[userId].amount
+      }
+      
+      setSelectedPayers(prevPayers => ({
+        ...prevPayers,
+        [userId]: {amount: userAmount, percentage: Number(payer.percentage) / 100}
+      }));   
       
     })
 

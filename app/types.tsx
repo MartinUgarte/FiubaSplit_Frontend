@@ -1,7 +1,7 @@
 import { Category } from "@mui/icons-material"
 
 export type Group = {
-    id: number,
+    id: string,
     name: string,
     description: string,
     category: string,
@@ -11,7 +11,7 @@ export type Group = {
 }
 
 export const dumpGroup = {
-    id: 0,
+    id: '',
     name: '',
     description: '',
     category: '',
@@ -94,10 +94,57 @@ export type Expense = {
     balance: { [key: string]: { [key: string]: number}}
 }
 
+export const dumpExpense = {
+    creator_id: '',
+    name: '',
+    id: '',
+    group_id: '',
+    amount: 0,
+    category: '',
+    description: '',
+    payers: {},
+    created_date: new Date(),
+    balance: {},
+}
+
 export type ExpenseFilters = {
-    name: string   
+    name: string,
+    description: string,
+    category: string,
+    group: string,
 }
 
 export const defaultExpenseFilters = {
-    name: ''
+    name: '',
+    description: '',
+    category: '',
+    group: '',
 }
+
+
+export const expense_categories = [
+    {
+      value: "Regalo",
+      label: "Regalo",
+    },
+    {
+      value: "Compras",
+      label: "Compras",
+    },
+    {
+        value: "Pareja",
+        label: "Pareja",
+    },
+    {
+      value: "Salud y Bienestar",
+      label: "Salud y Bienestar",
+    },
+    {
+      value: "Vivienda",
+      label: "Vivienda",
+    },
+    {
+        value: "Supermercado",
+        label: "Supermercado"
+    }
+];

@@ -17,7 +17,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import IconTextRow from "../../IconTextRow";
 import InvitationModal from "./InvitationModal";
 import MembersModal from "./MembersModal";
-import CreateExpenseModal from "./ChooseExpenseParticipantsModal";
+import ChooseExpenseParticipantsModal from "./ChooseExpenseParticipantsModal";
 import ExpenseCard from "../../ExpenseCard";
 import FilterExpenseModal from "../../FilterExpenseModal";
 
@@ -64,6 +64,8 @@ export default function GroupDetails() {
   };
 
   useEffect(() => {
+      console.log('Use effect por pagina')
+      setSelectedExpensesFilters(defaultExpenseFilters)
       getGroup();
   }, []);
 
@@ -78,10 +80,14 @@ export default function GroupDetails() {
 
     const groupParam = groupId;
     const nameParam = selectedExpensesFilters.name ? selectedExpensesFilters.name : '';
+    const descriptionParam = selectedExpensesFilters.description ? selectedExpensesFilters.description : '';
+    const categoryParam = selectedExpensesFilters.category ? selectedExpensesFilters.category : '';
 
     const paramsArray: [string, string | undefined][] = [
       ['group_id', groupParam],
-      ['name', nameParam]
+      ['name', nameParam],
+      ['description', descriptionParam],
+      ['category', categoryParam]
     ];
 
     const filteredParams = paramsArray.filter(([_, value]) => value !== '');
@@ -113,6 +119,10 @@ export default function GroupDetails() {
               payers: expense.payers,
               created_date: expense.created_date,
               balance: expense.balance,
+              id: expense.id,
+              description: expense.description,
+              creator_id: expense.creator_id,
+              category: expense.category
             };
           }))
           
@@ -128,6 +138,8 @@ export default function GroupDetails() {
   };
   
   useEffect(() => {
+    console.log('Dpues de cambiar group')
+    setSelectedExpensesFilters(defaultExpenseFilters)
     getExpenses();
 }, [group]);
 
@@ -146,14 +158,16 @@ export default function GroupDetails() {
     >
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <InvitationModal open={showInvitationModal} onClose={() => setShowInvitationModal(false)} />
-      <CreateExpenseModal group={group} open={showNewExpenseModal} onClose={() => setShowNewExpenseModal(false)} getExpenses={() => getExpenses()}/>
+      <ChooseExpenseParticipantsModal group={group} open={showNewExpenseModal} onClose={() => setShowNewExpenseModal(false)} getExpenses={() => getExpenses()}/>
       <MembersModal open={showMembersModal} onClose={() => setShowMembersModal(false)} group={group} getGroup={() => getGroup()}/>
       <FilterExpenseModal
+      groups={[]}
         open={showFilterExpensesModal}
         onClose={() => setShowFilterExpensesModal(false)}
         selectedFilters={selectedExpensesFilters}
         setSelectedFilters={setSelectedExpensesFilters}
         submitFilters={() => submitFilters()}
+        filterByGroup={group.id}
       />
       <Box
         sx={{ marginTop: 5 }}
@@ -215,7 +229,7 @@ export default function GroupDetails() {
             (expense) =>
               (
                 <Grid item xs={12} key={expense.id}>
-                  <ExpenseCard expense={expense} getExpenses={() => getExpenses()} />
+                  <ExpenseCard expense={expense} getExpenses={() => getExpenses()} route={'../expenses'}/>
                 </Grid>
               )
           )}
