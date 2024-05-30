@@ -31,22 +31,31 @@ export default function ParticipantCard({ memberId, members, balance }: Particip
 
   return (
     <Card sx={{ borderTop: "2px solid blue", height: "100px" }}>
-      <Box display='flex' flexDirection='row' alignItems='center' height="100%" p={2}>
-        <AccountBoxIcon sx={{fontSize: 40, mr: 2}}/>
-        <Box flexGrow={1} display='flex' flexDirection='row' justifyContent='center'>
-          <Typography variant="h5" gutterBottom>
+      <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' height="100%">
+      <Box
+          flex="0.5"
+          display="flex"
+          sx={{marginLeft: 5}}
+          flexDirection="row"
+          justifyContent="flex-start"
+          alignItems='center'
+        >
+          <AccountBoxIcon sx={{ fontSize: 40, mr: 2 }} />
+          <Typography sx={{marginTop:2}} variant="h5" gutterBottom>
             {members[memberId]}
           </Typography>
-          <Typography variant="subtitle1">
+          {/* <Typography variant="subtitle1">
             Balance: ${userBalance}
-          </Typography>
-          <Button onClick={() => setShowBalanceModal(true)} variant='outlined'>
+          </Typography> */}
+        </Box>
+        <Box sx={{marginRight: 5}}flex="0.5" display="flex" justifyContent="flex-end">
+          <Button onClick={() => setShowBalanceModal(true)} variant="outlined">
             Ver balance detallado
           </Button>
         </Box>
-        {showBalanceModal && (
+
           <BalanceModal open={showBalanceModal} onClose={() => setShowBalanceModal(false)} memberId={memberId} members={members} balance={balance} />
-        )}
+      
       </Box>
     </Card>
   );
