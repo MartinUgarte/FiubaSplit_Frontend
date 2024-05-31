@@ -8,8 +8,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Expense, Invitation } from "@/app/types";
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import EditExpenseModal from "./groups/[id]/EditExpenseModal";
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import CustomModal from "../CustomModal";
 
 type ExpenseCardProps = {
   expense: Expense;
@@ -24,6 +25,8 @@ export default function ExpenseCard({
 }: ExpenseCardProps) {
   const router = useRouter();
   const [showEditExpenseModal, setShowEditExpenseModal] = useState(false)
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
+
 
   const checkCreator = () => {
     const userId = localStorage.getItem("userId");
@@ -31,6 +34,7 @@ export default function ExpenseCard({
   };
 
   const deleteExpense = () => {
+    setShowDeleteConfirmationModal(false)
     const jwt = localStorage.getItem("jwtToken");
     console.log('EL ID ES: ', expense.id)
     fetch(`http://localhost:8000/expenses/${expense.id}`, {
@@ -53,9 +57,11 @@ export default function ExpenseCard({
   return (
     <Card style={{ borderTop: "2px solid blue", height: 100 }}>
     <Box flex='1' display='flex' flexDirection='row' height="100%">
+    {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => deleteExpense()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm'/>)}
+
         <EditExpenseModal expense={expense} getExpenses={() => getExpenses()} open={showEditExpenseModal} onClose={() => setShowEditExpenseModal(false)} />
         <Box flex='0.3' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{marginLeft: 5}}>
-            <GroupAddIcon sx={{fontSize: 40}}/>
+            <ReceiptIcon sx={{fontSize: 40}}/>
             <Typography gutterBottom variant="h5" component="div" sx={{marginTop: 2, marginLeft: 2}}>
             {expense.name}
           </Typography>
@@ -74,7 +80,7 @@ export default function ExpenseCard({
             component="div"
             sx={{ marginTop: 2, marginLeft: 2 }}
           >
-            {expense.amount}
+            $ {Intl.NumberFormat('de-DE').format(expense.amount)}
           </Typography>
         </Box>
         <Box
@@ -88,7 +94,7 @@ export default function ExpenseCard({
 
           {checkCreator() && (
             <>
-            <IconButton color="primary" onClick={() => deleteExpense()} sx={{marginRight:5, marginLeft:2}}>
+            <IconButton color="primary" onClick={() => setShowDeleteConfirmationModal(true)} sx={{marginRight:5, marginLeft:2}}>
               <DeleteIcon />
             </IconButton>
          
@@ -100,8 +106,6 @@ export default function ExpenseCard({
 
           )}
             <Button size="small" onClick={() => handleDetails()}>Detalles del gasto</Button>
-
-
          
         </Box>
       </Box>

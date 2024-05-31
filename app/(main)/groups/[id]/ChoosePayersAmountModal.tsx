@@ -116,7 +116,7 @@ useEffect(() => {
         component="form" 
         onSubmit={handleSubmit(handleNewExpense)}
       >
-      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={"El monto debe ser " + total_amount.toString()} buttonText='Close'/>
+      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={"El monto debe ser " + total_amount.toString()} buttonText='Ok'/>
 
         <Box
           display="flex"
@@ -128,7 +128,7 @@ useEffect(() => {
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white">Asignar montos</Typography>
+          <Typography color="white" sx={{fontSize:30}}>Asignar montos</Typography>
         </Box>
         <Box
           display="flex"

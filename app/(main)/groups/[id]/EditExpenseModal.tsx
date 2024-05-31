@@ -106,7 +106,7 @@ import {
           onSubmit={handleSubmit(handleEditExpense)}
           component="form"
         >
-          <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+          <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
           <Box
             display="flex"
             flex="0.2"

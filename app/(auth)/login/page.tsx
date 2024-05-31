@@ -119,7 +119,7 @@ export default function LoginPage() {
           onClick={() => setShowErrorModal(false)}
           onClose={() => setShowErrorModal(false)}
           text="Usuario o contraseña incorrectos"
-          buttonText="Cerrar"
+          buttonText="OK"
         />
       )}
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />

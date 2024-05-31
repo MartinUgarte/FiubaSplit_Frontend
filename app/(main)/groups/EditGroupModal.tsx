@@ -141,7 +141,7 @@ export default function EditGroupModal({
         onSubmit={handleSubmit(handleEditGroup)}
         component="form"
       >
-        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
         <Box
           display="flex"
           flex="0.2"

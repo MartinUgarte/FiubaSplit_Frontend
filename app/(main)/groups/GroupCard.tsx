@@ -62,7 +62,7 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     return (
         <Card style={{ borderTop: '2px solid blue' }}>
             <EditGroupModal open={showEditGroupModal} onClose={() => setShowEditGroupModal(false)} getGroups={() => getGroups()} group={group} />
-            <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text="No se puede eliminar este grupo porque tiene deudas pendientes" buttonText='Confirm'/>
+            <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text="No se puede eliminar este grupo porque tiene deudas pendientes" buttonText='Ok'/>
             {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => handleDelete()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm'/>)}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

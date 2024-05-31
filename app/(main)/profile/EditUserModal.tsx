@@ -144,13 +144,13 @@ export default function EditUserModal({
         onSubmit={handleSubmit(handleEditUser)}
         component="form"
       >
-        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
         <CustomModal
           open={showErrorModal}
           onClick={() => setShowErrorModal(false)}
           onClose={() => setShowErrorModal(false)}
           text={errorText}
-          buttonText="Cerrar"
+          buttonText="Ok"
         />
         <Box
           display="flex"

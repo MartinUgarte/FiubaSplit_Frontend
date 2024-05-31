@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import MultiSelect from "./MultiSelect";
 import { useForm, useFieldArray } from "react-hook-form";
 import CustomModal from "@/app/CustomModal";
 import Checkbox from '@mui/material/Checkbox';
@@ -138,7 +137,7 @@ useEffect(() => {
         component="form" 
         onSubmit={handleSubmit(handleNewExpense)}
       >
-      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={"La suma de los porcentajes debe sumar 100"} buttonText='Close'/>
+      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={"La suma de los porcentajes debe sumar 100"} buttonText='Ok'/>
 
         <Box
           display="flex"
@@ -150,7 +149,7 @@ useEffect(() => {
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white">Asignar porcentajes</Typography>
+          <Typography color="white" sx={{fontSize:30}}>Asignar porcentajes</Typography>
         </Box>
         <Box
           display="flex"
@@ -169,6 +168,10 @@ useEffect(() => {
               {...register(`payers.${index}.percentage`, {
                 required: "Ingresa el porcentaje",
               })}
+              InputProps={{
+                inputProps: { min: 1 },
+                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+              }}
               error={!!errors.payers?.[index]?.percentage}
               helperText={errors.payers?.[index]?.percentage?.message}
               focused

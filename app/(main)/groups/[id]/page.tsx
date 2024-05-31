@@ -220,7 +220,7 @@ export default function GroupDetails() {
         <IconTextRow icon={<CategoryIcon />} text={group.category} />
       </Box>
       <Box sx={{width: '100%'}} display='flex' flexDirection='row' flex='0.1' alignItems='flex-start' justifyContent='space-between'>
-        <Typography sx={{fontSize: 20}}>Gastos</Typography>
+        <Typography sx={{fontSize: 30}}>Gastos</Typography>
         <Button variant='outlined' onClick={() => setShowFilterExpensesModal(true)}>Filtrar</Button>
       </Box>
       <Box maxHeight='300px' sx={{ maxHeight: '300px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.6" width='100%'>

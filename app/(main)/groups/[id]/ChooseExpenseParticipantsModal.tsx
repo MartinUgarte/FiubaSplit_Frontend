@@ -238,7 +238,7 @@ export default function ChooseExpenseParticipantsModal({
           onClick={() => setShowErrorModal(false)}
           onClose={() => setShowErrorModal(false)}
           text="Se debe elegir al menos un pagador"
-          buttonText="Cerrar"
+          buttonText="Ok"
         />
         <Box
           component="form"
@@ -260,7 +260,7 @@ export default function ChooseExpenseParticipantsModal({
             alignItems="center"
             sx={{ backgroundColor: "blue" }}
           >
-            <Typography color="white">Crear Gasto</Typography>
+            <Typography color="white" sx={{fontSize:30}}>Crear Gasto</Typography>
           </Box>
           <Box
             display="flex"
@@ -292,7 +292,8 @@ export default function ChooseExpenseParticipantsModal({
                 required: "Ingrese un monto",
               })}
               InputProps={{
-                inputProps: { min: 1 }
+                inputProps: { min: 1 },
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
               }}
               error={!!errors.expense_amount}
               helperText={errors.expense_amount?.message}

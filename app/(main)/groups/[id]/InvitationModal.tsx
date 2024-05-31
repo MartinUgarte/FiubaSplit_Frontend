@@ -89,7 +89,7 @@ export default function InvitationModal({
         sx={style}
       >
         <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
-        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
         <Box
           display="flex"
           flex="0.3"
