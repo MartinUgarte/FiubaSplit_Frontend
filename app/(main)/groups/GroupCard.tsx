@@ -86,7 +86,7 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
                         justifyContent="left"
                     >
                         {checkAdmin() && <Button size="small" onClick={() => setShowEditGroupModal(true)}>Edit</Button>}
-                        <Button size="small" onClick={() => handleDetails()}>Detalles del grupo</Button>
+                        <Button size="small" onClick={() => handleDetails()}>Ver más</Button>
                     </Box>
                     <Box
                         display="flex"
