@@ -70,14 +70,13 @@ export default function Profile() {
         /> )}
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <Box
-        sx={{ marginTop: 5 }}
         flex="0.2"
         display="flex"
         width="100%"
         flexDirection='row'
         justifyContent='space-between'
         alignItems='center'
-        sx={{borderBottom: '1px solid black', width: '100%'}}
+        sx={{marginTop: 5, borderBottom: '1px solid black', width: '100%'}}
       >
         <ThemeProvider theme={subheaderTheme}>
           <Typography sx={{ marginLeft: 4, marginBottom: 2 }} variant="h3">
