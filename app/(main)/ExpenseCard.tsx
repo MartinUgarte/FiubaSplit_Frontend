@@ -24,8 +24,9 @@ export default function ExpenseCard({
   route,
 }: ExpenseCardProps) {
   const router = useRouter();
-  const [showEditExpenseModal, setShowEditExpenseModal] = useState(false)
+  const [showEditExpenseModal, setShowEditExpenseModal] = useState(false);
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
+  const [groupName, setGroupName] = useState('');
 
 
   const checkCreator = () => {
@@ -48,6 +49,32 @@ export default function ExpenseCard({
     });
   };
 
+  const getGroup = () => {
+    const jwt = localStorage.getItem("jwtToken");
+
+    if (!jwt) {
+      return;
+    }
+    fetch(`http://localhost:8000/groups/${expense.group_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Got group: ", data);
+        setGroupName(data.name);
+      });
+  };
+
+  useEffect(() => {
+    getGroup();
+  }, []);
+
   const handleDetails = () => {
     console.log('ID: ', expense.id);
     localStorage.setItem('expenseId', expense.id);
@@ -60,17 +87,17 @@ export default function ExpenseCard({
     {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => deleteExpense()} onClose={() => setShowDeleteConfirmationModal(false)} text="Eliminar Gasto" buttonText='Confirmar'/>)}
 
         <EditExpenseModal expense={expense} getExpenses={() => getExpenses()} open={showEditExpenseModal} onClose={() => setShowEditExpenseModal(false)} />
-        <Box flex='0.3' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{marginLeft: 5}}>
-            <ReceiptIcon sx={{fontSize: 40}}/>
+        <Box flex='0.25' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{marginLeft: 5}}>
+            <ReceiptIcon sx={{fontSize: 40, color:'#487ba9'}}/>
             <Typography gutterBottom variant="h5" component="div" sx={{marginTop: 2, marginLeft: 2}}>
             {expense.name}
           </Typography>
         </Box>
         <Box
-          flex="0.3"
+          flex="0.25"
           display="flex"
           flexDirection="row"
-          justifyContent="flex-start"
+          justifyContent="center"
           alignItems="center"
           sx={{ marginLeft: 5 }}
         >
@@ -84,29 +111,46 @@ export default function ExpenseCard({
           </Typography>
         </Box>
         <Box
-          flex="0.4"
+          flex="0.25"
           display="flex"
           flexDirection="row"
-          justifyContent="flex-end"
+          justifyContent="center"
           alignItems="center"
-          sx={{ marginLeft: 5, marginRight: 5}}
+          sx={{ marginLeft: 5 }}
         >
-
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ marginTop: 2, marginLeft: 2 }}
+          >
+            {groupName}
+          </Typography>
+        </Box>
+        <Box
+          flex="0.25"
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+          
+        >
+          <Box width='50%' display='flex' flex='0.5' flexDirection='row' justifyContent='center'>
           {checkCreator() && (
-            <>
+            <Box display='flex' flex='1'>
             <IconButton color="primary" onClick={() => setShowDeleteConfirmationModal(true)} sx={{marginRight:5, marginLeft:2}}>
               <DeleteIcon />
             </IconButton>
-         
-          
             <IconButton sx={{marginRight: 10}} aria-label="edit" onClick={() => setShowEditExpenseModal(true)}>
                 <EditIcon sx={{fontSize: 30}} />
             </IconButton>
-            </>
+            </Box>
 
           )}
+          </Box>
+          <Box width='100%' display='flex' flex='0.5' flexDirection='row' justifyContent={'center'}>
             <Button size="small" onClick={() => handleDetails()}>DETALLES</Button>
-         
+          </Box>
         </Box>
       </Box>
     </Card>

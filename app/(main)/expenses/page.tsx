@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { Expense, ExpenseFilters, Group, Invitation, defaultExpenseFilters, dumpGroup, dumpInvitation } from "@/app/types";
 import LoadingModal from '@/app/LoadingModal';
 import ExpenseCard from "../ExpenseCard";
@@ -150,8 +150,22 @@ export default function Expenses() {
             Filtros
             </Button>
         </Box>
-        <Box maxHeight='600px' sx={{ maxHeight: '600px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.8" width='100%'>
-            <Grid container spacing={5} sx={{ marginTop: 1 }}>
+        <Box sx={{marginLeft: 9, marginTop: 2}} flex="1" display='flex' flexDirection="row">
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
+            <Typography color='#487ba9' fontWeight={'bold'}>Nombre</Typography>
+          </Box>
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
+            <Typography color='#487ba9' fontWeight={'bold'}>Monto</Typography>
+          </Box>
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
+            <Typography color='#487ba9' fontWeight={'bold'}>Grupo</Typography>
+          </Box>
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
+            <Typography color='#487ba9' fontWeight={'bold'}>Opciones</Typography>
+          </Box>
+        </Box>
+        <Box maxHeight='600px' sx={{ maxHeight: '600px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.7" width='100%'>
+            <Grid container spacing={5} sx={{ marginTop: 0.3 }}>
             {expenses.map(
                 (expense) =>
                 (

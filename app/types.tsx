@@ -121,6 +121,21 @@ export const defaultExpenseFilters = {
     group: '',
 }
 
+export type DebtFilters = {
+    group: string,
+}
+
+export const defaultDebtFilters = {
+    group: '',
+}
+
+export type Debt = {
+    group_id: string,
+    user_to_pay: string,
+    expense_id: string,
+    amount: number,
+}
+
 
 export const expense_categories = [
     {

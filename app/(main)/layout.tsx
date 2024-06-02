@@ -16,6 +16,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person2';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 
 export const metadata = {
     title: 'FIUBASPLIT',
@@ -29,6 +30,7 @@ const LINKS = [
     { text: 'Perfil', href: '/profile', icon: PersonIcon },
     { text: 'Notificaciones', href: '/notifications', icon: NotificationsIcon },
     { text: 'Gastos', href: '/expenses', icon: AttachMoneyIcon },
+    { text: 'Deudas', href: '/debts', icon: CurrencyExchangeIcon }
 ];
 
 const PLACEHOLDER_LINKS = [
