@@ -73,9 +73,19 @@ export default function ChooseExpensePercentagesAmountModal({
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEqualParts(event.target.checked);
-    const equalPercentage = event.target.checked ? (100 / fields.length).toString() : '';
+    const equalPercentageNumber: number = event.target.checked ? Number((100 / fields.length).toFixed(2)) : 0;
+    let y: number;
+    if (equalPercentageNumber != 0) {
+      const x = 100 - (equalPercentageNumber * Object.keys(participants).length)
+      y = equalPercentageNumber + x
+    } 
+    
     fields.forEach((field, index) => {
-      setValue(`payers.${index}.percentage`, equalPercentage);
+      if (index == 0) {
+        setValue(`payers.${index}.percentage`, y.toString());
+      } else {
+        setValue(`payers.${index}.percentage`, equalPercentageNumber.toString());
+      }
     });
   };
 

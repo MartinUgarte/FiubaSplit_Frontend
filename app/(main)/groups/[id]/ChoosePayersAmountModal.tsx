@@ -8,12 +8,14 @@ import {
   Select,
   MenuItem,
   InputAdornment,
+  ThemeProvider,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import MultiSelect from "./MultiSelect";
 import { useForm, useFieldArray } from "react-hook-form";
 import CustomModal from "@/app/CustomModal";
+import { modalTheme } from "@/app/fonts";
 
 const style = {
   position: "absolute" as "absolute",
@@ -128,7 +130,9 @@ useEffect(() => {
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white" sx={{fontSize:30}}>Asignar montos</Typography>
+          <ThemeProvider theme={modalTheme}>
+                    <Typography color='white'>Asignar Montos</Typography>
+                    </ThemeProvider>
         </Box>
         <Box
           display="flex"
