@@ -1,8 +1,9 @@
-import { Box, Typography, Button, InputAdornment, TextField, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, Typography, Button, InputAdornment, TextField, MenuItem, Select, SelectChangeEvent, ThemeProvider } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import CustomModal from '@/app/CustomModal';
+import { modalTheme } from '@/app/fonts';
 
 
 const style = {
@@ -108,7 +109,9 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} onSubmit={handleSubmit(handleCreateGroup)} component="form">
                 <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
                 <Box display='flex' flex='0.2' flexDirection='column' width='100%' height='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
-                    <Typography color='white'>Create Group</Typography>
+                    <ThemeProvider theme={modalTheme}>
+                    <Typography color='white'>Crear grupo</Typography>
+                    </ThemeProvider>
                 </Box>
                 <Box display='flex' flex='0.8' flexDirection="column" justifyContent='center' alignItems='center'>
 
@@ -117,27 +120,27 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                         label="Name"
                         sx={{ marginTop: 2 }}
                         {...register('name', {
-                            required: 'Enter a name',
+                            required: 'Ingresa un nombre',
                             minLength: {
                                 value: 3,
-                                message: 'Name must be at least 3 chars long'
+                                message: 'El nombre debe tener como minimo 3 caracteres'
                             }
                         })}
                         error={!!errors.name}
                         helperText={errors.name?.message}
                     >
-                        Name
+                        Nombre
                     </TextField>
 
                     <TextField
                         fullWidth
                         sx={{ marginTop: 2 }}
-                        label="Description"
+                        label="Descripción"
                         {...register('description', {})}
                         error={!!errors.description}
                         helperText={errors.description?.message}
                     >
-                        Description
+                        Descripcion
                     </TextField>
                         
                     <TextField
@@ -161,7 +164,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                         variant="contained"
                         sx={{ height: 40 }}
                     >
-                        Create
+                        Crear
                     </Button>
                 </Box>
             </Box>

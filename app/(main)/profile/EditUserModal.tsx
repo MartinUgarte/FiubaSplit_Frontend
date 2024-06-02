@@ -7,12 +7,14 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  ThemeProvider,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Group, User } from "@/app/types";
 import CustomModal from "@/app/CustomModal";
+import { modalTheme } from "@/app/fonts";
 
 const style = {
   position: "absolute" as "absolute",
@@ -162,7 +164,9 @@ export default function EditUserModal({
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white">Editar usuario</Typography>
+          <ThemeProvider theme={modalTheme}>
+                    <Typography color='white'>Editar Usuario</Typography>
+                    </ThemeProvider>
         </Box>
         <Box
           display="flex"

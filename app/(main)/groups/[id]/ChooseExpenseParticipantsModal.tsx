@@ -62,6 +62,7 @@ export default function ChooseExpenseParticipantsModal({
   const [expenseDescription, setExpenseDescription] = useState<string>("");
   const [expenseCategory, setExpenseCategory] = useState<string>("");
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [continueButtonPressed, setContinueButtonPressed] = useState<boolean>(false);
   const [participants, setParticipants] = useState<{ [key: string]: string }>(
     {}
   );
@@ -75,6 +76,7 @@ export default function ChooseExpenseParticipantsModal({
     showChooseExpensePercentagesModal,
     setShowChooseExpensePercentagesModal,
   ] = useState<boolean>(false);
+  
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -87,7 +89,7 @@ export default function ChooseExpenseParticipantsModal({
 
   const { register, watch, handleSubmit, formState, reset } = form;
   const { errors } = formState;
-
+  
   const expense_amount = watch("expense_amount");
 
   const handleAddPayers = () => {
@@ -191,8 +193,8 @@ export default function ChooseExpenseParticipantsModal({
   }, [open]);
 
   const openChoosePayersAmountModal = (formData: FormValues) => {
+    setContinueButtonPressed(true)
     if (selectedPayersNames.length == 0) {
-      setShowErrorModal(true)
       return
     }
     handleAddPayers();
@@ -290,9 +292,10 @@ export default function ChooseExpenseParticipantsModal({
               label="Monto"
               {...register("expense_amount", {
                 required: "Ingrese un monto",
+                validate: value =>
+                  value > 1 || "El monto debe ser mayor a 1"                
               })}
               InputProps={{
-                inputProps: { min: 1 },
                 startAdornment: <InputAdornment position="start">$</InputAdornment>,
               }}
               error={!!errors.expense_amount}
@@ -305,8 +308,6 @@ export default function ChooseExpenseParticipantsModal({
               sx={{ marginTop: 2 }}
               label="Descripción"
               {...register("expense_description", {})}
-              error={!!errors.expense_amount}
-              helperText={errors.expense_amount?.message}
             >
               Descripción
             </TextField>
@@ -336,6 +337,7 @@ export default function ChooseExpenseParticipantsModal({
               }
               names={Object.keys(participants)}
               text={"Pagadores"}
+              continueButtonPressed={continueButtonPressed}
             />
           </Box>
           <Box

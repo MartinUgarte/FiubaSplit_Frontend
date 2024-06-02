@@ -9,7 +9,8 @@ import {
   FormControl,
   Autocomplete,
   TextField,
-  SelectChangeEvent
+  SelectChangeEvent,
+  FormHelperText
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -19,9 +20,10 @@ type MultiSelectProps = {
   setSelectedPayersNames: (creditors: string[]) => void;
   names: string[];
   text: string;
+  continueButtonPressed: boolean
 }
 
-export default function MultiSelect ({selectedPayersNames, setSelectedPayersNames, names, text}: MultiSelectProps ) {
+export default function MultiSelect ({selectedPayersNames, setSelectedPayersNames, names, text, continueButtonPressed}: MultiSelectProps ) {
   
     const handleChange = (event: SelectChangeEvent<typeof selectedPayersNames>) => {
       const value = event.target.value as string[];
@@ -29,7 +31,7 @@ export default function MultiSelect ({selectedPayersNames, setSelectedPayersName
     };
 
     return (
-      <FormControl sx={{ m: 1, width: '100%', marginTop: 2 }}>
+      <FormControl sx={{ m: 1, width: '100%', marginTop: 2 }} error={continueButtonPressed && selectedPayersNames.length === 0}>
         <InputLabel>{text}</InputLabel>
         <Select
           multiple
@@ -68,6 +70,7 @@ export default function MultiSelect ({selectedPayersNames, setSelectedPayersName
             </MenuItem>
           ))}
         </Select>
+        {continueButtonPressed && selectedPayersNames.length === 0 && <FormHelperText color='red'>Ingresa al menos un pagador</FormHelperText>}
       </FormControl>
     );
   };

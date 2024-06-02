@@ -8,9 +8,11 @@ import {
   Select,
   MenuItem,
   InputAdornment,
+  ThemeProvider,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect } from "react";
+import { modalTheme } from "../fonts";
 
 const style = {
   position: "absolute" as "absolute",
@@ -71,7 +73,9 @@ export default function FilterExpenseModal({
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white">Filtrar Gastos</Typography>
+          <ThemeProvider theme={modalTheme}>
+                    <Typography color='white'>Filtrar Gastos</Typography>
+                    </ThemeProvider>
         </Box>
         <Box
           display="flex"

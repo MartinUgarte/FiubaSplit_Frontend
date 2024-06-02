@@ -5,3 +5,10 @@ export const subheaderTheme = createTheme({
       fontFamily: 'monospace'
     },
   });
+
+export const modalTheme = createTheme({
+  typography: {
+    fontSize: 25,
+    fontFamily: 'Times New Roman'
+  }
+})

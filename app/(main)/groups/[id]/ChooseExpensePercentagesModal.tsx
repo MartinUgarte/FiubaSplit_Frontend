@@ -8,13 +8,15 @@ import {
   Select,
   MenuItem,
   InputAdornment,
-  FormControlLabel
+  FormControlLabel,
+  ThemeProvider
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import CustomModal from "@/app/CustomModal";
 import Checkbox from '@mui/material/Checkbox';
+import { modalTheme } from "@/app/fonts";
 
 const style = {
   position: "absolute" as "absolute",
@@ -149,7 +151,9 @@ useEffect(() => {
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white" sx={{fontSize:30}}>Asignar porcentajes</Typography>
+          <ThemeProvider theme={modalTheme}>
+            <Typography color="white">Asignar porcentajes</Typography>
+          </ThemeProvider>
         </Box>
         <Box
           display="flex"

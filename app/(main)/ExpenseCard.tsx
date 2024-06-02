@@ -57,7 +57,7 @@ export default function ExpenseCard({
   return (
     <Card style={{ borderTop: "2px solid blue", height: 100, marginRight: 10 }}>
     <Box flex='1' display='flex' flexDirection='row' height="100%">
-    {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => deleteExpense()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm'/>)}
+    {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => deleteExpense()} onClose={() => setShowDeleteConfirmationModal(false)} text="Eliminar Gasto" buttonText='Confirmar'/>)}
 
         <EditExpenseModal expense={expense} getExpenses={() => getExpenses()} open={showEditExpenseModal} onClose={() => setShowEditExpenseModal(false)} />
         <Box flex='0.3' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{marginLeft: 5}}>

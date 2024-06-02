@@ -39,7 +39,10 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
         >
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} >
                 <Box display='flex' flex='0.2' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
-                    <Typography color='white'>Balance de {members[memberId]}</Typography>
+                <ThemeProvider theme={modalTheme}>
+                <Typography color='white'>Balance de {members[memberId]}</Typography>
+                    </ThemeProvider>
+                    
                 </Box>
 
                 <Box display='flex' flex='0.8' justifyContent='center' alignItems='center' flexDirection="column" width='100%'>
