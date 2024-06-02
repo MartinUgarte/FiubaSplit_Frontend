@@ -7,6 +7,7 @@ import {
     MenuItem,
     Select,
     SelectChangeEvent,
+    ThemeProvider,
   } from "@mui/material";
   import Modal from "@mui/material/Modal";
   import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -18,6 +19,7 @@ import {
   import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
   import { Expense, Group, expense_categories } from "@/app/types";
   import CustomModal from "@/app/CustomModal";
+import { modalTheme } from "@/app/fonts";
   
   const style = {
     position: "absolute" as "absolute",
@@ -106,7 +108,7 @@ import {
           onSubmit={handleSubmit(handleEditExpense)}
           component="form"
         >
-          <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+          <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
           <Box
             display="flex"
             flex="0.2"
@@ -117,7 +119,9 @@ import {
             alignItems="center"
             sx={{ backgroundColor: "blue" }}
           >
-            <Typography color="white">Edit group</Typography>
+            <ThemeProvider theme={modalTheme}>
+                    <Typography color='white'>Editar Grupo</Typography>
+                    </ThemeProvider>
           </Box>
           <Box
             display="flex"

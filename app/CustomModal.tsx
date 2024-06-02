@@ -1,5 +1,6 @@
-import { Box, Typography, Button, TextField } from '@mui/material';
+import { Box, Typography, Button, TextField, ThemeProvider } from '@mui/material';
 import Modal from '@mui/material/Modal';
+import { modalTheme } from './fonts';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -29,7 +30,9 @@ export default function CustomModal({open, onClose, onClick, text, buttonText}: 
         >
             <Box component="form" display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style}>
                 <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{backgroundColor: 'blue'}}>
+                <ThemeProvider theme={modalTheme}>
                     <Typography color='white'>{text}</Typography>
+                    </ThemeProvider>
                 </Box>         
                 <Box display='flex' flex='0.7' justifyContent='center' alignItems='center'>
                     <Button 

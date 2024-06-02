@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, IconButton, Divider, TextField, Typography } from "@mui/material";
+import { Box, IconButton, Divider, TextField, Typography, ThemeProvider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import IconTextRow from "../IconTextRow";
 import LoadingModal from "@/app/LoadingModal";
@@ -12,6 +12,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import EditUserModal from "./EditUserModal";
 import EditIcon from '@mui/icons-material/Edit';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import { subheaderTheme } from "@/app/fonts";
 
 export default function Profile() {
   const [user, setUser] = useState(dumpUser);
@@ -69,17 +70,19 @@ export default function Profile() {
         /> )}
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <Box
-        sx={{ marginTop: 5 }}
         flex="0.2"
         display="flex"
         width="100%"
         flexDirection='row'
         justifyContent='space-between'
         alignItems='center'
+        sx={{marginTop: 5, borderBottom: '1px solid black', width: '100%'}}
       >
-        <Typography sx={{marginLeft: 4, marginBottom: 2 }} variant="h3">
-          Mi perfil
-        </Typography>
+        <ThemeProvider theme={subheaderTheme}>
+          <Typography sx={{ marginLeft: 4, marginBottom: 2 }} variant="h3">
+            Mi perfil
+          </Typography>
+          </ThemeProvider>
         <IconButton sx={{marginRight: 10}} aria-label="edit" onClick={() => setShowEditModal(true)}>
             <EditIcon sx={{fontSize: 40}} />
         </IconButton>
@@ -93,12 +96,12 @@ export default function Profile() {
         flex="0.8"
         width="100%"
       >
-        <IconTextRow icon={<PersonIcon />} text={user.name} />
-        <IconTextRow icon={<PersonIcon />} text={user.surname} />
-        <IconTextRow icon={<EmailIcon />} text={user.email} />
-        <IconTextRow icon={<LocalPhoneIcon />} text={user.phone} />
-        <IconTextRow icon={<CakeIcon />} text={formatDate(new Date(user.date_of_birth))} />
-        {user.cbu && <IconTextRow icon={<AccountBalanceIcon />} text={user.cbu} />}
+        <IconTextRow icon={<PersonIcon sx={{color: '#487ba9'}} />} text={user.name} />
+        <IconTextRow icon={<PersonIcon sx={{color: '#487ba9'}} />} text={user.surname} />
+        <IconTextRow icon={<EmailIcon sx={{color: '#487ba9'}} />} text={user.email} />
+        <IconTextRow icon={<LocalPhoneIcon sx={{color: '#487ba9'}} />} text={user.phone} />
+        <IconTextRow icon={<CakeIcon sx={{color: '#487ba9'}} />} text={formatDate(new Date(user.date_of_birth))} />
+        {user.cbu && <IconTextRow icon={<AccountBalanceIcon sx={{color: '#487ba9'}} />} text={user.cbu} />}
       </Box>
     </Box>
   );

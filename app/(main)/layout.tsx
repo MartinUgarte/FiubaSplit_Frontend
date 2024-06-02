@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <body>
                 <AppBar position="fixed" sx={{ zIndex: 2000 }}>
-                    <Toolbar sx={{ backgroundColor: 'background.paper' }}>
+                    <Toolbar sx={{ backgroundColor: '#5696d1' }}>
                     <Box
                         component="img"
                         sx={{
@@ -51,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         alt="The house from the offer."
                         src="https://i.imgur.com/ZP4O5bA.png"
                     />
-                        <Typography variant="h6" noWrap component="div" color="black" sx={{marginTop: 1}}>
+                        <Typography variant="h6" noWrap component="div" color="white" sx={{marginTop: 0.5}}>
                             FiubaSplit
                         </Typography>
                     </Toolbar>
@@ -66,6 +66,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             top: ['48px', '56px', '64px'],
                             height: 'auto',
                             bottom: 0,
+                            backgroundColor: '#487ba9',
+                            color: 'white'
                         },
                     }}
                     variant="permanent"
@@ -74,14 +76,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Divider />
                     <List>
                         {LINKS.map(({ text, href, icon: Icon }) => (
+                            <>
+                            <Divider sx={{color: 'white', height: '3px'}}/>
                             <ListItem key={href} disablePadding>
                                 <ListItemButton component={Link} href={href}>
-                                    <ListItemIcon>
+                                    <ListItemIcon sx={{color: 'white'}}>
                                         <Icon />
                                     </ListItemIcon>
                                     <ListItemText primary={text} />
                                 </ListItemButton>
                             </ListItem>
+                            </>
                         ))}
                     </List>
                     <Divider sx={{ mt: 'auto' }} />
@@ -89,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         {PLACEHOLDER_LINKS.map(({ text, href, icon: Icon }) => (
                             <ListItem key={text} disablePadding>
                                 <ListItemButton component={Link} href={href}>
-                                    <ListItemIcon>
+                                    <ListItemIcon sx={{color: 'white'}}>
                                         <Icon />
                                     </ListItemIcon>
                                     <ListItemText primary={text} />

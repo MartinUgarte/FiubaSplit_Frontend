@@ -29,7 +29,7 @@ export default function ParticipantCard({ memberId, members, balance }: Particip
   const userBalance = getUserBalance();
 
   return (
-    <Card sx={{ borderTop: "2px solid blue", height: "100px" }}>
+    <Card sx={{ borderTop: "2px solid blue", height: "100px", marginRight: 2 }}>
       <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' height="100%">
       <Box
           flex="0.5"
@@ -41,15 +41,12 @@ export default function ParticipantCard({ memberId, members, balance }: Particip
         >
           <AccountBoxIcon sx={{ fontSize: 40, mr: 2 }} />
           <Typography sx={{marginTop:2}} variant="h5" gutterBottom>
-            {members[memberId]}
+            {localStorage.getItem('userId') == memberId ? 'Tú' : members[memberId]}
           </Typography>
-          {/* <Typography variant="subtitle1">
-            Balance: ${userBalance}
-          </Typography> */}
         </Box>
         <Box sx={{marginRight: 5}}flex="0.5" display="flex" justifyContent="flex-end">
           <Button onClick={() => setShowBalanceModal(true)} variant="outlined">
-            Ver balance detallado
+            DETALLES
           </Button>
         </Box>
 

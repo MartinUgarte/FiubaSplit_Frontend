@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  ThemeProvider,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -18,6 +19,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Group } from "@/app/types";
 import CustomModal from "@/app/CustomModal";
+import { modalTheme } from "@/app/fonts";
 
 const style = {
   position: "absolute" as "absolute",
@@ -141,7 +143,7 @@ export default function EditGroupModal({
         onSubmit={handleSubmit(handleEditGroup)}
         component="form"
       >
-        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
         <Box
           display="flex"
           flex="0.2"
@@ -152,7 +154,9 @@ export default function EditGroupModal({
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white">Edit group</Typography>
+          <ThemeProvider theme={modalTheme}>
+            <Typography color='white'>Editar grupo</Typography>
+          </ThemeProvider>
         </Box>
         <Box
           display="flex"

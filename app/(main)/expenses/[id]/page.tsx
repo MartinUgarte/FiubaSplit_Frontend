@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, IconButton, Divider, TextField, Typography, Grid } from "@mui/material";
+import { Box, IconButton, Divider, TextField, Typography, Grid, ThemeProvider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import IconTextRow from "../../IconTextRow";
 import LoadingModal from "@/app/LoadingModal";
@@ -11,6 +11,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ParticipantCard from "./ParticipantCard";
 import CategoryIcon from '@mui/icons-material/Category';
+import { subheaderTheme } from "@/app/fonts";
 
 
 export default function Expense() {
@@ -154,7 +155,7 @@ export default function Expense() {
     >
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <Box
-        sx={{ marginTop: 5 }}
+        sx={{ marginTop: 5, borderBottom: '1px solid black' }}
         flex="0.2"
         display="flex"
         width="100%"
@@ -162,9 +163,12 @@ export default function Expense() {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography sx={{ marginLeft: 4, marginBottom: 2 }} variant="h3">
-          {expense.name}
-        </Typography>
+        <ThemeProvider theme={subheaderTheme}>
+          <Typography sx={{ marginLeft: 4, marginBottom: 2 }} variant="h3">
+            {expense.name}
+          </Typography>
+
+          </ThemeProvider>
       </Box>
 
       <Divider sx={{ borderBottomWidth: 2 }} />
@@ -175,18 +179,23 @@ export default function Expense() {
         flex="0.3"
         width="100%"
       >
-        <IconTextRow icon={<GroupsIcon />} text={group} />
-        <IconTextRow icon={<TextSnippetIcon />} text={expense.description} />
-        <IconTextRow icon={<AttachMoneyIcon />} text={expense.amount.toString()} />
-        <IconTextRow icon={<CategoryIcon />} text={expense.category} />
+        <IconTextRow icon={<GroupsIcon sx={{color: '#487ba9'}} />} text={group} />
+        <IconTextRow icon={<TextSnippetIcon sx={{color: '#487ba9'}} />} text={expense.description} />
+        <IconTextRow icon={<AttachMoneyIcon sx={{color: '#487ba9'}} />} text={expense.amount.toString()} />
+        <IconTextRow icon={<CategoryIcon sx={{color: '#487ba9'}} />} text={expense.category} />
         <IconTextRow
-          icon={<CalendarMonthIcon />}
+          icon={<CalendarMonthIcon sx={{color: '#487ba9'}} />}
           text={formatDate(new Date(expense.created_date))}
         />
         
        </Box>
-       <Box sx={{width:"100%"}} display="flex" flex="0.5" flexDirection="column">
-        <Grid container spacing={5} sx={{ marginTop: 1 }}>
+       <Box sx={{width: '100%'}} display='flex' flexDirection='row' flex='0.1' alignItems='flex-start' justifyContent='space-between'>
+      <ThemeProvider theme={subheaderTheme}>
+        <Typography sx={{fontSize: 30, paddingRight: 10, borderBottom: '1px solid black'}}>Participantes</Typography>
+      </ThemeProvider>
+      </Box>
+       <Box maxHeight='300px' sx={{ marginTop: 2, maxHeight: '200px', overflowY: 'auto', width: '100%' }} display="flex" flex="0.4" flexDirection="column">
+        <Grid container spacing={5} >
           {Object.entries(balances).map(
             ([memberId, balance]) =>
                 <Grid item xs={12} key={memberId}>

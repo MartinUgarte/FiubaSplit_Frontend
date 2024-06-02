@@ -120,7 +120,7 @@ export default function RegisterPage() {
       alignItems="center"
       justifyContent="center"
     >
-      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
       <Box
         display="flex"

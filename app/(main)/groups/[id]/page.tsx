@@ -8,6 +8,7 @@ import {
   Typography,
   Button,
   Grid,
+  ThemeProvider,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import LoadingModal from "@/app/LoadingModal";
@@ -20,6 +21,9 @@ import MembersModal from "./MembersModal";
 import ChooseExpenseParticipantsModal from "./ChooseExpenseParticipantsModal";
 import ExpenseCard from "../../ExpenseCard";
 import FilterExpenseModal from "../../FilterExpenseModal";
+import { subheaderTheme } from "@/app/fonts";
+import AddIcon from '@mui/icons-material/Add';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 export default function GroupDetails() {
   const [expenses, setExpenses] = useState<Expense[]>([])
@@ -152,7 +156,6 @@ export default function GroupDetails() {
       display="flex"
       flex="1"
       flexDirection="column"
-      height="100vh"
       alignItems="center"
       justifyContent="center"
     >
@@ -169,13 +172,13 @@ export default function GroupDetails() {
         submitFilters={() => submitFilters()}
         filterByGroup={group.id}
       />
-      <Box
-        sx={{ marginTop: 5 }}
+      <Box  
         flex="0.2"
         display="flex"
         width="100%"
         flexDirection="row"
         alignItems="center"
+        sx={{borderBottom: '1px solid black', width: '100%'}}
       >
         <Box
           flex="0.5"
@@ -185,9 +188,11 @@ export default function GroupDetails() {
           alignItems="center"
           sx={{height: '100%', width: '100%'}}
         >
+          <ThemeProvider theme={subheaderTheme}>
           <Typography sx={{ marginLeft: 4, marginBottom: 2 }} variant="h3">
             {group.name}
           </Typography>
+          </ThemeProvider>
         </Box>
         <Box
           flex="0.5"
@@ -197,11 +202,11 @@ export default function GroupDetails() {
           alignItems="center"
           sx={{height: '100%', width: '100%'}}
         >
-          <Button variant="contained" onClick={() => setShowNewExpenseModal(true)}>
-            Añadir gasto
+          <Button startIcon={<AddIcon />} variant="contained" onClick={() => setShowNewExpenseModal(true)}>
+            Gasto
           </Button>
-          <Button sx={{marginLeft: 2}} variant="contained" onClick={() => setShowMembersModal(true)}>
-            Ver miembros
+          <Button sx={{marginLeft: 2}} variant="text" onClick={() => setShowMembersModal(true)}>
+            Miembros
           </Button>
           {checkAdmin() && <Button sx={{marginLeft: 2, marginRight: 5}}variant="contained" onClick={() => setShowInvitationModal(true)}>
             Añadir miembro
@@ -216,14 +221,16 @@ export default function GroupDetails() {
         flex="0.2"
         width="100%"
       >
-        {group.description != "" && (<IconTextRow icon={<DescriptionIcon />} text={group.description} />)}
-        <IconTextRow icon={<CategoryIcon />} text={group.category} />
+        {group.description != "" && (<IconTextRow icon={<DescriptionIcon sx={{color: '#487ba9'}} />} text={group.description} />)}
+        <IconTextRow icon={<CategoryIcon sx={{color: '#487ba9'}} />} text={group.category} />
       </Box>
       <Box sx={{width: '100%'}} display='flex' flexDirection='row' flex='0.1' alignItems='flex-start' justifyContent='space-between'>
-        <Typography sx={{fontSize: 20}}>Gastos</Typography>
-        <Button variant='outlined' onClick={() => setShowFilterExpensesModal(true)}>Filtrar</Button>
+      <ThemeProvider theme={subheaderTheme}>
+        <Typography sx={{fontSize: 30, paddingRight: 10, borderBottom: '1px solid black'}}>Gastos</Typography>
+      </ThemeProvider>
+        <Button startIcon={<FilterAltIcon />} variant='text' onClick={() => setShowFilterExpensesModal(true)}>Filtrar</Button>
       </Box>
-      <Box maxHeight='300px' sx={{ maxHeight: '300px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.6" width='100%'>
+      <Box maxHeight='300px' sx={{ marginTop: 2, maxHeight: '300px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.6" width='100%'>
         <Grid container spacing={5} sx={{ marginTop: 1 }}>
           {expenses.map(
             (expense) =>

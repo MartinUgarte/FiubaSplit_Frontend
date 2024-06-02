@@ -6,6 +6,7 @@ import { Box, Button, Grid } from "@mui/material";
 import { Filters, Group, defaultFilters, dumpGroup } from "@/app/types";
 import CreateGroupModal from "./CreateGroupModal";
 import GroupFilterModal from "./GroupFilterModal";
+import AddIcon from '@mui/icons-material/Add';
 
 type FormValues = {
   name: string;
@@ -105,18 +106,19 @@ export default function GroupsHome() {
       />
       <Box display="flex" flex="0.1" justifyContent="flex-end">
         <Button
-          variant="outlined"
+          variant="contained"
+          startIcon={<AddIcon />}
           sx={{ height: 40}}
           onClick={() => setShowCreateGroupModal(true)}
         >
-          Crear Grupo
+          Grupo
         </Button>
         <Button
-          variant="outlined"
+          variant="text"
           sx={{ height: 40, marginLeft: 2 }}
           onClick={() => setShowFilters(true)}
         >
-          Filtros
+          Filtrar
         </Button>
       </Box>
       <Box display="flex" flex="0.9">

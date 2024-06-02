@@ -43,6 +43,10 @@ type ChooseExpenseParticipantsModalProps = {
   getExpenses: () => void;
 };
 
+type ResponseError = {
+  msg: string;
+};
+
 type FormValues = {
   expense_amount: number;
   expense_name: string;
@@ -62,6 +66,9 @@ export default function ChooseExpenseParticipantsModal({
   const [expenseDescription, setExpenseDescription] = useState<string>("");
   const [expenseCategory, setExpenseCategory] = useState<string>("");
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [continueButtonPressed, setContinueButtonPressed] =
+    useState<boolean>(false);
+  const [errorText, setErrorText] = useState("");
   const [participants, setParticipants] = useState<{ [key: string]: string }>(
     {}
   );
@@ -102,16 +109,16 @@ export default function ChooseExpenseParticipantsModal({
   };
 
   const resetContext = () => {
-    setSelectedPayersNames([])
-    setSelectedPayers({})
-  }
+    setSelectedPayersNames([]);
+    setSelectedPayers({});
+  };
 
   const handleAddParticipant = (key: string, name: string) => {
     setParticipants((prevParticipants) => ({
       ...prevParticipants,
       [key]: name,
     }));
-    console.log("Se llenaron todos los participants y quedo: ", participants)
+    console.log("Se llenaron todos los participants y quedo: ", participants);
   };
 
   const createExpense = () => {
@@ -133,15 +140,21 @@ export default function ChooseExpenseParticipantsModal({
       }),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
         return res.json();
       })
       .then((data) => {
-        console.log(data);
-        getExpenses();
-        resetContext()
+        console.log("LA DATA: ", data)
+        if (data.id) {
+          console.log(data);
+          getExpenses();
+          resetContext();
+          closeAllModals();
+        } else if (Array.isArray(data.detail)) {
+          data.detail.forEach((element: ResponseError) => {
+            setErrorText(element.msg);
+            setShowErrorModal(true);
+          });
+        }
       });
   };
 
@@ -191,9 +204,9 @@ export default function ChooseExpenseParticipantsModal({
   }, [open]);
 
   const openChoosePayersAmountModal = (formData: FormValues) => {
+    setContinueButtonPressed(true);
     if (selectedPayersNames.length == 0) {
-      setShowErrorModal(true)
-      return
+      return;
     }
     handleAddPayers();
     setExpenseName(formData.expense_name);
@@ -233,12 +246,12 @@ export default function ChooseExpenseParticipantsModal({
           closeAllModals={() => closeAllModals()}
           createExpense={createExpense}
         />
-          <CustomModal
+        <CustomModal
           open={showErrorModal}
           onClick={() => setShowErrorModal(false)}
           onClose={() => setShowErrorModal(false)}
-          text="Se debe elegir al menos un pagador"
-          buttonText="Cerrar"
+          text={errorText}
+          buttonText="Ok"
         />
         <Box
           component="form"
@@ -260,7 +273,9 @@ export default function ChooseExpenseParticipantsModal({
             alignItems="center"
             sx={{ backgroundColor: "blue" }}
           >
-            <Typography color="white">Crear Gasto</Typography>
+            <Typography color="white" sx={{ fontSize: 30 }}>
+              Crear Gasto
+            </Typography>
           </Box>
           <Box
             display="flex"
@@ -277,6 +292,10 @@ export default function ChooseExpenseParticipantsModal({
               label="Nombre"
               {...register("expense_name", {
                 required: "Ingresa el nombre del gasto",
+                minLength: {
+                  value: 3,
+                  message: 'El nombre debe tener como minimo 3 caracteres'
+              }
               })}
               error={!!errors.expense_name}
               helperText={errors.expense_name?.message}
@@ -290,9 +309,12 @@ export default function ChooseExpenseParticipantsModal({
               label="Monto"
               {...register("expense_amount", {
                 required: "Ingrese un monto",
+                validate: (value) => value > 1 || "El monto debe ser mayor a 1",
               })}
               InputProps={{
-                inputProps: { min: 1 }
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
               }}
               error={!!errors.expense_amount}
               helperText={errors.expense_amount?.message}
@@ -304,8 +326,6 @@ export default function ChooseExpenseParticipantsModal({
               sx={{ marginTop: 2 }}
               label="Descripción"
               {...register("expense_description", {})}
-              error={!!errors.expense_amount}
-              helperText={errors.expense_amount?.message}
             >
               Descripción
             </TextField>
@@ -331,10 +351,10 @@ export default function ChooseExpenseParticipantsModal({
               selectedPayersNames={selectedPayersNames}
               setSelectedPayersNames={(payers: string[]) =>
                 setSelectedPayersNames(payers)
-                
               }
               names={Object.keys(participants)}
               text={"Pagadores"}
+              continueButtonPressed={continueButtonPressed}
             />
           </Box>
           <Box

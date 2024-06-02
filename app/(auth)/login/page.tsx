@@ -6,7 +6,9 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  ThemeProvider,
   Typography,
+  createTheme,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -16,6 +18,7 @@ import { useState } from "react";
 import CustomModal from "@/app/CustomModal";
 import LoadingModal from "@/app/LoadingModal";
 import Image from "next/image";
+import { subheaderTheme } from "@/app/fonts";
 
 type FormValues = {
   email: string;
@@ -119,7 +122,7 @@ export default function LoginPage() {
           onClick={() => setShowErrorModal(false)}
           onClose={() => setShowErrorModal(false)}
           text="Usuario o contraseña incorrectos"
-          buttonText="Cerrar"
+          buttonText="OK"
         />
       )}
       <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
@@ -150,7 +153,9 @@ export default function LoginPage() {
             alt="The house from the offer."
             src="https://i.imgur.com/ZP4O5bA.png"
           />
-          <Typography variant="h4" fontFamily={'Roboto'}>FIUBASPLIT</Typography>
+
+            <Typography variant="h4">FIUBASPLIT</Typography>
+          
         </Box>
         <Box
           display="flex"
@@ -160,7 +165,9 @@ export default function LoginPage() {
           width="30%"
           sx={{marginTop: 7}}
         >
-          <Typography variant="h5" fontFamily={'Roboto'}>Login</Typography>
+          <ThemeProvider theme={subheaderTheme}>
+            <Typography variant="h5">Login</Typography>
+          </ThemeProvider>
           <Box
             component="form"
             display="flex"

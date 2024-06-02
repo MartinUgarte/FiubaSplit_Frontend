@@ -1,6 +1,7 @@
 import CustomModal from "@/app/CustomModal";
 import LoadingModal from "@/app/LoadingModal";
-import { Box, Typography, Button, TextField } from "@mui/material";
+import { modalTheme } from "@/app/fonts";
+import { Box, Typography, Button, TextField, ThemeProvider } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -89,7 +90,7 @@ export default function InvitationModal({
         sx={style}
       >
         <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
-        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Close'/>
+        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
         <Box
           display="flex"
           flex="0.3"
@@ -99,7 +100,9 @@ export default function InvitationModal({
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white">Añadir mail del invitado</Typography>
+          <ThemeProvider theme={modalTheme}>
+                    <Typography color='white'>Añadir mail del invitado</Typography>
+                    </ThemeProvider>
         </Box>
         <Box
           display="flex"

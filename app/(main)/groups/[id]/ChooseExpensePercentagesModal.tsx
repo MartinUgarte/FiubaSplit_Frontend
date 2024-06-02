@@ -8,14 +8,15 @@ import {
   Select,
   MenuItem,
   InputAdornment,
-  FormControlLabel
+  FormControlLabel,
+  ThemeProvider
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import MultiSelect from "./MultiSelect";
 import { useForm, useFieldArray } from "react-hook-form";
 import CustomModal from "@/app/CustomModal";
 import Checkbox from '@mui/material/Checkbox';
+import { modalTheme } from "@/app/fonts";
 
 const style = {
   position: "absolute" as "absolute",
@@ -72,9 +73,19 @@ export default function ChooseExpensePercentagesAmountModal({
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEqualParts(event.target.checked);
-    const equalPercentage = event.target.checked ? (100 / fields.length).toString() : '';
+    const equalPercentageNumber: number = event.target.checked ? Number((100 / fields.length).toFixed(2)) : 0;
+    let y: number;
+    if (equalPercentageNumber != 0) {
+      const x = 100 - (equalPercentageNumber * Object.keys(participants).length)
+      y = equalPercentageNumber + x
+    } 
+    
     fields.forEach((field, index) => {
-      setValue(`payers.${index}.percentage`, equalPercentage);
+      if (index == 0) {
+        setValue(`payers.${index}.percentage`, y.toString());
+      } else {
+        setValue(`payers.${index}.percentage`, equalPercentageNumber.toString());
+      }
     });
   };
 
@@ -138,7 +149,7 @@ useEffect(() => {
         component="form" 
         onSubmit={handleSubmit(handleNewExpense)}
       >
-      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={"La suma de los porcentajes debe sumar 100"} buttonText='Close'/>
+      <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={"La suma de los porcentajes debe sumar 100"} buttonText='Ok'/>
 
         <Box
           display="flex"
@@ -150,7 +161,9 @@ useEffect(() => {
           alignItems="center"
           sx={{ backgroundColor: "blue" }}
         >
-          <Typography color="white">Asignar porcentajes</Typography>
+          <ThemeProvider theme={modalTheme}>
+            <Typography color="white">Asignar porcentajes</Typography>
+          </ThemeProvider>
         </Box>
         <Box
           display="flex"
@@ -169,6 +182,10 @@ useEffect(() => {
               {...register(`payers.${index}.percentage`, {
                 required: "Ingresa el porcentaje",
               })}
+              InputProps={{
+                inputProps: { min: 1 },
+                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+              }}
               error={!!errors.payers?.[index]?.percentage}
               helperText={errors.payers?.[index]?.percentage?.message}
               focused

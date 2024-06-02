@@ -1,5 +1,6 @@
-import { Box, Typography, Button, TextField, CircularProgress } from '@mui/material';
+import { Box, Typography, Button, TextField, CircularProgress, ThemeProvider } from '@mui/material';
 import Modal from '@mui/material/Modal';
+import { modalTheme } from './fonts';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -27,7 +28,9 @@ export default function LoadingModal({open, onClose}: LoadingModalProps) {
             <Box component="form" display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style}>       
                 <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
                     <CircularProgress />
-                    <Typography sx={{mt: 3}}>Cargando...</Typography>
+                    <ThemeProvider theme={modalTheme}>
+                    <Typography color='white'>Cargando...</Typography>
+                    </ThemeProvider>
                 </Box>
             </Box>
         </Modal>
