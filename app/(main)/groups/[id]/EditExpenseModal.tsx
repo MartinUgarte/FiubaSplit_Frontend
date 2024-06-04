@@ -26,8 +26,8 @@ import { modalTheme } from "@/app/fonts";
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
-    height: 700,
+    width: "30%",
+    height: '70%',
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 10,
@@ -120,7 +120,7 @@ import { modalTheme } from "@/app/fonts";
             sx={{ backgroundColor: "blue" }}
           >
             <ThemeProvider theme={modalTheme}>
-                    <Typography color='white'>Editar Grupo</Typography>
+                    <Typography color='white'>Editar Gasto</Typography>
                     </ThemeProvider>
           </Box>
           <Box

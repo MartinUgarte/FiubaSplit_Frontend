@@ -1,10 +1,9 @@
 import { modalTheme } from "@/app/fonts";
 import {
   DebtFilters,
-  ExpenseFilters,
-  Filters,
   Group,
-  defaultExpenseFilters,
+  debt_orders,
+  defaultDebtFilters,
 } from "@/app/types";
 import {
   Box,
@@ -25,8 +24,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  height: 500,
+  width: '30%',
+  height: '50%',
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 10,
@@ -51,7 +50,7 @@ export default function FilterDebtModal({
 }: FilterDebtModalProps) {
   useEffect(() => {
     if (open) {
-      setSelectedFilters(defaultExpenseFilters);
+      setSelectedFilters(defaultDebtFilters);
     }
   }, [open]);
 
@@ -104,6 +103,25 @@ export default function FilterDebtModal({
             {groups.map((option) => (
               <MenuItem key={option.name} value={option.id}>
                 {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            fullWidth
+            id="order-select"
+            select
+            label="Ordenar por monto"
+            onChange={(group) =>
+              setSelectedFilters((prevState) => ({
+                ...prevState,
+                order: group.target.value as string,
+              }))
+            }
+            sx={{ marginTop: 2 }}
+          >
+            {debt_orders.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.value}
               </MenuItem>
             ))}
           </TextField>

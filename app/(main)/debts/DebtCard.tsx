@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Debt, Expense, Invitation } from "@/app/types";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import CustomModal from "@/app/CustomModal";
 
 type DebtCardProps = {
   debt: Debt;
@@ -21,6 +22,7 @@ export default function DebtCard({ debt, getDebts }: DebtCardProps) {
     const [memberName, setMemberName] = useState<string>('');
     const [groupName, setGroupName] = useState<string>('');
     const [expenseName, setExpenseName] = useState<string>('');
+    const [showCustomModal, setShowCustomModal] = useState(false)
 
     const getUser = () => {
         const jwt = localStorage.getItem("jwtToken");
@@ -89,6 +91,26 @@ export default function DebtCard({ debt, getDebts }: DebtCardProps) {
           });
       };
 
+      const cancelDebt = () => {
+        const jwt = localStorage.getItem("jwtToken");
+        fetch(`http://localhost:8000/cancel-debt/${debt.expense_id}/${debt.user_to_pay}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+          .then((res) => {
+            console.log(res);
+            return res.json();
+          })
+          .then((data) => {
+              console.log('Elimine deuda: ', data)
+              getDebts()
+              setShowCustomModal(true)
+          });
+      };
+
   useEffect(() => {
     getUser();
     getGroup();
@@ -98,6 +120,7 @@ export default function DebtCard({ debt, getDebts }: DebtCardProps) {
   return (
     <Card style={{ borderTop: "2px solid blue", height: 100, marginRight: 10 }}>
       <Box flex="1" display="flex" flexDirection="row" height="100%">
+        <CustomModal open={showCustomModal} onClose={() => setShowCustomModal(false)} onClick={() => setShowCustomModal(false)} text="Deuda pagada!" buttonText="Ok"/>
         <Box
           flex="0.25"
           display="flex"
@@ -176,7 +199,7 @@ export default function DebtCard({ debt, getDebts }: DebtCardProps) {
           alignItems="center"
           sx={{ marginLeft: 5 }}
         >
-         <Button startIcon={<PointOfSaleIcon />} variant="contained" onClick={() => console.log('pagar')}>
+         <Button startIcon={<PointOfSaleIcon />} variant="contained" onClick={() => cancelDebt()}>
             Pagar
           </Button> 
         </Box>

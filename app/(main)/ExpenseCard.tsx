@@ -138,10 +138,10 @@ export default function ExpenseCard({
           <Box width='50%' display='flex' flex='0.5' flexDirection='row' justifyContent='center'>
           {checkCreator() && (
             <Box display='flex' flex='1'>
-            <IconButton color="primary" onClick={() => setShowDeleteConfirmationModal(true)} sx={{marginRight:5, marginLeft:2}}>
+            <IconButton color="primary" onClick={() => setShowDeleteConfirmationModal(true)} sx={{marginRight:'1%', marginLeft:'0.5%'}}>
               <DeleteIcon />
             </IconButton>
-            <IconButton sx={{marginRight: 10}} aria-label="edit" onClick={() => setShowEditExpenseModal(true)}>
+            <IconButton sx={{marginRight: '1%'}} aria-label="edit" onClick={() => setShowEditExpenseModal(true)}>
                 <EditIcon sx={{fontSize: 30}} />
             </IconButton>
             </Box>

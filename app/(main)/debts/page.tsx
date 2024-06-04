@@ -22,6 +22,7 @@ export default function Debts() {
   }, []);
 
   const getDebts = () => {
+    setDebts([])
     const jwt = localStorage.getItem("jwtToken");
 
     if (!jwt) {
@@ -29,7 +30,20 @@ export default function Debts() {
     }
     setShowLoading(true);
 
-    fetch(`http://localhost:8000/debts`, {
+    const groupParam = selectedDebtsFilters.group ? selectedDebtsFilters.group : '';
+    const orderParam = selectedDebtsFilters.order ? selectedDebtsFilters.order : '';
+    
+    const paramsArray: [string, string | undefined][] = [
+      ['group_id', groupParam],
+      ['order', orderParam],
+    ];
+
+    const filteredParams = paramsArray.filter(([_, value]) => value !== '');
+
+    const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
+    console.log('queryParams: ', queryParams.toString())        
+
+    fetch(`http://localhost:8000/debts?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -63,6 +77,10 @@ export default function Debts() {
     console.log('Got my groups: ', groups)
     getGroups()
 }, []);
+
+  useEffect(() => {
+    console.log('Debts changed: ', debts)
+  }, [debts])
 
   const getGroups = () => {
     const jwt = localStorage.getItem("jwtToken");
