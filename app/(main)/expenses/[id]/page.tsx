@@ -192,7 +192,7 @@ export default function Expense() {
           {Object.entries(balances).map(
             ([memberId, balance]) =>
                 <Grid item xs={12} key={memberId}>
-                  <ParticipantCard isBalanced={getUserBalance(balance)} memberId={memberId} balance={balance} members={members} />
+                  <ParticipantCard isBalanced={getUserBalance(balance)} memberId={memberId} expenseId={expense.id} balance={balance} members={members} />
                 </Grid>
           )}
         </Grid>
