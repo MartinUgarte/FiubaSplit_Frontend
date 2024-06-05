@@ -1,7 +1,8 @@
-import { Box, Typography, Button, Divider, ThemeProvider } from '@mui/material';
+import { Box, Typography, Button, Divider, ThemeProvider, IconButton } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Group } from '@/app/types';
 import { modalTheme } from '@/app/fonts';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -20,30 +21,61 @@ type BalanceModalProps = {
     memberId: string,
     members: {[key: string]: string},
     balance: {[key: string]: number},
+    isBalanced: boolean
 }
 
 
-export default function BalanceModal({ open, onClose, memberId, members, balance}: BalanceModalProps) {
+export default function BalanceModal({ open, onClose, memberId, members, balance, isBalanced}: BalanceModalProps) {
 
     const balanceText = (memberName: string, balance: number) => {
+
         if (balance > 0) {
             return (
-                <Box display='flex' flexDirection='row'>
-                    <Typography sx={{ fontSize: 15, fontWeight: 'bold', marginRight: 0.5 }}>{memberName}</Typography>
-                    <Typography sx={{fontSize: 15, marginRight: 0.5}}>le debe</Typography>
-                    <Typography sx={{fontSize: 15, color: 'green', marginRight: 0.5}}>${balance.toFixed(2)}</Typography>
-                    <Typography sx={{fontSize: 15, marginRight: 0.5}}>a</Typography>
-                    <Typography sx={{fontSize: 15, fontWeight: 'bold'}}>{members[memberId]}</Typography>
+                <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+                    <Box display='flex' flexDirection='row'>
+                        {memberId == localStorage.getItem('userId') ? (  
+                            <> 
+                             <Typography sx={{ fontSize: 15, fontWeight: 'bold', marginRight: 0.5 }}>{memberName}</Typography>
+                             <Typography sx={{fontSize: 15, marginRight: 0.5}}>te debe</Typography>
+                             <Typography sx={{fontSize: 15, color: 'green', marginRight: 0.5}}>${balance.toFixed(2)}</Typography>
+                             </>
+                        ) : (
+                            <>
+                            <Typography sx={{ fontSize: 15, fontWeight: 'bold', marginRight: 0.5 }}>{memberName}</Typography>
+                            <Typography sx={{fontSize: 15, marginRight: 0.5}}>le debe</Typography>
+                            <Typography sx={{fontSize: 15, marginRight: 0.5}}>${balance.toFixed(2)}</Typography>
+                            <Typography sx={{fontSize: 15, marginRight: 0.5}}>a</Typography>
+                            <Typography sx={{fontSize: 15, fontWeight: 'bold'}}>{members[memberId]}</Typography>
+                            </>
+                        )}
+                    </Box>
+                    <Box>
+                        {memberId == localStorage.getItem('userId') && ( <IconButton color="primary" onClick={() => console.log('aa')} sx={{marginLeft:'2%'}}>
+                            <NotificationsActiveIcon />
+                        </IconButton>)}
+                    </Box>   
                 </Box>
             );
         } else if (balance < 0) {
             return (
                 <Box display='flex' flexDirection='row'>
-                <Typography sx={{ fontSize: 15, fontWeight: 'bold', marginRight: 0.5 }}>{members[memberId]}</Typography>
-                <Typography sx={{fontSize: 15, marginRight: 0.5}}>le debe</Typography>
-                <Typography sx={{fontSize: 15, color: 'red', marginRight: 0.5}}>${(balance * -1).toFixed(2)}</Typography>
-                <Typography sx={{fontSize: 15, marginRight: 0.5}}>a</Typography>
-                <Typography sx={{fontSize: 15, fontWeight: 'bold'}}>{memberName}</Typography>
+                {memberId == localStorage.getItem('userId') ? (  
+                            <> 
+                             <Typography sx={{fontSize: 15, marginRight: 0.5}}>Debes</Typography>
+                             <Typography sx={{fontSize: 15, color: 'red', marginRight: 0.5}}>${(balance * -1).toFixed(2)}</Typography>
+                             <Typography sx={{fontSize: 15, marginRight: 0.5}}>a</Typography>
+                             <Typography sx={{fontSize: 15, fontWeight: 'bold'}}>{memberName}</Typography>
+                             </>
+                        ) : (
+                            <>
+                            <Typography sx={{ fontSize: 15, fontWeight: 'bold', marginRight: 0.5 }}>{members[memberId]}</Typography>
+                            <Typography sx={{fontSize: 15, marginRight: 0.5}}>le debe</Typography>
+                            <Typography sx={{fontSize: 15, marginRight: 0.5}}>${(balance * -1).toFixed(2)}</Typography>
+                            <Typography sx={{fontSize: 15, marginRight: 0.5}}>a</Typography>
+                            <Typography sx={{fontSize: 15, fontWeight: 'bold'}}>{memberName}</Typography>
+                            </>
+                        )}
+                
                 </Box>
             );
         }
@@ -64,12 +96,20 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
 
                 <Box display='flex' flex='0.8' justifyContent='center' alignItems='center' flexDirection="column" width='100%'>
                     <Box width='100%' display='flex' flexDirection='column' alignItems='center' sx={{ maxHeight: '300px', overflowY: 'auto' }}>
-                        {Object.keys(members).map((member_id, index) => (
+                        
+                        {isBalanced ? (
+                            <Typography>Todo balanceado</Typography>
+                        ) : (
+                            <>
+                            {Object.keys(members).map((member_id, index) => (
                             <Box key={member_id} width='90%' marginBottom={index < Object.keys(members).length - 1 ? 2 : 0}>
                                 {memberId !== member_id && balanceText(members[member_id], balance[member_id])}
                                 {memberId !== member_id && index < Object.keys(members).length - 1 && <Divider sx={{ mt: 2, color: 'white', height: '3px' }} />}
                             </Box>
+                            
                         ))}
+                        </>
+                    )}
                     </Box>
                 </Box>
                 <Box display='flex' flex='0.2' >

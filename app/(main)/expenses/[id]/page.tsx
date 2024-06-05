@@ -134,15 +134,8 @@ export default function Expense() {
   }, [barrier])
   
   const getUserBalance = (balance: {[key: string]: number}) => {
-    return Object.values(balance).reduce((acum, currVal) => acum + currVal, 0);
+    return Object.values(balance).reduce((acum, currVal) => acum + currVal, 0) == 0;
   };
-
-  const checkBalance = (memberId: string, balance: {[key: string]: number}) => {
-    const userBalance = getUserBalance(balance)
-    if (userBalance != 0) {
-      return <ParticipantCard memberId={memberId} balance={balance} members={members} />
-    }
-  }
 
   return (
     <Box
@@ -199,7 +192,7 @@ export default function Expense() {
           {Object.entries(balances).map(
             ([memberId, balance]) =>
                 <Grid item xs={12} key={memberId}>
-                  {checkBalance(memberId, balance)}
+                  <ParticipantCard isBalanced={getUserBalance(balance)} memberId={memberId} balance={balance} members={members} />
                 </Grid>
           )}
         </Grid>

@@ -101,13 +101,16 @@ export default function DebtCard({ debt, getDebts }: DebtCardProps) {
           },
         })
           .then((res) => {
+            if (res.status == 200) {
+              setShowCustomModal(true)
+            }
             console.log(res);
             return res.json();
           })
           .then((data) => {
               console.log('Elimine deuda: ', data)
               getDebts()
-              setShowCustomModal(true)
+              
           });
       };
 

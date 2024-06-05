@@ -11,9 +11,10 @@ type ParticipantCardProps = {
   memberId: string,
   members: {[key: string]: string},
   balance: {[key: string]: number},
+  isBalanced: boolean,
 };
 
-export default function ParticipantCard({ memberId, members, balance }: ParticipantCardProps) {
+export default function ParticipantCard({ memberId, members, balance, isBalanced }: ParticipantCardProps) {
   const [showBalanceModal, setShowBalanceModal] = useState(false);
 
   const getUserBalance = () => {
@@ -44,7 +45,7 @@ export default function ParticipantCard({ memberId, members, balance }: Particip
           </Button>
         </Box>
 
-          <BalanceModal open={showBalanceModal} onClose={() => setShowBalanceModal(false)} memberId={memberId} members={members} balance={balance} />
+          <BalanceModal isBalanced={isBalanced} open={showBalanceModal} onClose={() => setShowBalanceModal(false)} memberId={memberId} members={members} balance={balance} />
       
       </Box>
     </Card>
