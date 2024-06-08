@@ -121,6 +121,23 @@ export const defaultExpenseFilters = {
     group: '',
 }
 
+export type DebtFilters = {
+    group: string,
+    order: string,
+}
+
+export const defaultDebtFilters = {
+    group: '',
+    order: '',
+}
+
+export type Debt = {
+    group_id: string,
+    user_to_pay: string,
+    expense_id: string,
+    amount: number,
+}
+
 
 export const expense_categories = [
     {
@@ -148,3 +165,16 @@ export const expense_categories = [
         label: "Supermercado"
     }
 ];
+
+export const debt_orders = [
+    {
+       value: 'asc',
+       label: 'asc',
+        
+    },
+    {
+        value: 'desc',
+        label: 'desc',
+         
+     }
+]

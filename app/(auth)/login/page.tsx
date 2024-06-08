@@ -145,16 +145,17 @@ export default function LoginPage() {
           <Box
             component="img"
             sx={{
-              height: 300,
-              width: 300,
-              marginBottom: 5,
-              marginTop: 5
+              height: '50%',
+              width: '12%',
+              marginBottom: '1%',
+              marginTop: '1%'
             }}
             alt="The house from the offer."
             src="https://i.imgur.com/ZP4O5bA.png"
           />
-
-            <Typography variant="h4">FIUBASPLIT</Typography>
+            <ThemeProvider theme={subheaderTheme}>
+              <Typography variant="h4">FIUBASPLIT</Typography>
+            </ThemeProvider>
           
         </Box>
         <Box
@@ -163,7 +164,7 @@ export default function LoginPage() {
           flexDirection="column"
           justifyContent="flex-start"
           width="30%"
-          sx={{marginTop: 7}}
+          sx={{marginTop: '2%'}}
         >
           <ThemeProvider theme={subheaderTheme}>
             <Typography variant="h5">Login</Typography>
@@ -178,7 +179,7 @@ export default function LoginPage() {
             <TextField
               id="email"
               label="Email"
-              sx={{ marginTop: 5 }}
+              sx={{ marginTop: '3%' }}
               {...register("email", {
                 required: "Enter you email",
                 pattern: {
@@ -193,7 +194,7 @@ export default function LoginPage() {
               label="Password"
               id="password"
               type={showPassword ? "text" : "password"}
-              sx={{ marginTop: 5 }}
+              sx={{ marginTop: '2%', marginBottom: '10%' }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -216,7 +217,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               variant="contained"
-              sx={{ marginTop: 5, height: 50 }}
+              sx={{ marginTop: "2%", height: '30%' }}
             >
               Iniciar sesión
             </Button>
@@ -224,7 +225,7 @@ export default function LoginPage() {
           <Button
             href="../register"
             variant="outlined"
-            sx={{ marginTop: 2, height: 50 }}
+            sx={{ marginTop: "2%", height: '10%' }}
           >
             Registrarse
           </Button>

@@ -2,23 +2,27 @@
 
 import { useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { Expense, ExpenseFilters, Group, Invitation, defaultExpenseFilters, dumpGroup, dumpInvitation } from "@/app/types";
+import { Debt, DebtFilters, Expense, ExpenseFilters, Group, Invitation, defaultDebtFilters, dumpGroup, dumpInvitation } from "@/app/types";
 import LoadingModal from '@/app/LoadingModal';
 import ExpenseCard from "../ExpenseCard";
 import FilterExpenseModal from "../FilterExpenseModal";
+import DebtCard from "./DebtCard";
+import FilterDebtModal from "./FilterDebtModal.";
 
-export default function Expenses() {
+export default function Debts() {
   const [groups, setGroups] = useState<Group[]>([]);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [debts, setDebts] = useState<Debt[]>([]);
   const [showLoading, setShowLoading] = useState(false);
-  const [showFilterExpensesModal, setShowFilterExpensesModal] = useState(false);
-  const [selectedExpensesFilters, setSelectedExpensesFilters] = useState<ExpenseFilters>(defaultExpenseFilters);
+  const [totalDebt, setTotalDebt] = useState(0);
+  const [showFilterDebtsModal, setShowFilterDebtsModal] = useState(false);
+  const [selectedDebtsFilters, setSelectedDebtFilters] = useState<DebtFilters>(defaultDebtFilters);
   
   useEffect(() => {
-    getExpenses();
+    getDebts();
   }, []);
 
-  const getExpenses = () => {
+  const getDebts = () => {
+    setDebts([])
     const jwt = localStorage.getItem("jwtToken");
 
     if (!jwt) {
@@ -26,24 +30,20 @@ export default function Expenses() {
     }
     setShowLoading(true);
 
-    const groupParam = selectedExpensesFilters.group ? selectedExpensesFilters.group : '';
-    const nameParam = selectedExpensesFilters.name ? selectedExpensesFilters.name : '';
-    const descriptionParam = selectedExpensesFilters.description ? selectedExpensesFilters.description : '';
-    const categoryParam = selectedExpensesFilters.category ? selectedExpensesFilters.category : '';
-
+    const groupParam = selectedDebtsFilters.group ? selectedDebtsFilters.group : '';
+    const orderParam = selectedDebtsFilters.order ? selectedDebtsFilters.order : '';
+    
     const paramsArray: [string, string | undefined][] = [
       ['group_id', groupParam],
-      ['name', nameParam],
-      ['description', descriptionParam],
-      ['category', categoryParam]
+      ['order', orderParam],
     ];
 
     const filteredParams = paramsArray.filter(([_, value]) => value !== '');
 
     const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
-    console.log(queryParams)
-  
-    fetch(`http://localhost:8000/expenses?${queryParams.toString()}`, {
+    console.log('queryParams: ', queryParams.toString())        
+
+    fetch(`http://localhost:8000/debts?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,26 +57,30 @@ export default function Expenses() {
         return res.json();
       })
       .then((data) => {
-        console.log("Got expenses: ", data);
-        setExpenses(
-          data.map((expense: Expense) => {
+        console.log("Got debts: ", data);
+        setDebts(
+          data.debts.map((debt: Debt) => {
             return {
-              group_id: expense.group_id,
-              name: expense.name,
-              amount: expense.amount,
-              payers: expense.payers,
-              created_date: expense.created_date,
-              balance: expense.balance,
-              id: expense.id,
-              description: expense.description,
-              creator_id: expense.creator_id,
-              category: expense.category
+                group_id: debt.group_id,
+                user_to_pay: debt.user_to_pay,
+                expense_id: debt.expense_id,
+                amount: debt.amount,
             };
           }))
+        setTotalDebt(data.total_debt)
           
         setShowLoading(false);
       });
   };
+
+  useEffect(() => {
+    console.log('Got my groups: ', groups)
+    getGroups()
+}, []);
+
+  useEffect(() => {
+    console.log('Debts changed: ', debts)
+  }, [debts])
 
   const getGroups = () => {
     const jwt = localStorage.getItem("jwtToken");
@@ -116,61 +120,64 @@ export default function Expenses() {
       });
   };
 
-  useEffect(() => {
-    console.log('Got my groups: ', groups)
-    getGroups()
-}, []);
-
   const submitFilters = () => {
-    console.log('FILTROS SELECCIONAOS: ', selectedExpensesFilters);
-    setSelectedExpensesFilters(selectedExpensesFilters);
-    getExpenses();
-    setShowFilterExpensesModal(false);
+    console.log('FILTROS SELECCIONAOS: ', selectedDebtsFilters);
+    setSelectedDebtFilters(selectedDebtsFilters);
+    getDebts();
+    setShowFilterDebtsModal(false);
   };
 
   return (
     <Box display="flex" flex="1" flexDirection="column">
         <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
-        <FilterExpenseModal
+        <FilterDebtModal
         groups={groups}
-        open={showFilterExpensesModal}
-        onClose={() => setShowFilterExpensesModal(false)}
-        selectedFilters={selectedExpensesFilters}
-        setSelectedFilters={setSelectedExpensesFilters}
+        open={showFilterDebtsModal}
+        onClose={() => setShowFilterDebtsModal(false)}
+        selectedFilters={selectedDebtsFilters}
+        setSelectedFilters={setSelectedDebtFilters}
         submitFilters={() => submitFilters()}
-        filterByGroup={''}
-      />
-        
-        <Box display='flex' flex='0.2' flexDirection='row' width='100%'>
+
+        />    
+        <Box display='flex' flex='0.2' justifyContent='space-between' flexDirection='row' width='100%'>
             <Button
             variant="outlined"
             sx={{ marginLeft: 2 }}
-            onClick={() => setShowFilterExpensesModal(true)}
+            onClick={() => setShowFilterDebtsModal(true)}
             >
             Filtros
             </Button>
+            <Box display='flex' flexDirection='row'>
+              <Typography sx={{fontSize: 25, marginRight: 3}}>En total debes</Typography>
+              <Typography sx={{fontSize: 25, color: 'red', marginRight: 2}}>${totalDebt.toFixed(2)}</Typography>
+            </Box>
         </Box>
-        <Box sx={{marginLeft: 9, marginTop: 2}} flex="1" display='flex' flexDirection="row">
-          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
+
+        <Box sx={{marginLeft: 5, marginTop: 2}} flex="1" display='flex' flexDirection="row">
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.20'>
             <Typography color='#487ba9' fontWeight={'bold'}>Nombre</Typography>
           </Box>
-          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.20'>
             <Typography color='#487ba9' fontWeight={'bold'}>Monto</Typography>
           </Box>
-          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.20'>
             <Typography color='#487ba9' fontWeight={'bold'}>Grupo</Typography>
           </Box>
-          <Box justifyContent='center' alignItems='center' display='flex' flex='0.25'>
-            <Typography color='#487ba9' fontWeight={'bold'}>Opciones</Typography>
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.20'>
+            <Typography color='#487ba9' fontWeight={'bold'}>Gasto</Typography>
           </Box>
+          <Box justifyContent='center' alignItems='center' display='flex' flex='0.20'>
+            
+          </Box>    
         </Box>
+
         <Box maxHeight='600px' sx={{ maxHeight: '600px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.7" width='100%'>
             <Grid container spacing={5} sx={{ marginTop: 0.3 }}>
-            {expenses.map(
-                (expense) =>
+            {debts.map(
+                (debt, index) =>
                 (
-                    <Grid item xs={12} key={expense.id}>
-                        <ExpenseCard route={'expenses'} expense={expense} getExpenses={() => getExpenses()} />
+                    <Grid item xs={12} key={index}>
+                        <DebtCard debt={debt} getDebts={() => getDebts()} />
                     </Grid>
                 )
             )}

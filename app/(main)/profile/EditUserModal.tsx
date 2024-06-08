@@ -21,11 +21,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  height: 700,
+  width: "40%",
+  height: '80%',
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 10,
+  marginTop: '2%  '
 };
 
 const categories = [
@@ -175,10 +176,16 @@ export default function EditUserModal({
           justifyContent="center"
           alignItems="center"
         >
+          <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+          >
           <TextField
-            sx={{ marginTop: 6 }}
             fullWidth
             label="Nombre"
+            sx={{mr: '5%'}}
             {...register("name", {
               required: "Ingrese un nombre",
               minLength: {
@@ -194,7 +201,6 @@ export default function EditUserModal({
 
           <TextField
             fullWidth
-            sx={{ marginTop: 2 }}
             label="Apellido"
             {...register("surname", {})}
             error={!!errors.surname}
@@ -202,6 +208,8 @@ export default function EditUserModal({
           >
             Apellido
           </TextField>
+          </Box>
+
 
           <TextField
             fullWidth

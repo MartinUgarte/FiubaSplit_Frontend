@@ -1,15 +1,16 @@
-import { Box, Typography, Button, Divider } from '@mui/material';
+import { Box, Typography, Button, Divider, ThemeProvider } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import MemberCard from './MemberCard';
 import { Group } from '@/app/types';
+import { modalTheme } from '@/app/fonts';
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
-    height: 600,
+    width: "40%",
+    height: '70%',
     bgcolor: 'background.paper',
     boxShadow: 5,
 };
@@ -31,7 +32,9 @@ export default function MembersModal({ open, onClose, group, getGroup}: MembersM
         >
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} >
                 <Box display='flex' flex='0.2' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
+                <ThemeProvider theme={modalTheme}>
                     <Typography color='white'>Miembros</Typography>
+                    </ThemeProvider>
                 </Box>
 
                 <Box display='flex' flex='0.8' justifyContent='center' alignItems='center' flexDirection="column" width='100%'>

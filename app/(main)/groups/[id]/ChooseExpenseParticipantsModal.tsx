@@ -29,11 +29,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  height: 600,
+  width: '40%',
+  height: '80%',
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 10,
+  marginTop: '2%'
 };
 
 type ChooseExpenseParticipantsModalProps = {
@@ -302,34 +303,28 @@ export default function ChooseExpenseParticipantsModal({
             >
               Nombre
             </TextField>
-            <TextField
-              fullWidth
-              type="number"
-              sx={{ marginTop: 2 }}
-              label="Monto"
-              {...register("expense_amount", {
-                required: "Ingrese un monto",
-                validate: (value) => value > 1 || "El monto debe ser mayor a 1",
-              })}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
-                ),
-              }}
-              error={!!errors.expense_amount}
-              helperText={errors.expense_amount?.message}
-            >
-              Monto
-            </TextField>
-            <TextField
-              fullWidth
-              sx={{ marginTop: 2 }}
-              label="Descripción"
-              {...register("expense_description", {})}
-            >
-              Descripción
-            </TextField>
-            <TextField
+            <Box display='flex' flex='1' flexDirection='row' width='100%'>
+
+              <TextField
+                fullWidth
+                type="number"
+                sx={{ marginTop: 2, marginRight: 2 }}
+                label="Monto"
+                {...register("expense_amount", {
+                  required: "Ingrese un monto",
+                  validate: (value) => value > 1 || "El monto debe ser mayor a 1",
+                })}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                }}
+                error={!!errors.expense_amount}
+                helperText={errors.expense_amount?.message}
+              >
+                Monto
+              </TextField>
+              <TextField
               fullWidth
               id="category-select"
               select
@@ -346,6 +341,15 @@ export default function ChooseExpenseParticipantsModal({
                   {option.value}
                 </MenuItem>
               ))}
+            </TextField>
+            </Box>
+            <TextField
+              fullWidth
+              sx={{ marginTop: 2 }}
+              label="Descripción"
+              {...register("expense_description", {})}
+            >
+              Descripción
             </TextField>
             <MultiSelect
               selectedPayersNames={selectedPayersNames}
