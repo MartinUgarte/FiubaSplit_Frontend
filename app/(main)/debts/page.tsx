@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { Debt, DebtFilters, Expense, ExpenseFilters, Group, Invitation, defaultDebtFilters, dumpGroup, dumpInvitation } from "@/app/types";
 import LoadingModal from '@/app/LoadingModal';
@@ -9,7 +9,7 @@ import FilterExpenseModal from "../FilterExpenseModal";
 import DebtCard from "./DebtCard";
 import FilterDebtModal from "./FilterDebtModal.";
 
-export default function Debts() {
+export default function Debts({ getLayoutDebts }: { getLayoutDebts: () => void }) {
   const [groups, setGroups] = useState<Group[]>([]);
   const [debts, setDebts] = useState<Debt[]>([]);
   const [showLoading, setShowLoading] = useState(false);
@@ -68,7 +68,6 @@ export default function Debts() {
             };
           }))
         setTotalDebt(data.total_debt)
-          
         setShowLoading(false);
       });
   };
@@ -177,7 +176,7 @@ export default function Debts() {
                 (debt, index) =>
                 (
                     <Grid item xs={12} key={index}>
-                        <DebtCard debt={debt} getDebts={() => getDebts()} />
+                        <DebtCard debt={debt} getDebts={() => getDebts()} getLayoutDebts={() => getDebts()} />
                     </Grid>
                 )
             )}

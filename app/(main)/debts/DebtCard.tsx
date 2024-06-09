@@ -15,14 +15,16 @@ import CustomModal from "@/app/CustomModal";
 type DebtCardProps = {
   debt: Debt;
   getDebts: () => void;
+  getLayoutDebts: () => void;
 };
 
 
-export default function DebtCard({ debt, getDebts }: DebtCardProps) {
+export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardProps) {
     const [memberName, setMemberName] = useState<string>('');
     const [groupName, setGroupName] = useState<string>('');
     const [expenseName, setExpenseName] = useState<string>('');
     const [showCustomModal, setShowCustomModal] = useState(false)
+
 
     const getUser = () => {
         const jwt = localStorage.getItem("jwtToken");
@@ -110,7 +112,7 @@ export default function DebtCard({ debt, getDebts }: DebtCardProps) {
           .then((data) => {
               console.log('Elimine deuda: ', data)
               getDebts()
-              
+              window.location.reload();
           });
       };
 

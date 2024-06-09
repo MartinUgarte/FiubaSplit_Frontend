@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from 'react';
 import Link from 'next/link';
 import AppBar from '@mui/material/AppBar';
@@ -17,11 +19,14 @@ import PersonIcon from '@mui/icons-material/Person2';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import Badge from '@mui/material/Badge/Badge';
+import { createContext, useEffect, useState } from 'react';
+import Debts from './debts/page';
 
-export const metadata = {
-    title: 'FIUBASPLIT',
-    description: 'FIUBASPLIT',
-};
+// export const metadata = {
+//     title: 'FIUBASPLIT',
+//     description: 'FIUBASPLIT',
+// };
 
 const DRAWER_WIDTH = 240;
 
@@ -37,7 +42,69 @@ const PLACEHOLDER_LINKS = [
     { text: 'Cerrar Sesión', href: '/login', icon: LogoutIcon },
 ];
 
+const getLayoutDebts = () => {
+
+    const jwt = localStorage.getItem("jwtToken");
+
+    if (!jwt) {
+      return 0;
+    }  
+
+    fetch(`http://localhost:8000/debts`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Got debts: ", data);
+       return data.debts.length
+      });
+
+      return 0;
+  };
+
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+    const [debtsCount, setDebtsCount] = useState(0)
+
+    useEffect(() => {
+        getDebts();
+      }, []);
+    
+      const getDebts = () => {
+        const jwt = localStorage.getItem("jwtToken");
+    
+        if (!jwt) {
+          return;
+        }        
+      
+        fetch(`http://localhost:8000/debts`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            console.log("Got debts: ", data);
+            setDebtsCount(data.debts.length)
+          });
+      };
+
     return (
         <html lang="en">
             <body>
@@ -83,9 +150,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             <ListItem key={href} disablePadding>
                                 <ListItemButton component={Link} href={href}>
                                     <ListItemIcon sx={{color: 'white'}}>
-                                        <Icon />
+                                        {text == 'Deudas' ? (
+                                            <Badge badgeContent={debtsCount} color="error">
+                                                <Icon />
+                                            </Badge>
+                                        ): (
+                                            <Icon />
+                                        )}
+                                        
+                                    
                                     </ListItemIcon>
                                     <ListItemText primary={text} />
+
                                 </ListItemButton>
                             </ListItem>
                             </>
@@ -121,3 +197,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </html>
     );
 }
+

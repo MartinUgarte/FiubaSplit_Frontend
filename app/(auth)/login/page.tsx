@@ -145,7 +145,7 @@ export default function LoginPage() {
           <Box
             component="img"
             sx={{
-              height: '50%',
+              height: '58%',
               width: '12%',
               marginBottom: '1%',
               marginTop: '1%'
