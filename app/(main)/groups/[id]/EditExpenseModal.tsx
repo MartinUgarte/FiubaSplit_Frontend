@@ -20,6 +20,7 @@ import {
   import { Expense, Group, expense_categories } from "@/app/types";
   import CustomModal from "@/app/CustomModal";
 import { modalTheme } from "@/app/fonts";
+import UploadButton from "@/app/UploadButton";
   
   const style = {
     position: "absolute" as "absolute",
@@ -123,6 +124,7 @@ import { modalTheme } from "@/app/fonts";
                     <Typography color='white'>Editar Gasto</Typography>
                     </ThemeProvider>
           </Box>
+          <UploadButton/>
           <Box
             display="flex"
             flex="0.6"
