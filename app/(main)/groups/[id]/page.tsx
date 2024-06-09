@@ -29,7 +29,7 @@ export default function GroupDetails() {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [group, setGroup] = useState(dumpGroup);
   const [showEditGroupModal, setShowEditGroupModal] = useState(false);
-  const [showLoading, setShowLoading] = useState(false);
+  //const [showLoading, setShowLoading] = useState(false);
   const [showInvitationModal, setShowInvitationModal] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
   const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
@@ -49,7 +49,7 @@ export default function GroupDetails() {
     if (!jwt || !groupId) {
       return;
     }
-    setShowLoading(true);
+    // setShowLoading(true);
     fetch(`http://localhost:8000/groups/${groupId}`, {
       method: "GET",
       headers: {
@@ -63,7 +63,7 @@ export default function GroupDetails() {
       .then((data) => {
         console.log("Got event: ", data);
         setGroup(data);
-        setShowLoading(false);
+        // setShowLoading(false);
       });
   };
 
@@ -80,7 +80,7 @@ export default function GroupDetails() {
     if (!jwt || !groupId) {
       return;
     }
-    setShowLoading(true);
+    //setShowLoading(true);
 
     const groupParam = groupId;
     const nameParam = selectedExpensesFilters.name ? selectedExpensesFilters.name : '';
@@ -130,7 +130,7 @@ export default function GroupDetails() {
             };
           }))
           
-        setShowLoading(false);
+        //setShowLoading(false);
       });
   };
 
@@ -159,7 +159,7 @@ export default function GroupDetails() {
       alignItems="center"
       justifyContent="center"
     >
-      <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
+      {/* <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} /> */}
       <InvitationModal open={showInvitationModal} onClose={() => setShowInvitationModal(false)} />
       <ChooseExpenseParticipantsModal group={group} open={showNewExpenseModal} onClose={() => setShowNewExpenseModal(false)} getExpenses={() => getExpenses()}/>
       <MembersModal open={showMembersModal} onClose={() => setShowMembersModal(false)} group={group} getGroup={() => getGroup()}/>

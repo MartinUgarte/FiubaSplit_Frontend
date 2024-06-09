@@ -103,18 +103,20 @@ export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardPro
           },
         })
           .then((res) => {
-            if (res.status == 200) {
-              setShowCustomModal(true)
-            }
             console.log(res);
             return res.json();
           })
           .then((data) => {
               console.log('Elimine deuda: ', data)
-              getDebts()
-              window.location.reload();
+              setShowCustomModal(true)
+              //getDebts()
           });
       };
+      
+      const confirmCancelDebt = () => {
+        setShowCustomModal(false)
+        window.location.reload();
+    }
 
   useEffect(() => {
     getUser();
@@ -125,7 +127,7 @@ export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardPro
   return (
     <Card style={{ borderTop: "2px solid blue", height: 100, marginRight: 10 }}>
       <Box flex="1" display="flex" flexDirection="row" height="100%">
-        <CustomModal open={showCustomModal} onClose={() => setShowCustomModal(false)} onClick={() => setShowCustomModal(false)} text="Deuda pagada!" buttonText="Ok"/>
+        <CustomModal open={showCustomModal} onClose={() => confirmCancelDebt()} onClick={() => confirmCancelDebt()} text="Deuda pagada" buttonText="Ok"/>
         <Box
           flex="0.25"
           display="flex"

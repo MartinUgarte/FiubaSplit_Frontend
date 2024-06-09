@@ -222,7 +222,7 @@ useEffect(() => {
             sx={{ height: 40 }}
             type='submit'
           >
-            Continuar
+            Crear
           </Button>
         </Box>
       </Box>

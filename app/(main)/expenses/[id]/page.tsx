@@ -49,7 +49,7 @@ export default function Expense() {
         .then((res) => {
           console.log(res);
           if (res.status == 200) {
-            setShowLoading(false);
+            //setShowLoading(false);
           }
           return res.json();
         })
@@ -96,7 +96,7 @@ export default function Expense() {
     if (!jwt || !groupId) {
       return;
     }
-    setShowLoading(true);
+    //setShowLoading(true);
     fetch(`http://localhost:8000/groups/${groupId}`, {
       method: "GET",
       headers: {
@@ -110,7 +110,7 @@ export default function Expense() {
       .then((data) => {
         console.log("Got event: ", data);
         setGroup(data.name);
-        setShowLoading(false);
+        //setShowLoading(false);
       });
   };
 
@@ -146,7 +146,7 @@ export default function Expense() {
       alignItems="center"
       justifyContent="center"
     >
-      <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
+      {/* <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} /> */}
       <Box
         sx={{ marginTop: 5, borderBottom: '1px solid black' }}
         flex="0.2"
@@ -192,7 +192,7 @@ export default function Expense() {
           {Object.entries(balances).map(
             ([memberId, balance]) =>
                 <Grid item xs={12} key={memberId}>
-                  <ParticipantCard isBalanced={getUserBalance(balance)} memberId={memberId} expenseId={expense.id} balance={balance} members={members} />
+                  <ParticipantCard getExpense={() => getExpense()} isBalanced={getUserBalance(balance)} memberId={memberId} expenseId={expense.id} balance={balance} members={members} />
                 </Grid>
           )}
         </Grid>
