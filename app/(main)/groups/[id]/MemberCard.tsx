@@ -8,6 +8,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import LoadingModal from "@/app/LoadingModal";
+import GppGoodIcon from '@mui/icons-material/GppGood';
 
 type MemberCardProps = {
   memberId: string;
@@ -112,10 +113,16 @@ export default function MemberCard({
             alignItems="center"
           >
             {checkAdmin() && checkMe() && (
+              <Box>
               <IconButton color="primary" onClick={() => handleDeleteMember()}>
                 <DeleteIcon />
               </IconButton>
+              <IconButton color="primary" onClick={() => handleDeleteMember()}>
+              <GppGoodIcon />
+            </IconButton>
+            </Box>
             )}
+            
           </Box>
         </Box>
       </CardContent>
