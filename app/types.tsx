@@ -169,12 +169,12 @@ export const expense_categories = [
 export const debt_orders = [
     {
        value: 'asc',
-       label: 'asc',
+       label: 'Ascendente',
         
     },
     {
         value: 'desc',
-        label: 'desc',
+        label: 'Descendente',
          
      }
 ]

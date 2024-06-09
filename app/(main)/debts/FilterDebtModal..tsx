@@ -15,9 +15,11 @@ import {
   MenuItem,
   InputAdornment,
   ThemeProvider,
+  IconButton,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect } from "react";
+
 
 const style = {
   position: "absolute" as "absolute",
@@ -121,7 +123,7 @@ export default function FilterDebtModal({
           >
             {debt_orders.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                {option.value}
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
@@ -134,7 +136,7 @@ export default function FilterDebtModal({
         >
           <Button
             variant="contained"
-            sx={{ height: 40 }}
+            sx={{ height: 40, mb: '5%' }}
             onClick={() => submitFilters()}
           >
             Aceptar

@@ -156,6 +156,7 @@ export default function ChooseExpenseParticipantsModal({
             setShowErrorModal(true);
           });
         }
+        window.location.reload();
       });
   };
 

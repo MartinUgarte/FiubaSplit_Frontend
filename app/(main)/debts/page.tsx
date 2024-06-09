@@ -1,18 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
 import { Debt, DebtFilters, Expense, ExpenseFilters, Group, Invitation, defaultDebtFilters, dumpGroup, dumpInvitation } from "@/app/types";
 import LoadingModal from '@/app/LoadingModal';
 import ExpenseCard from "../ExpenseCard";
 import FilterExpenseModal from "../FilterExpenseModal";
 import DebtCard from "./DebtCard";
 import FilterDebtModal from "./FilterDebtModal.";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
-export default function Debts() {
+export default function Debts({ getLayoutDebts }: { getLayoutDebts: () => void }) {
   const [groups, setGroups] = useState<Group[]>([]);
   const [debts, setDebts] = useState<Debt[]>([]);
-  const [showLoading, setShowLoading] = useState(false);
+  // const [showLoading, setShowLoading] = useState(false);
   const [totalDebt, setTotalDebt] = useState(0);
   const [showFilterDebtsModal, setShowFilterDebtsModal] = useState(false);
   const [selectedDebtsFilters, setSelectedDebtFilters] = useState<DebtFilters>(defaultDebtFilters);
@@ -28,7 +29,7 @@ export default function Debts() {
     if (!jwt) {
       return;
     }
-    setShowLoading(true);
+    //setShowLoading(true);
 
     const groupParam = selectedDebtsFilters.group ? selectedDebtsFilters.group : '';
     const orderParam = selectedDebtsFilters.order ? selectedDebtsFilters.order : '';
@@ -68,8 +69,7 @@ export default function Debts() {
             };
           }))
         setTotalDebt(data.total_debt)
-          
-        setShowLoading(false);
+        //setShowLoading(false);
       });
   };
 
@@ -127,9 +127,20 @@ export default function Debts() {
     setShowFilterDebtsModal(false);
   };
 
+  const getAllDebts = () => {
+    setSelectedDebtFilters(defaultDebtFilters)
+    //getDebts()
+  }
+
+  useEffect(() => {
+    if (showFilterDebtsModal == false){
+      getDebts()
+    }
+  }, [selectedDebtsFilters]);
+
   return (
     <Box display="flex" flex="1" flexDirection="column">
-        <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
+        {/* <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} /> */}
         <FilterDebtModal
         groups={groups}
         open={showFilterDebtsModal}
@@ -140,6 +151,7 @@ export default function Debts() {
 
         />    
         <Box display='flex' flex='0.2' justifyContent='space-between' flexDirection='row' width='100%'>
+            <Box display='flex' flexDirection='row'>
             <Button
             variant="outlined"
             sx={{ marginLeft: 2 }}
@@ -147,6 +159,13 @@ export default function Debts() {
             >
             Filtros
             </Button>
+           
+            <IconButton color="primary" onClick={() => getAllDebts()} sx={{ml: 1}}>
+                <RestartAltIcon />
+            </IconButton>
+
+            </Box>
+
             <Box display='flex' flexDirection='row'>
               <Typography sx={{fontSize: 25, marginRight: 3}}>En total debes</Typography>
               <Typography sx={{fontSize: 25, color: 'red', marginRight: 2}}>${totalDebt.toFixed(2)}</Typography>
@@ -177,7 +196,7 @@ export default function Debts() {
                 (debt, index) =>
                 (
                     <Grid item xs={12} key={index}>
-                        <DebtCard debt={debt} getDebts={() => getDebts()} />
+                        <DebtCard debt={debt} getDebts={() => getDebts()} getLayoutDebts={() => getDebts()} />
                     </Grid>
                 )
             )}

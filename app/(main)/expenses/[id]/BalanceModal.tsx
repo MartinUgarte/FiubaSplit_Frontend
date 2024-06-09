@@ -6,14 +6,15 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import CustomModal from '@/app/CustomModal';
 import { useState } from 'react';
 import LoadingModal from '@/app/LoadingModal';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    height: 400,
+    width: "50%",
+    height: "70%",
     bgcolor: 'background.paper',
     boxShadow: 5,
 };
@@ -24,13 +25,15 @@ type BalanceModalProps = {
     memberId: string,
     members: { [key: string]: string },
     balance: { [key: string]: number },
-    expenseId: string
+    expenseId: string,
+    getExpense: () => void
 }
 
 
-export default function BalanceModal({ open, onClose, memberId, members, balance, expenseId }: BalanceModalProps) {
+export default function BalanceModal({ open, onClose, memberId, members, balance, expenseId, getExpense }: BalanceModalProps) {
     const [showLoading, setShowLoading] = useState(false);
     const [showCustomModal, setShowCustomModal] = useState(false);
+    const [showDebtConfirmationModal, setShowDebtConfirmationModal] = useState(false);
     
     const sendNotification = (debtorId: string) => {
         const jwt = localStorage.getItem("jwtToken");
@@ -58,6 +61,27 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
             console.log("Got data from notification sent: ", data);
             setShowCustomModal(true)
             setShowLoading(false);
+          });
+      };
+    
+      const cancelDebt = (id: string) => {
+        const jwt = localStorage.getItem("jwtToken");
+        fetch(`http://localhost:8000/cancel-debt/${expenseId}/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+          .then((res) => {
+            console.log(res);
+            return res.json();
+          })
+          .then((data) => {
+              console.log('Elimine deuda: ', data)
+              getExpense()
+              setShowDebtConfirmationModal(true)
+              
           });
       };
 
@@ -98,6 +122,11 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
                         {memberId == localStorage.getItem('userId') && (<IconButton color="primary" onClick={() => sendNotification(other_id)} sx={{ marginLeft: '2%' }}>
                             <NotificationsActiveIcon />
                         </IconButton>)}
+                        {other_id == localStorage.getItem('userId') && (<Button startIcon={<PointOfSaleIcon />} variant="contained" onClick={() => cancelDebt(memberId)}>
+                                    Pagar
+                                </Button> )}
+
+                        
                     </Box>
                 </Box>
             );
@@ -132,10 +161,19 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
                         {other_id == localStorage.getItem('userId') && (<IconButton color="primary" onClick={() => sendNotification(memberId)} sx={{ marginLeft: '2%' }}>
                             <NotificationsActiveIcon />
                         </IconButton>)}
+                        {memberId == localStorage.getItem('userId') && (<Button startIcon={<PointOfSaleIcon />} variant="contained" onClick={() => cancelDebt(other_id)}>
+                                    Pagar
+                                </Button> )}
                     </Box>
                 </Box>
             );
         }
+    }
+
+    const confirmCancelDebt = () => {
+        setShowDebtConfirmationModal(false)
+        onClose()
+        window.location.reload();
     }
 
     return (
@@ -149,6 +187,13 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
             onClose={() => setShowCustomModal(false)}
             onClick={() => setShowCustomModal(false)}
             text='Notificacion Enviada'
+            buttonText='Ok'
+            />
+            <CustomModal
+            open={showDebtConfirmationModal}
+            onClose={() => confirmCancelDebt()}
+            onClick={() => confirmCancelDebt()}
+            text='Deuda pagada'
             buttonText='Ok'
             />
             <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
