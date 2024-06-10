@@ -19,6 +19,7 @@ import CustomModal from "@/app/CustomModal";
 import LoadingModal from "@/app/LoadingModal";
 import Image from "next/image";
 import { subheaderTheme } from "@/app/fonts";
+import { API_URL } from "@/app/constants";
 
 type FormValues = {
   email: string;

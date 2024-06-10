@@ -11,6 +11,7 @@ import { Expense, Invitation } from "@/app/types";
 import EditExpenseModal from "./groups/[id]/EditExpenseModal";
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import CustomModal from "../CustomModal";
+import { API_URL } from "../constants";
 
 type ExpenseCardProps = {
   expense: Expense;

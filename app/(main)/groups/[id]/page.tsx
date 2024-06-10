@@ -25,6 +25,7 @@ import { subheaderTheme } from "@/app/fonts";
 import AddIcon from '@mui/icons-material/Add';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import { API_URL } from "@/app/constants";
 
 export default function GroupDetails() {
   const [expenses, setExpenses] = useState<Expense[]>([])

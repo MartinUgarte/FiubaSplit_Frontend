@@ -5,6 +5,7 @@ import InvitationCard from "./InvitationCard";
 import { Box, Button, Grid } from "@mui/material";
 import { Group, Invitation, dumpGroup, dumpInvitation } from "@/app/types";
 import LoadingModal from '@/app/LoadingModal';
+import { API_URL } from "@/app/constants";
 
 export default function NotificationsHome() {
   const [invitations, setInvitations] = useState<Invitation[]>([dumpInvitation]);

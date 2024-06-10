@@ -6,6 +6,7 @@ import { Expense, ExpenseFilters, Group, Invitation, defaultExpenseFilters, dump
 import LoadingModal from '@/app/LoadingModal';
 import ExpenseCard from "../ExpenseCard";
 import FilterExpenseModal from "../FilterExpenseModal";
+import { API_URL } from "@/app/constants";
 
 export default function Expenses() {
   const [groups, setGroups] = useState<Group[]>([]);

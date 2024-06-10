@@ -21,6 +21,7 @@ import {
   import CustomModal from "@/app/CustomModal";
 import { modalTheme } from "@/app/fonts";
 import UploadButton from "@/app/UploadButton";
+import { API_URL } from "@/app/constants";
   
   const style = {
     position: "absolute" as "absolute",

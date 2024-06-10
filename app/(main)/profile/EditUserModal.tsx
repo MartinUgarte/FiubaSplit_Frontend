@@ -16,6 +16,7 @@ import { Group, User } from "@/app/types";
 import CustomModal from "@/app/CustomModal";
 import { modalTheme } from "@/app/fonts";
 import UploadButton from "../../UploadButton";
+import { API_URL } from "@/app/constants";
 
 const style = {
   position: "absolute" as "absolute",
