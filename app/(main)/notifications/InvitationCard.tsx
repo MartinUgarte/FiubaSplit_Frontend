@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Invitation } from "@/app/types";
+import { Invitation } from "app/types";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 type InvitationCardProps = {

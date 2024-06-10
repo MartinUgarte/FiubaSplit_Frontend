@@ -1,4 +1,4 @@
-import { Amount, Filters, Group } from "@/app/types";
+import { Amount, Filters, Group } from "app/types";
 import {
   Box,
   Typography,
@@ -14,9 +14,9 @@ import {
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import CustomModal from "@/app/CustomModal";
+import CustomModal from "app/CustomModal";
 import Checkbox from '@mui/material/Checkbox';
-import { modalTheme } from "@/app/fonts";
+import { modalTheme } from "app/fonts";
 
 const style = {
   position: "absolute" as "absolute",

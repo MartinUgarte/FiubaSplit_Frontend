@@ -1,5 +1,5 @@
-import { modalTheme } from "@/app/fonts";
-import { Filters } from "@/app/types";
+import { modalTheme } from "app/fonts";
+import { Filters } from "app/types";
 import {
   Box,
   Typography,

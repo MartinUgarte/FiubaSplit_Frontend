@@ -11,8 +11,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Box } from '@mui/material';
 import { useState } from 'react';
 import EditGroupModal from './EditGroupModal';
-import CustomModal from '@/app/CustomModal';
-import { Group } from '@/app/types';
+import CustomModal from 'app/CustomModal';
+import { Group } from 'app/types';
 
 
 type GroupCardProps = {

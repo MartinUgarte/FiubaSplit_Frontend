@@ -5,7 +5,7 @@ import {
   User,
   defaultAmount,
   expense_categories,
-} from "@/app/types";
+} from "app/types";
 import {
   Box,
   Typography,
@@ -22,8 +22,8 @@ import MultiSelect from "./MultiSelect";
 import { useForm } from "react-hook-form";
 import ChoosePayersAmountModal from "./ChoosePayersAmountModal";
 import ChooseExpensePercentagesModal from "./ChooseExpensePercentagesModal";
-import CustomModal from "@/app/CustomModal";
-import { API_URL } from "@/app/constants";
+import CustomModal from "app/CustomModal";
+import { API_URL } from "app/constants";
 
 const style = {
   position: "absolute" as "absolute",

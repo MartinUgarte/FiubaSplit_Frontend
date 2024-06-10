@@ -1,13 +1,13 @@
 import { Box, Typography, Button, Divider, ThemeProvider, IconButton } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { Group } from '@/app/types';
-import { modalTheme } from '@/app/fonts';
+import { Group } from 'app/types';
+import { modalTheme } from 'app/fonts';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import CustomModal from '@/app/CustomModal';
+import CustomModal from 'app/CustomModal';
 import { useState } from 'react';
-import LoadingModal from '@/app/LoadingModal';
+import LoadingModal from 'app/LoadingModal';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
-import { API_URL } from '@/app/constants';
+import { API_URL } from 'app/constants';
 
 const style = {
     position: 'absolute' as 'absolute',

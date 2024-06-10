@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import GroupCard from "./GroupCard";
 import { Box, Button, Grid } from "@mui/material";
-import { Filters, Group, defaultFilters, dumpGroup } from "@/app/types";
+import { Filters, Group, defaultFilters, dumpGroup } from "app/types";
 import CreateGroupModal from "./CreateGroupModal";
 import GroupFilterModal from "./GroupFilterModal";
 import AddIcon from '@mui/icons-material/Add';
-import { API_URL } from "@/app/constants";
+import { API_URL } from "app/constants";
 
 type FormValues = {
   name: string;

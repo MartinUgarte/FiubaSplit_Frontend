@@ -7,9 +7,9 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
-import LoadingModal from "@/app/LoadingModal";
+import LoadingModal from "app/LoadingModal";
 import GppGoodIcon from '@mui/icons-material/GppGood';
-import { API_URL } from "@/app/constants";
+import { API_URL } from "app/constants";
 
 type MemberCardProps = {
   memberId: string;

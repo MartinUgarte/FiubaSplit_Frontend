@@ -17,9 +17,9 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { Group } from "@/app/types";
-import CustomModal from "@/app/CustomModal";
-import { modalTheme } from "@/app/fonts";
+import { Group } from "app/types";
+import CustomModal from "app/CustomModal";
+import { modalTheme } from "app/fonts";
 
 const style = {
   position: "absolute" as "absolute",

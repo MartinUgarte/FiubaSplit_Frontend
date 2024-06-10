@@ -3,15 +3,16 @@
 import { Box, IconButton, Divider, TextField, Typography, Grid, ThemeProvider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import IconTextRow from "../../IconTextRow";
-import LoadingModal from "@/app/LoadingModal";
-import { User, dumpExpense, dumpUser } from "@/app/types";
+import LoadingModal from "app/LoadingModal";
+import { User, dumpExpense, dumpUser } from "app/types";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ParticipantCard from "./ParticipantCard";
 import CategoryIcon from '@mui/icons-material/Category';
-import { subheaderTheme } from "@/app/fonts";
+import { subheaderTheme } from "app/fonts";
+import { API_URL } from "app/constants";
 
 
 export default function Expense() {

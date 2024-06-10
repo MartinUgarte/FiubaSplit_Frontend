@@ -18,9 +18,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useRouter } from "next/navigation";
 import { JSX, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import CustomModal from '@/app/CustomModal';
-import LoadingModal from '@/app/LoadingModal';
-import { API_URL } from "@/app/constants";
+import CustomModal from 'app/CustomModal';
+import LoadingModal from 'app/LoadingModal';
+import { API_URL } from "app/constants";
 
 type FormValues = {
   name: string;

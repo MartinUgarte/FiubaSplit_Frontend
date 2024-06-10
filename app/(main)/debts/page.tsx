@@ -2,14 +2,14 @@
 
 import { useContext, useEffect, useState } from "react";
 import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
-import { Debt, DebtFilters, Expense, ExpenseFilters, Group, Invitation, defaultDebtFilters, dumpGroup, dumpInvitation } from "@/app/types";
-import LoadingModal from '@/app/LoadingModal';
+import { Debt, DebtFilters, Expense, ExpenseFilters, Group, Invitation, defaultDebtFilters, dumpGroup, dumpInvitation } from "app/types";
+import LoadingModal from 'app/LoadingModal';
 import ExpenseCard from "../ExpenseCard";
 import FilterExpenseModal from "../FilterExpenseModal";
 import DebtCard from "./DebtCard";
 import FilterDebtModal from "./FilterDebtModal.";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import { API_URL } from "@/app/constants";
+import { API_URL } from "app/constants";
 
 export default function Debts({ getLayoutDebts }: { getLayoutDebts: () => void }) {
   const [groups, setGroups] = useState<Group[]>([]);

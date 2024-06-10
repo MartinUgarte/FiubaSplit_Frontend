@@ -7,11 +7,11 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Debt, Expense, Invitation } from "@/app/types";
+import { Debt, Expense, Invitation } from "app/types";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
-import CustomModal from "@/app/CustomModal";
-import { API_URL } from "@/app/constants";
+import CustomModal from "app/CustomModal";
+import { API_URL } from "app/constants";
 
 type DebtCardProps = {
   debt: Debt;

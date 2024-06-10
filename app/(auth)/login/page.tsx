@@ -15,11 +15,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { set, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import CustomModal from "@/app/CustomModal";
-import LoadingModal from "@/app/LoadingModal";
+import CustomModal from "app/CustomModal";
+import LoadingModal from "app/LoadingModal";
 import Image from "next/image";
-import { subheaderTheme } from "@/app/fonts";
-import { API_URL } from "@/app/constants";
+import { subheaderTheme } from "app/fonts";
+import { API_URL } from "app/constants";
 
 type FormValues = {
   email: string;

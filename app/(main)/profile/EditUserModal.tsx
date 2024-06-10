@@ -12,11 +12,11 @@ import {
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { Group, User } from "@/app/types";
-import CustomModal from "@/app/CustomModal";
-import { modalTheme } from "@/app/fonts";
+import { Group, User } from "app/types";
+import CustomModal from "app/CustomModal";
+import { modalTheme } from "app/fonts";
 import UploadButton from "../../UploadButton";
-import { API_URL } from "@/app/constants";
+import { API_URL } from "app/constants";
 
 const style = {
   position: "absolute" as "absolute",

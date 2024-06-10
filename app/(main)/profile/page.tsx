@@ -3,8 +3,8 @@
 import { Box, IconButton, Divider, TextField, Typography, ThemeProvider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import IconTextRow from "../IconTextRow";
-import LoadingModal from "@/app/LoadingModal";
-import { dumpUser } from "@/app/types";
+import LoadingModal from "app/LoadingModal";
+import { dumpUser } from "app/types";
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import CakeIcon from "@mui/icons-material/Cake";
@@ -12,8 +12,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import EditUserModal from "./EditUserModal";
 import EditIcon from '@mui/icons-material/Edit';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import { subheaderTheme } from "@/app/fonts";
-import { API_URL } from "@/app/constants";
+import { subheaderTheme } from "app/fonts";
+import { API_URL } from "app/constants";
 
 export default function Profile() {
   const [user, setUser] = useState(dumpUser);

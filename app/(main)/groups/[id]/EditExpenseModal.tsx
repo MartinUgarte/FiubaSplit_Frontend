@@ -17,11 +17,11 @@ import {
   import { useState } from "react";
   import dayjs, { Dayjs } from "dayjs";
   import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-  import { Expense, Group, expense_categories } from "@/app/types";
-  import CustomModal from "@/app/CustomModal";
-import { modalTheme } from "@/app/fonts";
-import UploadButton from "@/app/UploadButton";
-import { API_URL } from "@/app/constants";
+  import { Expense, Group, expense_categories } from "app/types";
+  import CustomModal from "app/CustomModal";
+import { modalTheme } from "app/fonts";
+import UploadButton from "app/UploadButton";
+import { API_URL } from "app/constants";
   
   const style = {
     position: "absolute" as "absolute",

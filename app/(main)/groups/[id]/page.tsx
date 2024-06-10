@@ -11,8 +11,8 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import LoadingModal from "@/app/LoadingModal";
-import { Expense, ExpenseFilters, dumpGroup, dumpUser, defaultExpenseFilters } from "@/app/types";
+import LoadingModal from "app/LoadingModal";
+import { Expense, ExpenseFilters, dumpGroup, dumpUser, defaultExpenseFilters } from "app/types";
 import CategoryIcon from '@mui/icons-material/Category';
 import DescriptionIcon from '@mui/icons-material/Description';
 import IconTextRow from "../../IconTextRow";
@@ -21,11 +21,11 @@ import MembersModal from "./MembersModal";
 import ChooseExpenseParticipantsModal from "./ChooseExpenseParticipantsModal";
 import ExpenseCard from "../../ExpenseCard";
 import FilterExpenseModal from "../../FilterExpenseModal";
-import { subheaderTheme } from "@/app/fonts";
+import { subheaderTheme } from "app/fonts";
 import AddIcon from '@mui/icons-material/Add';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import { API_URL } from "@/app/constants";
+import { API_URL } from "app/constants";
 
 export default function GroupDetails() {
   const [expenses, setExpenses] = useState<Expense[]>([])

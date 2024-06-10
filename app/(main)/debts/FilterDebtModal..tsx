@@ -1,10 +1,10 @@
-import { modalTheme } from "@/app/fonts";
+import { modalTheme } from "app/fonts";
 import {
   DebtFilters,
   Group,
   debt_orders,
   defaultDebtFilters,
-} from "@/app/types";
+} from "app/types";
 import {
   Box,
   Typography,

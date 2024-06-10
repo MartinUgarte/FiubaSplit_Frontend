@@ -1,8 +1,8 @@
 import { Box, Typography, Button, Divider, ThemeProvider } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import MemberCard from './MemberCard';
-import { Group } from '@/app/types';
-import { modalTheme } from '@/app/fonts';
+import { Group } from 'app/types';
+import { modalTheme } from 'app/fonts';
 
 const style = {
     position: 'absolute' as 'absolute',

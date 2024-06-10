@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { Expense, ExpenseFilters, Group, Invitation, defaultExpenseFilters, dumpGroup, dumpInvitation } from "@/app/types";
-import LoadingModal from '@/app/LoadingModal';
+import { Expense, ExpenseFilters, Group, Invitation, defaultExpenseFilters, dumpGroup, dumpInvitation } from "app/types";
+import LoadingModal from 'app/LoadingModal';
 import ExpenseCard from "../ExpenseCard";
 import FilterExpenseModal from "../FilterExpenseModal";
-import { API_URL } from "@/app/constants";
+import { API_URL } from "app/constants";
 
 export default function Expenses() {
   const [groups, setGroups] = useState<Group[]>([]);

@@ -1,4 +1,4 @@
-import { ExpenseFilters, Filters, Group, defaultExpenseFilters, expense_categories } from "@/app/types";
+import { ExpenseFilters, Filters, Group, defaultExpenseFilters, expense_categories } from "app/types";
 import {
   Box,
   Typography,

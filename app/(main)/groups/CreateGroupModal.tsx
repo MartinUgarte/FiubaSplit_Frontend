@@ -2,8 +2,8 @@ import { Box, Typography, Button, InputAdornment, TextField, MenuItem, Select, S
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import CustomModal from '@/app/CustomModal';
-import { modalTheme } from '@/app/fonts';
+import CustomModal from 'app/CustomModal';
+import { modalTheme } from 'app/fonts';
 
 
 const style = {

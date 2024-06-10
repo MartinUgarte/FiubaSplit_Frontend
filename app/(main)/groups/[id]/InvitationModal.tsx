@@ -1,7 +1,7 @@
-import CustomModal from "@/app/CustomModal";
-import LoadingModal from "@/app/LoadingModal";
-import { API_URL } from "@/app/constants";
-import { modalTheme } from "@/app/fonts";
+import CustomModal from "app/CustomModal";
+import LoadingModal from "app/LoadingModal";
+import { API_URL } from "app/constants";
+import { modalTheme } from "app/fonts";
 import { Box, Typography, Button, TextField, ThemeProvider } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
