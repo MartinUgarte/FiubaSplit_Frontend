@@ -7,6 +7,7 @@ import { Filters, Group, defaultFilters, dumpGroup } from "@/app/types";
 import CreateGroupModal from "./CreateGroupModal";
 import GroupFilterModal from "./GroupFilterModal";
 import AddIcon from '@mui/icons-material/Add';
+import { API_URL } from "@/app/constants";
 
 type FormValues = {
   name: string;
@@ -59,8 +60,8 @@ export default function GroupsHome() {
     const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
     console.log('queryParams: ', queryParams.toString())
 
-    fetch(`http://localhost:8000/groups?${queryParams.toString()}`, {
-    // fetch(`http://localhost:8000/groups`, {
+    fetch(`${API_URL}/groups?${queryParams.toString()}`, {
+    // fetch(`${API_URL}/groups`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

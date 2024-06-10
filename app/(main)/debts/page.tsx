@@ -9,6 +9,7 @@ import FilterExpenseModal from "../FilterExpenseModal";
 import DebtCard from "./DebtCard";
 import FilterDebtModal from "./FilterDebtModal.";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { API_URL } from "@/app/constants";
 
 export default function Debts({ getLayoutDebts }: { getLayoutDebts: () => void }) {
   const [groups, setGroups] = useState<Group[]>([]);
@@ -44,7 +45,7 @@ export default function Debts({ getLayoutDebts }: { getLayoutDebts: () => void }
     const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
     console.log('queryParams: ', queryParams.toString())        
 
-    fetch(`http://localhost:8000/debts?${queryParams.toString()}`, {
+    fetch(`${API_URL}/debts?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +90,7 @@ export default function Debts({ getLayoutDebts }: { getLayoutDebts: () => void }
       return
     }
 
-    fetch(`http://localhost:8000/groups`, {
+    fetch(`${API_URL}/groups`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

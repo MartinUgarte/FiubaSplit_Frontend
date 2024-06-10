@@ -20,6 +20,8 @@ import {
   import { Expense, Group, expense_categories } from "@/app/types";
   import CustomModal from "@/app/CustomModal";
 import { modalTheme } from "@/app/fonts";
+import UploadButton from "@/app/UploadButton";
+import { API_URL } from "@/app/constants";
   
   const style = {
     position: "absolute" as "absolute",
@@ -67,7 +69,7 @@ import { modalTheme } from "@/app/fonts";
   
     const handleEditExpense = (formData: FormValues) => {
       const jwt = localStorage.getItem("jwtToken");
-      fetch(`http://localhost:8000/expenses/${expense.id}`, {
+      fetch(`${API_URL}/expenses/${expense.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -123,6 +125,7 @@ import { modalTheme } from "@/app/fonts";
                     <Typography color='white'>Editar Gasto</Typography>
                     </ThemeProvider>
           </Box>
+          <UploadButton/>
           <Box
             display="flex"
             flex="0.6"

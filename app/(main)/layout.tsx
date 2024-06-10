@@ -22,6 +22,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Badge from '@mui/material/Badge/Badge';
 import { createContext, useEffect, useState } from 'react';
 import Debts from './debts/page';
+import { API_URL } from '../constants';
 
 // export const metadata = {
 //     title: 'FIUBASPLIT',
@@ -50,7 +51,7 @@ const getLayoutDebts = () => {
       return 0;
     }  
 
-    fetch(`http://localhost:8000/debts`, {
+    fetch(`${API_URL}/debts`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           return;
         }        
       
-        fetch(`http://localhost:8000/debts`, {
+        fetch(`${API_URL}/debts`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

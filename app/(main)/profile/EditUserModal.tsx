@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import { Group, User } from "@/app/types";
 import CustomModal from "@/app/CustomModal";
 import { modalTheme } from "@/app/fonts";
+import UploadButton from "../../UploadButton";
+import { API_URL } from "@/app/constants";
 
 const style = {
   position: "absolute" as "absolute",
@@ -22,11 +24,11 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "40%",
-  height: '80%',
+  height: "80%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 10,
-  marginTop: '2%  '
+  marginTop: "2%  ",
 };
 
 const categories = [
@@ -39,8 +41,8 @@ const categories = [
     label: "Familia",
   },
   {
-      value: "Pareja",
-      label: "Pareja",
+    value: "Pareja",
+    label: "Pareja",
   },
   {
     value: "Entretenimiento",
@@ -51,9 +53,9 @@ const categories = [
     label: "Viaje",
   },
   {
-      value: "Comida",
-      label: "Comida"
-  }
+    value: "Comida",
+    label: "Comida",
+  },
 ];
 
 type EditUserModalProps = {
@@ -64,8 +66,8 @@ type EditUserModalProps = {
 };
 
 type ResponseError = {
-  msg: string
-}
+  msg: string;
+};
 
 type FormValues = {
   id: string;
@@ -98,11 +100,11 @@ export default function EditUserModal({
 
   const handleEditUser = (formData: FormValues) => {
     const jwt = localStorage.getItem("jwtToken");
-    console.log("El form es: ", formData)
+    console.log("El form es: ", formData);
     if (formData.cbu == "") {
-      formData.cbu = undefined
+      formData.cbu = undefined;
     }
-    fetch(`http://localhost:8000/users`, {
+    fetch(`${API_URL}/users`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +126,7 @@ export default function EditUserModal({
           data.detail.forEach((element: ResponseError) => {
             setErrorText(element.msg);
             setShowErrorModal(true);
-          })
+          });
         } else {
           getMe();
           onClose();
@@ -147,7 +149,13 @@ export default function EditUserModal({
         onSubmit={handleSubmit(handleEditUser)}
         component="form"
       >
-        <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
+        <CustomModal
+          open={showErrorModal}
+          onClick={() => setShowErrorModal(false)}
+          onClose={() => setShowErrorModal(false)}
+          text={errorText}
+          buttonText="Ok"
+        />
         <CustomModal
           open={showErrorModal}
           onClick={() => setShowErrorModal(false)}
@@ -166,8 +174,8 @@ export default function EditUserModal({
           sx={{ backgroundColor: "blue" }}
         >
           <ThemeProvider theme={modalTheme}>
-                    <Typography color='white'>Editar Usuario</Typography>
-                    </ThemeProvider>
+            <Typography color="white">Editar Usuario</Typography>
+          </ThemeProvider>
         </Box>
         <Box
           display="flex"
@@ -177,39 +185,39 @@ export default function EditUserModal({
           alignItems="center"
         >
           <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-          alignItems="center"
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
           >
-          <TextField
-            fullWidth
-            label="Nombre"
-            sx={{mr: '5%'}}
-            {...register("name", {
-              required: "Ingrese un nombre",
-              minLength: {
-                value: 3,
-                message: "El nombre debe tener 3 caracteres como minimo",
-              },
-            })}
-            error={!!errors.name}
-            helperText={errors.name?.message}
-          >
-            Nombre
-          </TextField>
+            <UploadButton />
 
-          <TextField
-            fullWidth
-            label="Apellido"
-            {...register("surname", {})}
-            error={!!errors.surname}
-            helperText={errors.surname?.message}
-          >
-            Apellido
-          </TextField>
+            <TextField
+              fullWidth
+              label="Nombre"
+              sx={{ mr: "5%" }}
+              {...register("name", {
+                required: "Ingrese un nombre",
+                minLength: {
+                  value: 3,
+                  message: "El nombre debe tener 3 caracteres como minimo",
+                },
+              })}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            >
+              Nombre
+            </TextField>
+            <TextField
+              fullWidth
+              label="Apellido"
+              {...register("surname", {})}
+              error={!!errors.surname}
+              helperText={errors.surname?.message}
+            >
+              Apellido
+            </TextField>
           </Box>
-
 
           <TextField
             fullWidth

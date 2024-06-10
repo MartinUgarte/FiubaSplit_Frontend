@@ -1,5 +1,6 @@
 import CustomModal from "@/app/CustomModal";
 import LoadingModal from "@/app/LoadingModal";
+import { API_URL } from "@/app/constants";
 import { modalTheme } from "@/app/fonts";
 import { Box, Typography, Button, TextField, ThemeProvider } from "@mui/material";
 import Modal from "@mui/material/Modal";
@@ -48,7 +49,7 @@ export default function InvitationModal({
         setShowLoading(true)
         const jwt = localStorage.getItem("jwtToken");
         const groupId = localStorage.getItem('groupId');
-        fetch(`http://localhost:8000/invitations/groups/${groupId}/invite`, {
+        fetch(`${API_URL}/invitations/groups/${groupId}/invite`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

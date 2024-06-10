@@ -73,7 +73,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
     const handleCreateGroup = (formData: FormValues) => {
         const jwt = localStorage.getItem('jwtToken');
         console.log('Creando grupo: ', formData);
-        fetch(`http://localhost:8000/groups`, {
+        fetch(`${API_URL}/groups`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

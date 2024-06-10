@@ -8,6 +8,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import LoadingModal from "@/app/LoadingModal";
+import GppGoodIcon from '@mui/icons-material/GppGood';
+import { API_URL } from "@/app/constants";
 
 type MemberCardProps = {
   memberId: string;
@@ -43,7 +45,7 @@ export default function MemberCard({
     }
     setShowLoading(true);
 
-    fetch(`http://localhost:8000/groups/${groupId}/delete-member/${memberId}`, {
+    fetch(`${API_URL}/groups/${groupId}/delete-member/${memberId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +63,7 @@ export default function MemberCard({
     if (!jwt) {
       return;
     }
-    fetch(`http://localhost:8000/users/${memberId}`, {
+    fetch(`${API_URL}/users/${memberId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -112,10 +114,16 @@ export default function MemberCard({
             alignItems="center"
           >
             {checkAdmin() && checkMe() && (
+              <Box>
               <IconButton color="primary" onClick={() => handleDeleteMember()}>
                 <DeleteIcon />
               </IconButton>
+              <IconButton color="primary" onClick={() => handleDeleteMember()}>
+              <GppGoodIcon />
+            </IconButton>
+            </Box>
             )}
+            
           </Box>
         </Box>
       </CardContent>

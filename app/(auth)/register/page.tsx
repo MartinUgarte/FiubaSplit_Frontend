@@ -20,6 +20,7 @@ import { JSX, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import CustomModal from '@/app/CustomModal';
 import LoadingModal from '@/app/LoadingModal';
+import { API_URL } from "@/app/constants";
 
 type FormValues = {
   name: string;
@@ -66,7 +67,7 @@ export default function RegisterPage() {
       return
     }
     setShowLoading(true);
-    fetch(`http://localhost:8000/register`, {
+    fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

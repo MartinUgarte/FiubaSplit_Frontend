@@ -19,6 +19,7 @@ import CustomModal from "@/app/CustomModal";
 import LoadingModal from "@/app/LoadingModal";
 import Image from "next/image";
 import { subheaderTheme } from "@/app/fonts";
+import { API_URL } from "@/app/constants";
 
 type FormValues = {
   email: string;
@@ -44,7 +45,7 @@ export default function LoginPage() {
 
   const getMe = () => {
     const jwt = localStorage.getItem("jwtToken");
-    fetch(`http://localhost:8000/me`, {
+    fetch(`${API_URL}/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +74,7 @@ export default function LoginPage() {
 
   const handleFormSubmit = (formData: FormValues) => {
     setShowLoading(true);
-    fetch(`http://localhost:8000/login`, {
+    fetch(`${API_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -13,6 +13,7 @@ import EditUserModal from "./EditUserModal";
 import EditIcon from '@mui/icons-material/Edit';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { subheaderTheme } from "@/app/fonts";
+import { API_URL } from "@/app/constants";
 
 export default function Profile() {
   const [user, setUser] = useState(dumpUser);
@@ -26,7 +27,7 @@ export default function Profile() {
 
   const getMe = () => {
     const jwt = localStorage.getItem("jwtToken");
-    fetch(`http://localhost:8000/me`, {
+    fetch(`${API_URL}/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

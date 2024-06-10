@@ -24,6 +24,8 @@ import FilterExpenseModal from "../../FilterExpenseModal";
 import { subheaderTheme } from "@/app/fonts";
 import AddIcon from '@mui/icons-material/Add';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import { API_URL } from "@/app/constants";
 
 export default function GroupDetails() {
   const [expenses, setExpenses] = useState<Expense[]>([])
@@ -50,7 +52,7 @@ export default function GroupDetails() {
       return;
     }
     // setShowLoading(true);
-    fetch(`http://localhost:8000/groups/${groupId}`, {
+    fetch(`${API_URL}/groups/${groupId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +101,7 @@ export default function GroupDetails() {
     const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
     console.log(queryParams)
   
-    fetch(`http://localhost:8000/expenses?${queryParams.toString()}`, {
+    fetch(`${API_URL}/expenses?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -205,12 +207,12 @@ export default function GroupDetails() {
           <Button startIcon={<AddIcon />} variant="contained" onClick={() => setShowNewExpenseModal(true)}>
             Gasto
           </Button>
-          <Button sx={{marginLeft: 2}} variant="text" onClick={() => setShowMembersModal(true)}>
-            Miembros
-          </Button>
-          {checkAdmin() && <Button sx={{marginLeft: 2, marginRight: 5}}variant="contained" onClick={() => setShowInvitationModal(true)}>
-            Añadir miembro
+          {checkAdmin() && <Button startIcon={<AddIcon />} sx={{marginLeft: 2, marginRight: 5}} variant="contained" onClick={() => setShowInvitationModal(true)}>
+            Miembro
           </Button>}
+          <IconButton color="primary" onClick={() => setShowMembersModal(true)} sx={{marginRight:'1%'}}>
+              <FormatListBulletedIcon />
+            </IconButton>          
         </Box>
       </Box>
 

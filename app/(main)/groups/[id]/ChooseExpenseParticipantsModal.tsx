@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import ChoosePayersAmountModal from "./ChoosePayersAmountModal";
 import ChooseExpensePercentagesModal from "./ChooseExpensePercentagesModal";
 import CustomModal from "@/app/CustomModal";
+import { API_URL } from "@/app/constants";
 
 const style = {
   position: "absolute" as "absolute",
@@ -125,7 +126,7 @@ export default function ChooseExpenseParticipantsModal({
   const createExpense = () => {
     console.log("Creando gasto con: ", selectedPayers);
     const jwt = localStorage.getItem("jwtToken");
-    return fetch(`http://localhost:8000/expenses`, {
+    return fetch(`${API_URL}/expenses`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -165,7 +166,7 @@ export default function ChooseExpenseParticipantsModal({
     if (!jwt) {
       return Promise.reject(new Error("JWT not found"));
     }
-    return fetch(`http://localhost:8000/users/${memberId}`, {
+    return fetch(`${API_URL}/users/${memberId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

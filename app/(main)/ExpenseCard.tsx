@@ -11,6 +11,7 @@ import { Expense, Invitation } from "@/app/types";
 import EditExpenseModal from "./groups/[id]/EditExpenseModal";
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import CustomModal from "../CustomModal";
+import { API_URL } from "../constants";
 
 type ExpenseCardProps = {
   expense: Expense;
@@ -38,7 +39,7 @@ export default function ExpenseCard({
     setShowDeleteConfirmationModal(false)
     const jwt = localStorage.getItem("jwtToken");
     console.log('EL ID ES: ', expense.id)
-    fetch(`http://localhost:8000/expenses/${expense.id}`, {
+    fetch(`${API_URL}/expenses/${expense.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +56,7 @@ export default function ExpenseCard({
     if (!jwt) {
       return;
     }
-    fetch(`http://localhost:8000/groups/${expense.group_id}`, {
+    fetch(`${API_URL}/groups/${expense.group_id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
