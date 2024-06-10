@@ -59,8 +59,8 @@ export default function GroupsHome() {
     const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
     console.log('queryParams: ', queryParams.toString())
 
-    fetch(`http://localhost:8000/groups?${queryParams.toString()}`, {
-    // fetch(`http://localhost:8000/groups`, {
+    fetch(`${API_URL}/groups?${queryParams.toString()}`, {
+    // fetch(`${API_URL}/groups`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

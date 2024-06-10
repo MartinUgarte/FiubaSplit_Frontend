@@ -22,7 +22,7 @@ export default function NotificationsHome() {
       return;
     }
     setShowLoading(true);
-    fetch(`http://localhost:8000/invitations/groups`, {
+    fetch(`${API_URL}/invitations/groups`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

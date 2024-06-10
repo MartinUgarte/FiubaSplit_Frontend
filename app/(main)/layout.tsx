@@ -50,7 +50,7 @@ const getLayoutDebts = () => {
       return 0;
     }  
 
-    fetch(`http://localhost:8000/debts`, {
+    fetch(`${API_URL}/debts`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           return;
         }        
       
-        fetch(`http://localhost:8000/debts`, {
+        fetch(`${API_URL}/debts`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

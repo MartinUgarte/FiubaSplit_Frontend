@@ -11,6 +11,7 @@ import { Debt, Expense, Invitation } from "@/app/types";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import CustomModal from "@/app/CustomModal";
+import { API_URL } from "@/app/constants";
 
 type DebtCardProps = {
   debt: Debt;
@@ -31,7 +32,7 @@ export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardPro
         if (!jwt) {
           return;
         }
-        fetch(`http://localhost:8000/users/${debt.user_to_pay}`, {
+        fetch(`${API_URL}/users/${debt.user_to_pay}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +58,7 @@ export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardPro
         if (!jwt) {
           return;
         }
-        fetch(`http://localhost:8000/groups/${debt.group_id}`, {
+        fetch(`${API_URL}/groups/${debt.group_id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardPro
 
       const getExpense = () => {
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`http://localhost:8000/expenses/${debt.expense_id}`, {
+        fetch(`${API_URL}/expenses/${debt.expense_id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -95,7 +96,7 @@ export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardPro
 
       const cancelDebt = () => {
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`http://localhost:8000/cancel-debt/${debt.expense_id}/${debt.user_to_pay}`, {
+        fetch(`${API_URL}/cancel-debt/${debt.expense_id}/${debt.user_to_pay}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

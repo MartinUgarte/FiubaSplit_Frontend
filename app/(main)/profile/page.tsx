@@ -26,7 +26,7 @@ export default function Profile() {
 
   const getMe = () => {
     const jwt = localStorage.getItem("jwtToken");
-    fetch(`http://localhost:8000/me`, {
+    fetch(`${API_URL}/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

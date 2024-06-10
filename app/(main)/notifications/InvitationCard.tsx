@@ -33,7 +33,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
     if (!jwt) {
       return;
     }
-    fetch(`http://localhost:8000/users/${invitation.invited_by_id}`, {
+    fetch(`${API_URL}/users/${invitation.invited_by_id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
     if (!jwt) {
       return;
     }
-    fetch(`http://localhost:8000/groups/${invitation.group_id}`, {
+    fetch(`${API_URL}/groups/${invitation.group_id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
     if (!jwt) {
       return;
     }
-    fetch(`http://localhost:8000/invitations/groups/${invitation.id}/accept`, {
+    fetch(`${API_URL}/invitations/groups/${invitation.id}/accept`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -105,7 +105,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
     if (!jwt) {
       return;
     }
-    fetch(`http://localhost:8000/invitations/groups/${invitation.id}/reject`, {
+    fetch(`${API_URL}/invitations/groups/${invitation.id}/reject`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

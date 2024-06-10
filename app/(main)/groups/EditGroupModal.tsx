@@ -95,7 +95,7 @@ export default function EditGroupModal({
 
   const handleEditGroup = (formData: FormValues) => {
     const jwt = localStorage.getItem("jwtToken");
-    fetch(`http://localhost:8000/groups/${group.id}`, {
+    fetch(`${API_URL}/groups/${group.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

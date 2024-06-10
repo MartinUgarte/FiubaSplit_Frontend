@@ -37,7 +37,7 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     const handleDelete = () => {
         setShowDeleteConfirmationModal(false)
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`http://localhost:8000/groups/${group.id}`, {
+        fetch(`${API_URL}/groups/${group.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

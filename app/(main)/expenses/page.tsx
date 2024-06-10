@@ -43,7 +43,7 @@ export default function Expenses() {
     const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
     console.log(queryParams)
   
-    fetch(`http://localhost:8000/expenses?${queryParams.toString()}`, {
+    fetch(`${API_URL}/expenses?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +85,7 @@ export default function Expenses() {
       return
     }
 
-    fetch(`http://localhost:8000/groups`, {
+    fetch(`${API_URL}/groups`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

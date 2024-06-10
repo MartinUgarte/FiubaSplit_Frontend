@@ -7,6 +7,7 @@ import CustomModal from '@/app/CustomModal';
 import { useState } from 'react';
 import LoadingModal from '@/app/LoadingModal';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import { API_URL } from '@/app/constants';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -41,7 +42,7 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
           return;
         }
         setShowLoading(true);
-        fetch(`http://localhost:8000/expenses/send-reminder`, {
+        fetch(`${API_URL}/expenses/send-reminder`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -66,7 +67,7 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
     
       const cancelDebt = (id: string) => {
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`http://localhost:8000/cancel-debt/${expenseId}/${id}`, {
+        fetch(`${API_URL}/cancel-debt/${expenseId}/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

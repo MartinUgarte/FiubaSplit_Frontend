@@ -66,7 +66,7 @@ export default function RegisterPage() {
       return
     }
     setShowLoading(true);
-    fetch(`http://localhost:8000/register`, {
+    fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

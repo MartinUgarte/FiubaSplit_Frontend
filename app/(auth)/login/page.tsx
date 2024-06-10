@@ -44,7 +44,7 @@ export default function LoginPage() {
 
   const getMe = () => {
     const jwt = localStorage.getItem("jwtToken");
-    fetch(`http://localhost:8000/me`, {
+    fetch(`${API_URL}/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export default function LoginPage() {
 
   const handleFormSubmit = (formData: FormValues) => {
     setShowLoading(true);
-    fetch(`http://localhost:8000/login`, {
+    fetch(`${API_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

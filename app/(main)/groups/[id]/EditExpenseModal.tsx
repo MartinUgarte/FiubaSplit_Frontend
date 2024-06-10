@@ -67,7 +67,7 @@ import { modalTheme } from "@/app/fonts";
   
     const handleEditExpense = (formData: FormValues) => {
       const jwt = localStorage.getItem("jwtToken");
-      fetch(`http://localhost:8000/expenses/${expense.id}`, {
+      fetch(`${API_URL}/expenses/${expense.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -51,7 +51,7 @@ export default function GroupDetails() {
       return;
     }
     // setShowLoading(true);
-    fetch(`http://localhost:8000/groups/${groupId}`, {
+    fetch(`${API_URL}/groups/${groupId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export default function GroupDetails() {
     const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
     console.log(queryParams)
   
-    fetch(`http://localhost:8000/expenses?${queryParams.toString()}`, {
+    fetch(`${API_URL}/expenses?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

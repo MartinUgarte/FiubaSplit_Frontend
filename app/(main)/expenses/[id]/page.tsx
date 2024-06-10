@@ -39,7 +39,7 @@ export default function Expense() {
     const getExpense = () => {
       const jwt = localStorage.getItem("jwtToken");
       const expenseId = localStorage.getItem('expenseId')
-      fetch(`http://localhost:8000/expenses/${expenseId}`, {
+      fetch(`${API_URL}/expenses/${expenseId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function Expense() {
       if (!jwt) {
         return Promise.reject(new Error("JWT not found"));
       }
-      return fetch(`http://localhost:8000/users/${memberId}`, {
+      return fetch(`${API_URL}/users/${memberId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export default function Expense() {
       return;
     }
     //setShowLoading(true);
-    fetch(`http://localhost:8000/groups/${groupId}`, {
+    fetch(`${API_URL}/groups/${groupId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

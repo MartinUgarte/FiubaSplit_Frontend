@@ -48,7 +48,7 @@ export default function InvitationModal({
         setShowLoading(true)
         const jwt = localStorage.getItem("jwtToken");
         const groupId = localStorage.getItem('groupId');
-        fetch(`http://localhost:8000/invitations/groups/${groupId}/invite`, {
+        fetch(`${API_URL}/invitations/groups/${groupId}/invite`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

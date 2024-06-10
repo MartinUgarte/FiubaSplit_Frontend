@@ -102,7 +102,7 @@ export default function EditUserModal({
     if (formData.cbu == "") {
       formData.cbu = undefined
     }
-    fetch(`http://localhost:8000/users`, {
+    fetch(`${API_URL}/users`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
