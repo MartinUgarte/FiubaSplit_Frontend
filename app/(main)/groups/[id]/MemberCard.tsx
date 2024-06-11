@@ -3,39 +3,71 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Box, IconButton } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import LoadingModal from "app/LoadingModal";
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import { API_URL } from "app/constants";
+import CustomModal from "app/CustomModal";
+import { Group } from "app/types";
+import StarIcon from '@mui/icons-material/Star';
 
 type MemberCardProps = {
   memberId: string;
   creatorId: string;
   getGroup: () => void;
+  group: Group,
 };
 
 export default function MemberCard({
   memberId,
   creatorId,
   getGroup,
+  group
 }: MemberCardProps) {
   const [memberName, setMemberName] = useState("");
   const [showLoading, setShowLoading] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   useEffect(() => {
     getUser();
   }, []);
 
+  const checkMemberIsNotAdmin = () => {
+    return !group.admins.includes(memberId)
+  }
+
   const checkAdmin = () => {
-    return localStorage.getItem("userId") == creatorId;
-  };
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+        return group.admins.includes(userId)
+    }
+    return false
+  }
 
   const checkMe = () => {
     return localStorage.getItem("userId") != memberId
   }
+
+  const makeAdmin = () => {
+    const jwt = localStorage.getItem("jwtToken");
+    const groupId = localStorage.getItem("groupId");
+    if (!jwt || !groupId) {
+      return;
+    }
+
+    fetch(`${API_URL}/groups/${groupId}/add-admin/${memberId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    }).then((res) => {
+        console.log(res)
+        getGroup()
+        setShowConfirmationModal(true)
+    });
+  };
 
   const handleDeleteMember = () => {
     const jwt = localStorage.getItem("jwtToken");
@@ -81,6 +113,10 @@ export default function MemberCard({
         setMemberName(data.name);
       });
   };
+  
+  const checkCreator = () => {
+    return group.creator_id == memberId
+  }
 
   return (
     <Card>
@@ -96,7 +132,13 @@ export default function MemberCard({
             open={showLoading}
             onClose={() => setShowLoading(false)}
           />
-
+          <CustomModal
+            open={showConfirmationModal}
+            onClick={() => setShowConfirmationModal(false)}
+            onClose={() => setShowConfirmationModal(false)}
+            text={`Has añadido como admin a ${memberName}`}
+            buttonText="OK"
+          />
           <Box
             display="flex"
             flex="0.5"
@@ -113,17 +155,17 @@ export default function MemberCard({
             justifyContent="flex-end"
             alignItems="center"
           >
-            {checkAdmin() && checkMe() && (
+            {checkAdmin() && checkMe() && checkMemberIsNotAdmin() && (
               <Box>
               <IconButton color="primary" onClick={() => handleDeleteMember()}>
                 <DeleteIcon />
               </IconButton>
-              <IconButton color="primary" onClick={() => handleDeleteMember()}>
+              {checkMemberIsNotAdmin() && <IconButton color="primary" onClick={() => makeAdmin()}>
               <GppGoodIcon />
-            </IconButton>
+            </IconButton>}
             </Box>
             )}
-            
+            {checkCreator() && (<StarIcon color="primary" /> )} 
           </Box>
         </Box>
       </CardContent>

@@ -1,1 +1,1 @@
-export const API_URL = 'https://fiubasplit-api.onrender.com'
+export const API_URL = 'http://localhost:8000'

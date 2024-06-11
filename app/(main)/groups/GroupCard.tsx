@@ -13,6 +13,7 @@ import { useState } from 'react';
 import EditGroupModal from './EditGroupModal';
 import CustomModal from 'app/CustomModal';
 import { Group } from 'app/types';
+import { API_URL } from 'app/constants';
 
 
 type GroupCardProps = {
@@ -56,7 +57,11 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     }
 
     const checkAdmin = () => {
-        return localStorage.getItem('userId') == group.creator_id
+        const userId = localStorage.getItem('userId')
+        if (userId) {
+            return group.admins.includes(userId)
+        }
+        return false
     }
 
     return (

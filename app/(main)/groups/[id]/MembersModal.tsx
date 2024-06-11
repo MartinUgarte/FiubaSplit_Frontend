@@ -45,6 +45,7 @@ export default function MembersModal({ open, onClose, group, getGroup}: MembersM
                                     memberId={member}
                                     creatorId={group.creator_id}
                                     getGroup={getGroup}
+                                    group={group}
                                 />
                                 {index < group.members.length - 1 && <Divider sx={{ marginBottom: 2, marginX: 10 }} />}
                             </Box>

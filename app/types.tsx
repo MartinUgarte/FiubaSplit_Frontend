@@ -16,8 +16,8 @@ export const dumpGroup = {
     description: '',
     category: '',
     creator_id: "",
-    members: [],
-    admins: []
+    members: [''],
+    admins: ['']
 }
 
 export type User = {

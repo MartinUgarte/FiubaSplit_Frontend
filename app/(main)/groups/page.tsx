@@ -85,6 +85,7 @@ export default function GroupsHome() {
               creator_id: group.creator_id,
               category: group.category,
               members: group.members,
+              admins: group.admins
             };
           })
         );

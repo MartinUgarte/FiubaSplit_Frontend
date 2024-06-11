@@ -149,9 +149,13 @@ export default function GroupDetails() {
     getExpenses();
 }, [group]);
 
-  const checkAdmin = () => {
-    return localStorage.getItem('userId') == group.creator_id
+const checkAdmin = () => {
+  const userId = localStorage.getItem('userId')
+  if (userId) {
+      return group.admins.includes(userId)
   }
+  return false
+}
 
   return (
     <Box
