@@ -21,7 +21,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Badge from '@mui/material/Badge/Badge';
 import { createContext, useEffect, useState } from 'react';
-import Debts from './debts/page';
 import { API_URL } from '../constants';
 
 // export const metadata = {
@@ -43,34 +42,7 @@ const PLACEHOLDER_LINKS = [
     { text: 'Cerrar Sesión', href: '/login', icon: LogoutIcon },
 ];
 
-const getLayoutDebts = () => {
 
-    const jwt = localStorage.getItem("jwtToken");
-
-    if (!jwt) {
-      return 0;
-    }  
-
-    fetch(`${API_URL}/debts`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Got debts: ", data);
-       return data.debts.length
-      });
-
-      return 0;
-  };
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -78,50 +50,50 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
     useEffect(() => {
         getDebts();
-      }, []);
-    
-      const getDebts = () => {
+    }, []);
+
+    const getDebts = () => {
         const jwt = localStorage.getItem("jwtToken");
-    
+
         if (!jwt) {
-          return;
-        }        
-      
+            return;
+        }
+
         fetch(`${API_URL}/debts`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`,
-          },
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`,
+            },
         })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return res.json();
-          })
-          .then((data) => {
-            console.log("Got debts: ", data);
-            setDebtsCount(data.debts.length)
-          });
-      };
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log("Got debts: ", data);
+                setDebtsCount(data.debts.length)
+            });
+    };
 
     return (
         <html lang="en">
             <body>
                 <AppBar position="fixed" sx={{ zIndex: 2000 }}>
                     <Toolbar sx={{ backgroundColor: '#5696d1' }}>
-                    <Box
-                        component="img"
-                        sx={{
-                        height: 40,
-                        width: 40,
-                        marginRight: 2
-                        }}
-                        alt="The house from the offer."
-                        src="https://i.imgur.com/ZP4O5bA.png"
-                    />
-                        <Typography variant="h6" noWrap component="div" color="white" sx={{marginTop: 0.5}}>
+                        <Box
+                            component="img"
+                            sx={{
+                                height: 40,
+                                width: 40,
+                                marginRight: 2
+                            }}
+                            alt="The house from the offer."
+                            src="https://i.imgur.com/ZP4O5bA.png"
+                        />
+                        <Typography variant="h6" noWrap component="div" color="white" sx={{ marginTop: 0.5 }}>
                             FiubaSplit
                         </Typography>
                     </Toolbar>
@@ -147,24 +119,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <List>
                         {LINKS.map(({ text, href, icon: Icon }) => (
                             <>
-                            <Divider sx={{color: 'white', height: '3px'}}/>
-                            <ListItem key={href} disablePadding>
-                                <ListItemButton component={Link} href={href}>
-                                    <ListItemIcon sx={{color: 'white'}}>
-                                        {text == 'Deudas' ? (
-                                            <Badge badgeContent={debtsCount} color="error">
+                                <Divider sx={{ color: 'white', height: '3px' }} />
+                                <ListItem key={href} disablePadding>
+                                    <ListItemButton component={Link} href={href}>
+                                        <ListItemIcon sx={{ color: 'white' }}>
+                                            {text == 'Deudas' ? (
+                                                <Badge badgeContent={debtsCount} color="error">
+                                                    <Icon />
+                                                </Badge>
+                                            ) : (
                                                 <Icon />
-                                            </Badge>
-                                        ): (
-                                            <Icon />
-                                        )}
-                                        
-                                    
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
+                                            )}
 
-                                </ListItemButton>
-                            </ListItem>
+
+                                        </ListItemIcon>
+                                        <ListItemText primary={text} />
+
+                                    </ListItemButton>
+                                </ListItem>
                             </>
                         ))}
                     </List>
@@ -173,7 +145,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         {PLACEHOLDER_LINKS.map(({ text, href, icon: Icon }) => (
                             <ListItem key={text} disablePadding>
                                 <ListItemButton component={Link} href={href}>
-                                    <ListItemIcon sx={{color: 'white'}}>
+                                    <ListItemIcon sx={{ color: 'white' }}>
                                         <Icon />
                                     </ListItemIcon>
                                     <ListItemText primary={text} />
