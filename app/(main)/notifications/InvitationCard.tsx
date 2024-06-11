@@ -12,6 +12,7 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Invitation } from "app/types";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import { API_URL } from "app/constants";
 
 type InvitationCardProps = {
   invitation: Invitation;

@@ -10,8 +10,8 @@ const style = {
     top: '55%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '60%',
-    height: '80%',
+    width: '30%',
+    height: '70%',
     bgcolor: 'background.paper',
     boxShadow: 5,
     borderRadius: 2,
@@ -69,18 +69,25 @@ export default function ImageModal({open, onClose, expense, getExpense }: ImageM
                 <ThemeProvider theme={modalTheme}>
                     <Typography color='white'>Imagen del gasto</Typography>
                     </ThemeProvider>
-                </Box>    
-                <Box
-                    component="img"
-                    sx={{
-                    height: '58%',
-                    width: '58%',
-                    marginBottom: '1%',
-                    marginTop: '1%'
-                    }}
-                    alt="The house from the offer."
-                    src={expense.image_link}
-                />    
+                </Box>  
+                {expense.image_link != null ? (
+                  
+                  <Box
+                      component="img"
+                      sx={{
+                      height: '58%',
+                      width: '50%',
+                      marginBottom: '1%',
+                      marginTop: '1%'
+                      }}
+                      alt="The house from the offer."
+                      src={expense.image_link}
+                  />    
+                ) : (
+                  <Box flex='1' display='flex' justifyContent='center' alignItems='flex-end'>
+                    <Typography>No hay imagen de gasto</Typography>
+                  </Box>
+                )}  
                 <Box display='flex' flex='1' width='100%' flexDirection='row' justifyContent='flex-end' sx={{mr: '5%'}}>
                     <input
                     accept="image/*"
