@@ -29,7 +29,7 @@ export default function CustomModal({ open, onClose, onClick, text, buttonText }
             onClose={() => onClose()}
         >
             <Box component="form" display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style}>
-                <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: '#5c93c4', minHeight: '300px', minWidth: '600px', padding: '30px', borderRadius: '30px' }}>
+                <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: '#5c93c4', minHeight: '300px', minWidth: '600px', padding: '30px', borderRadius: 3 }}>
                     <ThemeProvider theme={modalTheme}>
                         <Typography color='white' >{text}</Typography>
                     </ThemeProvider>

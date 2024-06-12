@@ -4,6 +4,8 @@ import { Expense } from 'app/types';
 import { API_URL } from 'app/constants';
 import { modalTheme } from 'app/fonts';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
+import { useState } from 'react';
+import CustomModal from 'app/CustomModal';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -25,6 +27,10 @@ type ImageModalProps = {
 }
 
 export default function ImageModal({ open, onClose, expense, getExpense }: ImageModalProps) {
+    const imageSizeLimit = 100000000; // 10MB
+    const [showImageUploadErrorModal, setShowImageUploadErrorModal] = useState(false);
+    const [imageErrorMsg, setImageErrorMsg] = useState("");
+
     const handleFileChange = (event: any) => {
         const jwt = localStorage.getItem("jwtToken");
         if (!jwt) {
@@ -32,6 +38,18 @@ export default function ImageModal({ open, onClose, expense, getExpense }: Image
         }
         const file = event.target.files[0];
         if (file) {
+            if (file.size > imageSizeLimit) {
+                console.log("TAMAÑO EXCEDIDO")
+                setImageErrorMsg("El tamaño del archivo es mayor a 10MB. Por favor, seleccione un archivo más pequeño.");
+                setShowImageUploadErrorModal(true);
+                return;
+            } else if (file.type !== "image/jpg" && file.type !== "image/png") {
+                console.log("NO ES IMAGEN")
+                setImageErrorMsg("El archivo seleccionado no es un formato de imagen válido. Por favor, seleccione un archivo en formato JPG o PNG.");
+                setShowImageUploadErrorModal(true);
+                return;
+            }
+
             const form = new FormData();
             form.append("expense_id", expense.id)
             form.append("image", file);
@@ -65,6 +83,15 @@ export default function ImageModal({ open, onClose, expense, getExpense }: Image
             onClose={() => onClose()}
         >
             <Box component="form" display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style}>
+                {showImageUploadErrorModal && (
+                    <CustomModal
+                        open={showImageUploadErrorModal}
+                        onClick={() => setShowImageUploadErrorModal(false)}
+                        onClose={() => setShowImageUploadErrorModal(false)}
+                        text={imageErrorMsg}
+                        buttonText="OK"
+                    />
+                )}
                 <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: '#5c93c4' }}>
                     <ThemeProvider theme={modalTheme}>
                         <Typography color='white'>Imagen del gasto</Typography>
@@ -88,7 +115,7 @@ export default function ImageModal({ open, onClose, expense, getExpense }: Image
                         <Typography>No hay imagen de gasto</Typography>
                     </Box>
                 )}
-                <Box display='flex' flex='1' width='100%' flexDirection='row' justifyContent='flex-end' sx={{ mr: '5%' }}>
+                <Box display='flex' flex='1' width='100%' flexDirection='row' justifyContent='flex-end' sx={{ mr: '35%', mt: '-6%' }}>
                     <input
                         accept="image/*"
                         style={{ display: 'none' }}
@@ -106,7 +133,7 @@ export default function ImageModal({ open, onClose, expense, getExpense }: Image
                     <Button
                         type="submit"
                         variant="contained"
-                        sx={{ height: 40 }}
+                        sx={{ height: 40, marginBottom: '-60%' }}
                         onClick={() => onClose()}
                     >
                         Cerrar
