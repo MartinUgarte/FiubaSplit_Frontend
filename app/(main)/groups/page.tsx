@@ -1,13 +1,16 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import GroupCard from "./GroupCard";
+import dynamic from "next/dynamic";
+
+import { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import { Filters, Group, defaultFilters, dumpGroup } from "app/types";
-import CreateGroupModal from "./CreateGroupModal";
-import GroupFilterModal from "./GroupFilterModal";
 import AddIcon from '@mui/icons-material/Add';
 import { API_URL } from "app/constants";
+
+const CreateGroupModal = dynamic(() => import("./CreateGroupModal"), { ssr: false });
+const GroupFilterModal = dynamic(() => import("./GroupFilterModal"), { ssr: false });
+const GroupCard = dynamic(() => import("./GroupCard"), { ssr: false });
 
 type FormValues = {
     name: string;
@@ -20,18 +23,9 @@ export default function GroupsHome() {
     const [showFilters, setShowFilters] = useState(false);
     const [selectedFilters, setSelectedFilters] =
         useState<Filters>(defaultFilters);
-    const [jwt, setJwt] = useState("");
-    const [userId, setUserId] = useState("");
+
     useEffect(() => {
-        const userId = localStorage.getItem("userId");
-        if (userId != null) {
-            setUserId(userId);
-        }
-        const jwt = localStorage.getItem("jwtToken");
-        if (jwt != null) {
-            setJwt(jwt);
-        }
-        setSelectedFilters(defaultFilters)
+        setSelectedFilters(defaultFilters);
         getGroups();
     }, []);
 
@@ -42,8 +36,9 @@ export default function GroupsHome() {
         setShowFilters(false);
     };
 
+
     const checkMember = (group: Group) => {
-        // const userId = localStorage.getItem("userId");
+        const userId = localStorage.getItem("userId");
         if (userId) {
             return group.members.includes(userId);
         }
@@ -52,7 +47,6 @@ export default function GroupsHome() {
     };
 
     const getGroups = () => {
-        // const jwt = localStorage.getItem("jwtToken");
 
         const nameParam = selectedFilters.name ? selectedFilters.name : '';
         const descriptionParam = selectedFilters.description ? selectedFilters.description : '';
@@ -68,6 +62,9 @@ export default function GroupsHome() {
 
         const queryParams = new URLSearchParams(filteredParams as unknown as string[][]);
         console.log('queryParams: ', queryParams.toString())
+
+
+        const jwt = localStorage.getItem("jwtToken");
 
         fetch(`${API_URL}/groups?${queryParams.toString()}`, {
             // fetch(`${API_URL}/groups`, {
