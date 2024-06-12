@@ -10,8 +10,7 @@ import {
     ThemeProvider,
     Typography,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import SendIcon from "@mui/icons-material/Send";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,65 +21,34 @@ import { API_URL } from "app/constants";
 
 type FormValues = {
     email: string;
-    password: string;
 };
 
 export default function LoginPage() {
     const router = useRouter();
-    const [showPassword, setShowPassword] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorText, setErrorText] = useState("");
     const [showLoading, setShowLoading] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const form = useForm<FormValues>({
         defaultValues: {
             email: "",
-            password: "",
         },
     });
 
     const { register, handleSubmit, formState } = form;
     const { errors } = formState;
 
-    const getMe = () => {
-        const jwt = localStorage.getItem("jwtToken");
-        fetch(`${API_URL}/me`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${jwt}`,
-            },
-        })
-            .then((res) => {
-                console.log(res);
-                if (res.status == 401) {
-                    setErrorText("User not found");
-                    setShowErrorModal(true);
-                } else if (res.status == 200) {
-                    setShowLoading(false);
-                }
-                return res.json();
-            })
-            .then((data) => {
-                console.log("La data: ", data);
-                if (data.id) {
-                    console.log("Got data from login id: ", data);
-                    localStorage.setItem("userId", data.id);
-                    router.push("../groups");
-                }
-            });
-    };
 
     const handleFormSubmit = (formData: FormValues) => {
         setShowLoading(true);
-        fetch(`${API_URL}/login`, {
+        fetch(`${API_URL}/password-recovery`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 email: formData.email,
-                password: formData.password,
             }),
         })
             .then((res) => {
@@ -96,16 +64,13 @@ export default function LoginPage() {
             })
             .then((data) => {
                 console.log("La data: ", data);
-                if (data.access_token) {
-                    console.log("Got data from login id: ", data);
-                    localStorage.setItem("jwtToken", data.access_token);
-                    getMe();
-                }
+                setShowSuccessModal(true);
+                setTimeout(() => {
+                    router.push("../login");
+                }, 5000);
             });
     };
 
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
     return (
         <Box
@@ -121,7 +86,16 @@ export default function LoginPage() {
                     open={showErrorModal}
                     onClick={() => setShowErrorModal(false)}
                     onClose={() => setShowErrorModal(false)}
-                    text="Usuario o contraseña incorrectos"
+                    text="Este correo no está registrado"
+                    buttonText="OK"
+                />
+            )}
+            {showSuccessModal && (
+                <CustomModal
+                    open={showSuccessModal}
+                    onClick={() => setShowSuccessModal(false)}
+                    onClose={() => setShowSuccessModal(false)}
+                    text="Correo de recuperación enviado, volverás a la página de inicio de sesión en unos segundos"
                     buttonText="OK"
                 />
             )}
@@ -167,7 +141,7 @@ export default function LoginPage() {
                     sx={{ marginTop: '2%' }}
                 >
                     <ThemeProvider theme={subheaderTheme}>
-                        <Typography variant="h5">Login</Typography>
+                        <Typography variant="h5">Recuperar Contraseña</Typography>
                     </ThemeProvider>
                     <Box
                         component="form"
@@ -179,7 +153,7 @@ export default function LoginPage() {
                         <TextField
                             id="email"
                             label="Email"
-                            sx={{ marginTop: '3%' }}
+                            sx={{ marginTop: '3%', marginBottom: '10%' }}
                             {...register("email", {
                                 required: "Enter you email",
                                 pattern: {
@@ -190,50 +164,21 @@ export default function LoginPage() {
                             error={!!errors.email}
                             helperText={errors.email?.message}
                         />
-                        <TextField
-                            label="Password"
-                            id="password"
-                            type={showPassword ? "text" : "password"}
-                            sx={{ marginTop: '2%' }}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                        >
-                                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                            {...register("password", {
-                                required: "Ingresa la contraseña",
-                            })}
-                            error={!!errors.password}
-                            helperText={errors.password?.message}
-                        />
-                        {/* add a property to set this link to the rightmost */}
-                        <Link href="../forgot-password" underline="always" sx={{ marginTop: '2%', marginBottom: '10%', marginLeft: 'auto' }} >
-                            <Typography variant="subtitle2">
-                                Olvidé mi contraseña
-                            </Typography>
-                        </Link>
                         <Button
                             type="submit"
                             variant="contained"
                             sx={{ marginTop: "2%", height: '30%' }}
+                            endIcon={<SendIcon />}
                         >
-                            Iniciar sesión
+                            Enviar correo de recuperación&nbsp;
                         </Button>
                     </Box>
                     <Button
-                        href="../register"
+                        href="../login"
                         variant="outlined"
                         sx={{ marginTop: "2%", height: '7%' }}
                     >
-                        Registrarse
+                        Volver
                     </Button>
                 </Box>
             </Box>

@@ -190,7 +190,6 @@ export default function EditUserModal({
             justifyContent="center"
             alignItems="center"
           >
-            <UploadButton />
 
             <TextField
               fullWidth

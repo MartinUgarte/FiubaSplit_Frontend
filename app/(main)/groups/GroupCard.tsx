@@ -57,7 +57,11 @@ export default function GroupCard({ group, getGroups }: GroupCardProps) {
     }
 
     const checkAdmin = () => {
-        return localStorage.getItem('userId') == group.creator_id
+        const userId = localStorage.getItem('userId')
+        if (userId) {
+            return group.admins.includes(userId)
+        }
+        return false
     }
 
     return (

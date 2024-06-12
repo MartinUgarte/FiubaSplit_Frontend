@@ -125,7 +125,7 @@ import { API_URL } from "app/constants";
                     <Typography color='white'>Editar Gasto</Typography>
                     </ThemeProvider>
           </Box>
-          <UploadButton/>
+          
           <Box
             display="flex"
             flex="0.6"

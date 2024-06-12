@@ -16,8 +16,8 @@ export const dumpGroup = {
     description: '',
     category: '',
     creator_id: "",
-    members: [],
-    admins: []
+    members: [''],
+    admins: ['']
 }
 
 export type User = {
@@ -29,6 +29,7 @@ export type User = {
     phone: string,
     date_of_birth: Date,
     cbu: string,
+    avatar_link: string
 }
 
 export const dumpUser = {
@@ -40,6 +41,7 @@ export const dumpUser = {
     phone: '',
     date_of_birth: new Date(),
     cbu: '',
+    avatar_link: ''
 }
 
 export type Invitation = {
@@ -91,7 +93,8 @@ export type Expense = {
     description: string,
     payers: { [key: string]: Amount },
     created_date: Date,
-    balance: { [key: string]: { [key: string]: number}}
+    balance: { [key: string]: { [key: string]: number}},
+    image_link: string,
 }
 
 export const dumpExpense = {
@@ -105,6 +108,7 @@ export const dumpExpense = {
     payers: {},
     created_date: new Date(),
     balance: {},
+    image_link: ''
 }
 
 export type ExpenseFilters = {
