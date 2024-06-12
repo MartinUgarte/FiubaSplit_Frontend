@@ -5,19 +5,18 @@ import {
     Button,
     IconButton,
     InputAdornment,
+    Link,
     TextField,
     ThemeProvider,
     Typography,
-    createTheme,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CustomModal from "app/CustomModal";
 import LoadingModal from "app/LoadingModal";
-import Image from "next/image";
 import { subheaderTheme } from "app/fonts";
 import { API_URL } from "app/constants";
 
@@ -195,7 +194,7 @@ export default function LoginPage() {
                             label="Password"
                             id="password"
                             type={showPassword ? "text" : "password"}
-                            sx={{ marginTop: '2%', marginBottom: '10%' }}
+                            sx={{ marginTop: '2%' }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -215,6 +214,12 @@ export default function LoginPage() {
                             error={!!errors.password}
                             helperText={errors.password?.message}
                         />
+                        {/* add a property to set this link to the rightmost */}
+                        <Link href="../forgot-password" underline="always" sx={{ marginTop: '2%', marginBottom: '10%', marginLeft: 'auto' }} >
+                            <Typography variant="subtitle2">
+                                Olvidé mi contraseña
+                            </Typography>
+                        </Link>
                         <Button
                             type="submit"
                             variant="contained"
@@ -226,7 +231,7 @@ export default function LoginPage() {
                     <Button
                         href="../register"
                         variant="outlined"
-                        sx={{ marginTop: "2%", height: '10%' }}
+                        sx={{ marginTop: "2%", height: '7%' }}
                     >
                         Registrarse
                     </Button>
