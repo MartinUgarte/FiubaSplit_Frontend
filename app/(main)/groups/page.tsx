@@ -90,6 +90,7 @@ export default function GroupsHome() {
                             description: group.description,
                             creator_id: group.creator_id,
                             category: group.category,
+                            admins: group.admins,
                             members: group.members,
                         };
                     })
