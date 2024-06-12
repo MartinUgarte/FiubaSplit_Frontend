@@ -24,86 +24,86 @@ type ImageModalProps = {
     getExpense: () => void
 }
 
-export default function ImageModal({open, onClose, expense, getExpense }: ImageModalProps) {    
+export default function ImageModal({ open, onClose, expense, getExpense }: ImageModalProps) {
     const handleFileChange = (event: any) => {
         const jwt = localStorage.getItem("jwtToken");
         if (!jwt) {
-          return;
+            return;
         }
         const file = event.target.files[0];
         if (file) {
-          const form = new FormData();
-          form.append("expense_id", expense.id)
-          form.append("image", file);
-    
-          fetch(`${API_URL}/expenses/image`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-            body: form as any // Cast to any to bypass TypeScript type checking for fetch body
-          })
-            .then((res) => {
-              if (!res.ok) {
-                throw new Error("Network response was not ok");
-              }
-              return res.json();
+            const form = new FormData();
+            form.append("expense_id", expense.id)
+            form.append("image", file);
+
+            fetch(`${API_URL}/expenses/image`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+                body: form as any // Cast to any to bypass TypeScript type checking for fetch body
             })
-            .then((data) => {
-              console.log("Image uploaded: ", data);
-              getExpense()
-            })
-            .catch((error) => {
-              console.error("Error uploading file:", error);
-            });
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log("Image uploaded: ", data);
+                    getExpense()
+                })
+                .catch((error) => {
+                    console.error("Error uploading file:", error);
+                });
         }
-      }
-      
+    }
+
     return (
-        <Modal 
+        <Modal
             open={open}
             onClose={() => onClose()}
         >
             <Box component="form" display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style}>
-                <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{backgroundColor: 'blue'}}>
-                <ThemeProvider theme={modalTheme}>
-                    <Typography color='white'>Imagen del gasto</Typography>
+                <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: '#5c93c4' }}>
+                    <ThemeProvider theme={modalTheme}>
+                        <Typography color='white'>Imagen del gasto</Typography>
                     </ThemeProvider>
-                </Box>  
+                </Box>
                 {expense.image_link != null ? (
-                  
-                  <Box
-                      component="img"
-                      sx={{
-                      height: '58%',
-                      width: '50%',
-                      marginBottom: '1%',
-                      marginTop: '1%'
-                      }}
-                      alt="The house from the offer."
-                      src={expense.image_link}
-                  />    
+
+                    <Box
+                        component="img"
+                        sx={{
+                            height: '58%',
+                            width: '50%',
+                            marginBottom: '1%',
+                            marginTop: '1%'
+                        }}
+                        alt="The house from the offer."
+                        src={expense.image_link}
+                    />
                 ) : (
-                  <Box flex='1' display='flex' justifyContent='center' alignItems='flex-end'>
-                    <Typography>No hay imagen de gasto</Typography>
-                  </Box>
-                )}  
-                <Box display='flex' flex='1' width='100%' flexDirection='row' justifyContent='flex-end' sx={{mr: '5%'}}>
+                    <Box flex='1' display='flex' justifyContent='center' alignItems='flex-end'>
+                        <Typography>No hay imagen de gasto</Typography>
+                    </Box>
+                )}
+                <Box display='flex' flex='1' width='100%' flexDirection='row' justifyContent='flex-end' sx={{ mr: '5%' }}>
                     <input
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    id="upload-photo"
-                    type="file"
-                    onChange={handleFileChange}
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        id="upload-photo"
+                        type="file"
+                        onChange={handleFileChange}
                     />
                     <label htmlFor="upload-photo">
-                    <IconButton component="span" sx={{ marginBottom: '15%' }}>
-                      <ImageSearchIcon />
-                    </IconButton>
+                        <IconButton component="span" sx={{ marginBottom: '15%' }}>
+                            <ImageSearchIcon />
+                        </IconButton>
                     </label>
                 </Box>
                 <Box display='flex' flex='0.7' justifyContent='center' alignItems='center'>
-                    <Button 
+                    <Button
                         type="submit"
                         variant="contained"
                         sx={{ height: 40 }}

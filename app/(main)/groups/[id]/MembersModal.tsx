@@ -23,7 +23,7 @@ type MembersModalProps = {
 }
 
 
-export default function MembersModal({ open, onClose, group, getGroup}: MembersModalProps) {
+export default function MembersModal({ open, onClose, group, getGroup }: MembersModalProps) {
 
     return (
         <Modal
@@ -31,9 +31,9 @@ export default function MembersModal({ open, onClose, group, getGroup}: MembersM
             onClose={() => onClose()}
         >
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} >
-                <Box display='flex' flex='0.2' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
-                <ThemeProvider theme={modalTheme}>
-                    <Typography color='white'>Miembros</Typography>
+                <Box display='flex' flex='0.2' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: '#5c93c4' }}>
+                    <ThemeProvider theme={modalTheme}>
+                        <Typography color='white'>Miembros</Typography>
                     </ThemeProvider>
                 </Box>
 

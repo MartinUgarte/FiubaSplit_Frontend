@@ -109,7 +109,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
         >
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} onSubmit={handleSubmit(handleCreateGroup)} component="form">
                 <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok' />
-                <Box display='flex' flex='0.2' flexDirection='column' width='100%' height='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
+                <Box display='flex' flex='0.2' flexDirection='column' width='100%' height='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: '#5c93c4' }}>
                     <ThemeProvider theme={modalTheme}>
                         <Typography color='white'>Crear grupo</Typography>
                     </ThemeProvider>
