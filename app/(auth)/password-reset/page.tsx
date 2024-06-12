@@ -10,29 +10,38 @@ import {
     ThemeProvider,
     Typography,
 } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import CustomModal from "app/CustomModal";
 import LoadingModal from "app/LoadingModal";
 import { subheaderTheme } from "app/fonts";
 import { API_URL } from "app/constants";
 
 type FormValues = {
-    email: string;
+    new_password: string;
+    confirm_password: string;
 };
 
 export default function LoginPage() {
     const router = useRouter();
+    const [showNewPassword, setShowNewPassword] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showMismatchModal, setShowMismatchModal] = useState(false);
     const [errorText, setErrorText] = useState("");
     const [showLoading, setShowLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
+
 
     const form = useForm<FormValues>({
         defaultValues: {
-            email: "",
+            new_password: "",
+            confirm_password: "",
         },
     });
 
@@ -41,14 +50,21 @@ export default function LoginPage() {
 
 
     const handleFormSubmit = (formData: FormValues) => {
+        if (formData.new_password !== formData.confirm_password) {
+            setShowMismatchModal(true);
+            return;
+        }
+
         setShowLoading(true);
-        fetch(`${API_URL}/password-recovery`, {
+
+        fetch(`${API_URL}/password-reset`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-                email: formData.email,
+                new_password: formData.new_password,
             }),
         })
             .then((res) => {
@@ -57,6 +73,11 @@ export default function LoginPage() {
                     setErrorText("User not found");
                     setShowErrorModal(true);
                     setShowLoading(false);
+                    setTimeout(() => {
+                        router.push("../forgot-password");
+                    },
+                        5000
+                    );
                 } else if (res.status == 200) {
                     setShowLoading(false);
                 }
@@ -70,6 +91,9 @@ export default function LoginPage() {
                 }, 5000);
             });
     };
+
+    const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
+    const handleMouseDownNewPassword = () => setShowNewPassword(!showNewPassword);
 
 
     return (
@@ -86,7 +110,16 @@ export default function LoginPage() {
                     open={showErrorModal}
                     onClick={() => setShowErrorModal(false)}
                     onClose={() => setShowErrorModal(false)}
-                    text="Este correo no está registrado"
+                    text="El codigo de recuperación expiró, por favor intenta de nuevo"
+                    buttonText="OK"
+                />
+            )}
+            {showMismatchModal && (
+                <CustomModal
+                    open={showMismatchModal}
+                    onClick={() => setShowMismatchModal(false)}
+                    onClose={() => setShowMismatchModal(false)}
+                    text="Las contraseñas no coinciden"
                     buttonText="OK"
                 />
             )}
@@ -95,7 +128,7 @@ export default function LoginPage() {
                     open={showSuccessModal}
                     onClick={() => setShowSuccessModal(false)}
                     onClose={() => setShowSuccessModal(false)}
-                    text="Correo de recuperación enviado, volverás a la página de inicio de sesión en unos segundos"
+                    text="Contraseña cambiada con éxito, volverás a la página de inicio de sesión en unos segundos"
                     buttonText="OK"
                 />
             )}
@@ -141,7 +174,7 @@ export default function LoginPage() {
                     sx={{ marginTop: '2%' }}
                 >
                     <ThemeProvider theme={subheaderTheme}>
-                        <Typography variant="h5">Recuperar Contraseña</Typography>
+                        <Typography variant="h5">Restalecer Contraseña</Typography>
                     </ThemeProvider>
                     <Box
                         component="form"
@@ -151,35 +184,62 @@ export default function LoginPage() {
                         onSubmit={handleSubmit(handleFormSubmit)}
                     >
                         <TextField
-                            id="email"
-                            label="Email"
-                            sx={{ marginTop: '3%', marginBottom: '10%' }}
-                            {...register("email", {
-                                required: "Enter you email",
-                                pattern: {
-                                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                                    message: "Enter a valid email",
-                                },
+                            label="New Password"
+                            id="password"
+                            type={showNewPassword ? "text" : "password"}
+                            sx={{ marginTop: '2%' }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowNewPassword}
+                                            onMouseDown={handleMouseDownNewPassword}
+                                        >
+                                            {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            {...register("new_password", {
+                                required: "Ingresa la nueva contraseña",
                             })}
-                            error={!!errors.email}
-                            helperText={errors.email?.message}
+                            error={!!errors.new_password}
+                            helperText={errors.new_password?.message}
+                        />
+                        <TextField
+                            label="Confirm Password"
+                            id="cpassword"
+                            type={showNewPassword ? "text" : "password"}
+                            sx={{ marginTop: '2%' }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowNewPassword}
+                                            onMouseDown={handleMouseDownNewPassword}
+                                        >
+                                            {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            {...register("confirm_password", {
+                                required: "Ingresa la nueva contraseña",
+                            })}
+                            error={!!errors.confirm_password}
+                            helperText={errors.confirm_password?.message}
                         />
                         <Button
                             type="submit"
                             variant="contained"
                             sx={{ marginTop: "2%", height: '30%' }}
-                            endIcon={<SendIcon />}
                         >
-                            Enviar correo de recuperación&nbsp;
+                            Establecer nueva contraseña
                         </Button>
+
                     </Box>
-                    <Button
-                        href="../login"
-                        variant="outlined"
-                        sx={{ marginTop: "2%", height: '7%' }}
-                    >
-                        Volver
-                    </Button>
                 </Box>
             </Box>
         </Box>
