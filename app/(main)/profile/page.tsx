@@ -13,11 +13,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { subheaderTheme } from "app/fonts";
 import { API_URL } from "app/constants";
+import CustomModal from "app/CustomModal";
+
 
 export default function Profile() {
+    const avatarSizeLimit = 100000000; // 10MB
     const [user, setUser] = useState(dumpUser);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
+    const [showAvatarUploadErrorModal, setShowAvatarUploadErrorModal] = useState(false);
+    const [avatarErrorMsg, setAvatarErrorMsg] = useState("");
 
     const formatDate = (date: Date) => {
         return `${date.getDate().toString()}/${(date.getMonth() + 1)}/${date.getFullYear()}`
@@ -61,7 +66,17 @@ export default function Profile() {
         if (file) {
             console.log('Selected file:', file);
 
-            //const exampleFile = fs.createReadStream(path.join(__dirname, "./avatar"));
+            if (file.size > avatarSizeLimit) {
+                console.log("TAMAÑO EXCEDIDO")
+                setAvatarErrorMsg("El tamaño del archivo es mayor a 10MB. Por favor, seleccione un archivo más pequeño.");
+                setShowAvatarUploadErrorModal(true);
+                return;
+            } else if (file.type !== "image/jpg" && file.type !== "image/png") {
+                console.log("NO ES IMAGEN")
+                setAvatarErrorMsg("El archivo seleccionado no es un formato de imagen válido. Por favor, seleccione un archivo en formato JPG o PNG.");
+                setShowAvatarUploadErrorModal(true);
+                return;
+            }
 
             const form = new FormData();
             form.append("avatar", file);
@@ -105,6 +120,15 @@ export default function Profile() {
                 user={user}
             />)}
             <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
+            {showAvatarUploadErrorModal && (
+                <CustomModal
+                    open={showAvatarUploadErrorModal}
+                    onClick={() => setShowAvatarUploadErrorModal(false)}
+                    onClose={() => setShowAvatarUploadErrorModal(false)}
+                    text={avatarErrorMsg}
+                    buttonText="OK"
+                />
+            )}
             <Box
                 flex="0.2"
                 display="flex"

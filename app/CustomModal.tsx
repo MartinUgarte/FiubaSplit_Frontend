@@ -22,27 +22,27 @@ type CustomModalProps = {
     buttonText: string,
 }
 
-export default function CustomModal({open, onClose, onClick, text, buttonText}: CustomModalProps) {    
+export default function CustomModal({ open, onClose, onClick, text, buttonText }: CustomModalProps) {
     return (
-        <Modal 
+        <Modal
             open={open}
             onClose={() => onClose()}
         >
             <Box component="form" display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style}>
-                <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{backgroundColor: 'blue'}}>
-                <ThemeProvider theme={modalTheme}>
-                    <Typography color='white'>{text}</Typography>
+                <Box display='flex' flex='0.3' flexDirection='column' width='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: '#5c93c4', minHeight: '300px', minWidth: '600px', padding: '30px', borderRadius: '30px' }}>
+                    <ThemeProvider theme={modalTheme}>
+                        <Typography color='white' >{text}</Typography>
                     </ThemeProvider>
-                </Box>         
-                <Box display='flex' flex='0.7' justifyContent='center' alignItems='center'>
-                    <Button 
-                        type="submit"
-                        variant="contained"
-                        sx={{ height: 40 }}
-                        onClick={() => onClick()}
-                    >
-                        {buttonText}
-                    </Button>
+                    <Box display='flex' flex='0.7' justifyContent='center' alignItems='center' marginBottom='-20%'>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{ height: 40 }}
+                            onClick={() => onClick()}
+                        >
+                            {buttonText}
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
         </Modal>
