@@ -22,7 +22,7 @@ type GroupCardProps = {
 
 }
 
-export default function GroupCard({ group, getGroups}: GroupCardProps) {
+export default function GroupCard({ group, getGroups }: GroupCardProps) {
     const router = useRouter();
     const [showEditGroupModal, setShowEditGroupModal] = useState(false);
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
@@ -32,8 +32,8 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
         console.log('ID: ', group.id);
         localStorage.setItem('groupId', group.id.toString());
         router.push(`groups/${group.id}`)
-      }
-    
+    }
+
 
     const handleDelete = () => {
         setShowDeleteConfirmationModal(false)
@@ -67,8 +67,8 @@ export default function GroupCard({ group, getGroups}: GroupCardProps) {
     return (
         <Card style={{ borderTop: '2px solid blue' }}>
             <EditGroupModal open={showEditGroupModal} onClose={() => setShowEditGroupModal(false)} getGroups={() => getGroups()} group={group} />
-            <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text="No se puede eliminar este grupo porque tiene deudas pendientes" buttonText='Ok'/>
-            {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => handleDelete()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm'/>)}
+            <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text="No se puede eliminar este grupo porque tiene deudas pendientes" buttonText='Ok' />
+            {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => handleDelete()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm' />)}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {group.name}

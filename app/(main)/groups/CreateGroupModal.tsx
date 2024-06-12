@@ -21,24 +21,24 @@ const style = {
 
 const categories = [
     {
-      value: "Amigos",
-      label: "Amigos",
+        value: "Amigos",
+        label: "Amigos",
     },
     {
-      value: "Familia",
-      label: "Familia",
+        value: "Familia",
+        label: "Familia",
     },
     {
         value: "Pareja",
         label: "Pareja",
     },
     {
-      value: "Entretenimiento",
-      label: "Entretenimiento",
+        value: "Entretenimiento",
+        label: "Entretenimiento",
     },
     {
-      value: "Viaje",
-      label: "Viaje",
+        value: "Viaje",
+        label: "Viaje",
     },
     {
         value: "Comida",
@@ -93,7 +93,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                 setShowErrorModal(true);
             } else {
                 onClose();
-                getGroups()    
+                getGroups()
             }
         })
 
@@ -106,12 +106,12 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
         <Modal
             open={open}
             onClose={() => onClose()}
-        >   
+        >
             <Box display='flex' flex='1' flexDirection='column' justifyContent='center' alignItems='center' sx={style} onSubmit={handleSubmit(handleCreateGroup)} component="form">
-                <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok'/>
+                <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text={errorText} buttonText='Ok' />
                 <Box display='flex' flex='0.2' flexDirection='column' width='100%' height='100%' justifyContent='center' alignItems='center' sx={{ backgroundColor: 'blue' }}>
                     <ThemeProvider theme={modalTheme}>
-                    <Typography color='white'>Crear grupo</Typography>
+                        <Typography color='white'>Crear grupo</Typography>
                     </ThemeProvider>
                 </Box>
                 <Box display='flex' flex='0.8' flexDirection="column" justifyContent='center' alignItems='center'>
@@ -143,7 +143,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
                     >
                         Descripcion
                     </TextField>
-                        
+
                     <TextField
                         fullWidth
                         id='category-select'
