@@ -21,12 +21,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Badge from '@mui/material/Badge/Badge';
 import { createContext, useEffect, useState } from 'react';
-import { API_URL } from '../constants';
 
-// export const metadata = {
-//     title: 'FIUBASPLIT',
-//     description: 'FIUBASPLIT',
-// };
 
 const DRAWER_WIDTH = 240;
 
@@ -59,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             return;
         }
 
-        fetch(`${API_URL}/debts`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/debts`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

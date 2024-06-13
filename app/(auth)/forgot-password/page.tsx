@@ -17,7 +17,6 @@ import { useState } from "react";
 import CustomModal from "app/CustomModal";
 import LoadingModal from "app/LoadingModal";
 import { subheaderTheme } from "app/fonts";
-import { API_URL } from "app/constants";
 
 type FormValues = {
     email: string;
@@ -42,7 +41,7 @@ export default function LoginPage() {
 
     const handleFormSubmit = (formData: FormValues) => {
         setShowLoading(true);
-        fetch(`${API_URL}/password-recovery`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/password-recovery`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

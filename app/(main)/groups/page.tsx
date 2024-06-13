@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import { Filters, Group, defaultFilters, dumpGroup } from "app/types";
 import AddIcon from '@mui/icons-material/Add';
-import { API_URL } from "app/constants";
+
 
 const CreateGroupModal = dynamic(() => import("./CreateGroupModal"), { ssr: false });
 const GroupFilterModal = dynamic(() => import("./GroupFilterModal"), { ssr: false });
@@ -66,8 +66,8 @@ export default function GroupsHome() {
 
         const jwt = localStorage.getItem("jwtToken");
 
-        fetch(`${API_URL}/groups?${queryParams.toString()}`, {
-            // fetch(`${API_URL}/groups`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/groups?${queryParams.toString()}`, {
+            // fetch(`${process.env.NEXT_PUBLIC_API_URL}/groups`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

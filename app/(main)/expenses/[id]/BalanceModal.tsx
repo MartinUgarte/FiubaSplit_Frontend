@@ -7,7 +7,7 @@ import CustomModal from 'app/CustomModal';
 import { useState } from 'react';
 import LoadingModal from 'app/LoadingModal';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
-import { API_URL } from 'app/constants';
+
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -42,7 +42,7 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
             return;
         }
         setShowLoading(true);
-        fetch(`${API_URL}/expenses/send-reminder`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/expenses/send-reminder`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
 
     const cancelDebt = (id: string) => {
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`${API_URL}/cancel-debt/${expenseId}/${id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/cancel-debt/${expenseId}/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function BalanceModal({ open, onClose, memberId, members, balance
         if (balance_other > 0) {
             return (
                 <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
-                    <Box display='flex' flexDirection='row' sx={{ bgColor: 'blue' }}>
+                    <Box display='flex' flexDirection='row' sx={{ bgColor: '#5c93c4' }}>
                         {memberId == localStorage.getItem('userId') ? (
                             <Box flexDirection='row' display='flex' justifyContent='center' alignItems='center'>
                                 <Box flexDirection='row' display='flex' justifyContent='center' alignItems='center'>

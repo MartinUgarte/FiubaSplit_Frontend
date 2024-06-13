@@ -12,7 +12,7 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Invitation } from "app/types";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { API_URL } from "app/constants";
+
 
 type InvitationCardProps = {
     invitation: Invitation;
@@ -34,7 +34,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
         if (!jwt) {
             return;
         }
-        fetch(`${API_URL}/users/${invitation.invited_by_id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${invitation.invited_by_id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
         if (!jwt) {
             return;
         }
-        fetch(`${API_URL}/groups/${invitation.group_id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/groups/${invitation.group_id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -82,7 +82,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
         if (!jwt) {
             return;
         }
-        fetch(`${API_URL}/invitations/groups/${invitation.id}/accept`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/invitations/groups/${invitation.id}/accept`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
         if (!jwt) {
             return;
         }
-        fetch(`${API_URL}/invitations/groups/${invitation.id}/reject`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/invitations/groups/${invitation.id}/reject`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
     };
 
     return (
-        <Card style={{ borderTop: "2px solid blue", height: 100 }}>
+        <Card style={{ borderTop: "2px solid #64a8e3", height: 100 }}>
             <Box flex='1' display='flex' flexDirection='row' height="100%">
                 <Box flex='0.5' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{ marginLeft: 5 }}>
                     <GroupAddIcon sx={{ fontSize: 40 }} />

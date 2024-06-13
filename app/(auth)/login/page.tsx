@@ -18,7 +18,6 @@ import { useState } from "react";
 import CustomModal from "app/CustomModal";
 import LoadingModal from "app/LoadingModal";
 import { subheaderTheme } from "app/fonts";
-import { API_URL } from "app/constants";
 
 type FormValues = {
     email: string;
@@ -44,7 +43,7 @@ export default function LoginPage() {
 
     const getMe = () => {
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`${API_URL}/me`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -73,7 +72,7 @@ export default function LoginPage() {
 
     const handleFormSubmit = (formData: FormValues) => {
         setShowLoading(true);
-        fetch(`${API_URL}/login`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

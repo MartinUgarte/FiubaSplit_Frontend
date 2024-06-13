@@ -13,7 +13,7 @@ import { useState } from 'react';
 import EditGroupModal from './EditGroupModal';
 import CustomModal from 'app/CustomModal';
 import { Group } from 'app/types';
-import { API_URL } from 'app/constants';
+
 
 
 type GroupCardProps = {
@@ -38,7 +38,7 @@ export default function GroupCard({ group, getGroups }: GroupCardProps) {
     const handleDelete = () => {
         setShowDeleteConfirmationModal(false)
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`${API_URL}/groups/${group.id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/groups/${group.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export default function GroupCard({ group, getGroups }: GroupCardProps) {
     }
 
     return (
-        <Card style={{ borderTop: '2px solid blue' }}>
+        <Card style={{ borderTop: '2px solid #5c93c4' }}>
             <EditGroupModal open={showEditGroupModal} onClose={() => setShowEditGroupModal(false)} getGroups={() => getGroups()} group={group} />
             <CustomModal open={showErrorModal} onClick={() => setShowErrorModal(false)} onClose={() => setShowErrorModal(false)} text="No se puede eliminar este grupo porque tiene deudas pendientes" buttonText='Ok' />
             {showDeleteConfirmationModal && (<CustomModal open={showDeleteConfirmationModal} onClick={() => handleDelete()} onClose={() => setShowDeleteConfirmationModal(false)} text="Confirm delete" buttonText='Confirm' />)}

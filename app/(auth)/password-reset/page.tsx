@@ -19,7 +19,7 @@ import { useSearchParams } from "next/navigation";
 import CustomModal from "app/CustomModal";
 import LoadingModal from "app/LoadingModal";
 import { subheaderTheme } from "app/fonts";
-import { API_URL } from "app/constants";
+
 
 type FormValues = {
     new_password: string;
@@ -57,7 +57,7 @@ export default function LoginPage() {
 
         setShowLoading(true);
 
-        fetch(`${API_URL}/password-reset`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/password-reset`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

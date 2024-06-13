@@ -20,7 +20,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Group } from "app/types";
 import CustomModal from "app/CustomModal";
 import { modalTheme } from "app/fonts";
-import { API_URL } from "app/constants";
+
 
 const style = {
     position: "absolute" as "absolute",
@@ -96,7 +96,7 @@ export default function EditGroupModal({
 
     const handleEditGroup = (formData: FormValues) => {
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`${API_URL}/groups/${group.id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/groups/${group.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -153,7 +153,7 @@ export default function EditGroupModal({
                     height="100%"
                     justifyContent="center"
                     alignItems="center"
-                    sx={{ backgroundColor: "blue" }}
+                    sx={{ backgroundColor: "#5c93c4" }}
                 >
                     <ThemeProvider theme={modalTheme}>
                         <Typography color='white'>Editar grupo</Typography>

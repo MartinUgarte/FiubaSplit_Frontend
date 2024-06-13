@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import CustomModal from 'app/CustomModal';
 import { modalTheme } from 'app/fonts';
-import { API_URL } from 'app/constants';
+
 
 
 const style = {
@@ -74,7 +74,7 @@ export default function CreateGroupModal({ open, onClose, getGroups }: CreateGro
     const handleCreateGroup = (formData: FormValues) => {
         const jwt = localStorage.getItem('jwtToken');
         console.log('Creando grupo: ', formData);
-        fetch(`${API_URL}/groups`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/groups`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

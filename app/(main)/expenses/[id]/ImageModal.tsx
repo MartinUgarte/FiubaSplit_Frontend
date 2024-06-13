@@ -1,7 +1,7 @@
 import { Box, Typography, Button, TextField, ThemeProvider, IconButton } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Expense } from 'app/types';
-import { API_URL } from 'app/constants';
+
 import { modalTheme } from 'app/fonts';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import { useState } from 'react';
@@ -54,7 +54,7 @@ export default function ImageModal({ open, onClose, expense, getExpense }: Image
             form.append("expense_id", expense.id)
             form.append("image", file);
 
-            fetch(`${API_URL}/expenses/image`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/expenses/image`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${jwt}`,

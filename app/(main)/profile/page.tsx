@@ -12,7 +12,7 @@ import EditUserModal from "./EditUserModal";
 import EditIcon from '@mui/icons-material/Edit';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { subheaderTheme } from "app/fonts";
-import { API_URL } from "app/constants";
+
 import CustomModal from "app/CustomModal";
 
 
@@ -31,7 +31,7 @@ export default function Profile() {
 
     const getMe = () => {
         const jwt = localStorage.getItem("jwtToken");
-        fetch(`${API_URL}/me`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default function Profile() {
             const form = new FormData();
             form.append("avatar", file);
 
-            fetch(`${API_URL}/users/avatar`, {
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/avatar`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${jwt}`,
