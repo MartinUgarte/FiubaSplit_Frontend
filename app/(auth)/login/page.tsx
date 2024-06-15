@@ -114,6 +114,14 @@ export default function LoginPage() {
             height="100vh"
             alignItems="center"
             justifyContent="center"
+            sx={{
+                backgroundImage: 'url("https://i.imgur.com/DyYPOty.png")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+            }}
+            // sx={{
+            //     background: 'linear-gradient(to bottom, #FFFFFF 260%, #5696d1 100%)' // Este es el gradiente de blanco a azul oscuro
+            // }}
         >
             {showErrorModal && (
                 <CustomModal
@@ -153,7 +161,7 @@ export default function LoginPage() {
                         src="https://i.imgur.com/ZP4O5bA.png"
                     />
                     <ThemeProvider theme={subheaderTheme}>
-                        <Typography variant="h4">FIUBASPLIT</Typography>
+                        <Typography variant="h3">FIUBASPLIT</Typography>
                     </ThemeProvider>
 
                 </Box>
@@ -178,7 +186,7 @@ export default function LoginPage() {
                         <TextField
                             id="email"
                             label="Email"
-                            sx={{ marginTop: '3%' }}
+                            sx={{ marginTop: '3%'}}
                             {...register("email", {
                                 required: "Enter you email",
                                 pattern: {

@@ -8,7 +8,7 @@ import LoadingModal from 'app/LoadingModal';
 
 
 export default function NotificationsHome() {
-    const [invitations, setInvitations] = useState<Invitation[]>([dumpInvitation]);
+    const [invitations, setInvitations] = useState<Invitation[]>([]);
     const [showCreateGroupModal, setShowCreateGroupModal] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
 

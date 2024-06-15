@@ -42,10 +42,39 @@ const PLACEHOLDER_LINKS = [
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const [debtsCount, setDebtsCount] = useState(0)
+    const [notificationsCount, setNotificationsCount] = useState(0)
 
     useEffect(() => {
         getDebts();
+        getInvitations()
     }, []);
+        
+    const getInvitations = () => {
+        const jwtToken = localStorage.getItem("jwtToken")
+        const userId = localStorage.getItem("userId")
+        if (!jwtToken || !userId) {
+            return;
+        }
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/invitations/groups`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log("Got invitations: ", data);
+                setNotificationsCount(data.length)
+            });
+    };
+
 
     const getDebts = () => {
         const jwt = localStorage.getItem("jwtToken");
@@ -120,6 +149,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                         <ListItemIcon sx={{ color: 'white' }}>
                                             {text == 'Deudas' ? (
                                                 <Badge badgeContent={debtsCount} color="error">
+                                                    <Icon />
+                                                </Badge>
+                                            ) : text == 'Notificaciones' ? (
+                                                <Badge badgeContent={notificationsCount} color="error">
                                                     <Icon />
                                                 </Badge>
                                             ) : (

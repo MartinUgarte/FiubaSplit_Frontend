@@ -31,7 +31,7 @@ const style = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: '40%',
-    height: '80%',
+    height: '60%',
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 10,
@@ -305,7 +305,7 @@ export default function ChooseExpenseParticipantsModal({
                         >
                             Nombre
                         </TextField>
-                        <Box display='flex' flex='1' flexDirection='row' width='100%'>
+                        <Box display='flex' flexDirection='row' width='100%'>
 
                             <TextField
                                 fullWidth
