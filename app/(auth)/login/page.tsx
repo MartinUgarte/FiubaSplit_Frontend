@@ -119,9 +119,7 @@ export default function LoginPage() {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
             }}
-            // sx={{
-            //     background: 'linear-gradient(to bottom, #FFFFFF 260%, #5696d1 100%)' // Este es el gradiente de blanco a azul oscuro
-            // }}
+
         >
             {showErrorModal && (
                 <CustomModal
