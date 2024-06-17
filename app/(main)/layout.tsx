@@ -46,9 +46,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
     useEffect(() => {
         getDebts();
-        getInvitations()
+        // getInvitations()
+        getNotifications();
     }, []);
-        
+    
+    const getNotifications = () => {
+        const jwt = localStorage.getItem("jwtToken");
+
+        if (!jwt) {
+            return;
+        }
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/notifications`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`,
+            },
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log("Got notifications: ", data);
+                setNotificationsCount(data.length)
+            });
+    };
+    
     const getInvitations = () => {
         const jwtToken = localStorage.getItem("jwtToken")
         const userId = localStorage.getItem("userId")
@@ -71,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             })
             .then((data) => {
                 console.log("Got invitations: ", data);
-                setNotificationsCount(data.length)
+                //setNotificationsCount(data.length)
             });
     };
 
