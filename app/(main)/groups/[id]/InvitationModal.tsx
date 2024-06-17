@@ -33,6 +33,7 @@ export default function InvitationModal({
     onClose,
 }: InvitationModalProps) {
 
+
     const form = useForm<FormValues>({
         defaultValues: {
             email: '',
@@ -74,7 +75,7 @@ export default function InvitationModal({
                     setShowLoading(false);
                     setErrorText(data)
                     setShowErrorModal(true)
-                }
+                    }
             })
     }
 
