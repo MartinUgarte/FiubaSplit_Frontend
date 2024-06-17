@@ -28,6 +28,7 @@ export default function MemberCard({
     const [memberName, setMemberName] = useState("");
     const [showLoading, setShowLoading] = useState(false);
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+    const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false)
 
     useEffect(() => {
         getUser();
@@ -43,6 +44,10 @@ export default function MemberCard({
             return group.admins.includes(userId)
         }
         return false
+    }
+
+    const checkMemberIdAdmin = () => {
+        return group.admins.includes(memberId)
     }
 
     const checkMe = () => {
@@ -139,6 +144,16 @@ export default function MemberCard({
                         text={`Has añadido como admin a ${memberName}`}
                         buttonText="OK"
                     />
+                    <CustomModal
+                        open={showDeleteConfirmationModal}
+                        onClick={() => {
+                            handleDeleteMember()
+                            setShowDeleteConfirmationModal(false)
+                        }}
+                        onClose={() => setShowDeleteConfirmationModal(false)}
+                        text={`¿Deseas eliminar a ${memberName}?`}
+                        buttonText="OK"
+                    />
                     <Box
                         display="flex"
                         flex="0.5"
@@ -157,7 +172,7 @@ export default function MemberCard({
                     >
                         {checkAdmin() && checkMe() && checkMemberIsNotAdmin() && (
                             <Box>
-                                <IconButton color="primary" onClick={() => handleDeleteMember()}>
+                                <IconButton color="primary" onClick={() => setShowDeleteConfirmationModal(true)}>
                                     <DeleteIcon />
                                 </IconButton>
                                 {checkMemberIsNotAdmin() && <IconButton color="primary" onClick={() => makeAdmin()}>
@@ -165,7 +180,7 @@ export default function MemberCard({
                                 </IconButton>}
                             </Box>
                         )}
-                        {checkCreator() && (<StarIcon color="primary" />)}
+                        {checkMemberIdAdmin() && (<StarIcon color="primary" />)}
                     </Box>
                 </Box>
             </CardContent>

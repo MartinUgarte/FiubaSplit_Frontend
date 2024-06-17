@@ -161,7 +161,7 @@ export default function DebtCard({ debt, getDebts, getLayoutDebts }: DebtCardPro
                         component="div"
                         sx={{ marginTop: 2, marginLeft: 2 }}
                     >
-                        $ {Intl.NumberFormat("de-DE").format(debt.amount)}
+                        $ {Intl.NumberFormat("de-DE").format(Number(debt.amount.toFixed(2)))}
                     </Typography>
                 </Box>
                 <Box

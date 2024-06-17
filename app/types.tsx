@@ -52,6 +52,14 @@ export type Invitation = {
     status: string,
 }
 
+export type PaymentNotification = {
+    id: string,
+    user_id: string,
+    debtor_id: string,
+    amount: number,
+    group_id: string,
+}
+
 export const dumpInvitation = {
     id: "",
     group_id: "",

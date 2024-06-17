@@ -235,7 +235,7 @@ export default function GroupDetails() {
                 </ThemeProvider>
                 <Button startIcon={<FilterAltIcon />} variant='text' onClick={() => setShowFilterExpensesModal(true)}>Filtrar</Button>
             </Box>
-            <Box maxHeight='300px' sx={{ marginTop: 2, maxHeight: '300px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.6" width='100%'>
+            <Box maxHeight='600px' sx={{ marginTop: 2, maxHeight: '600px', overflowY: 'auto' }} display="flex" flexDirection='column' flex="0.6" width='100%'>
                 <Grid container spacing={5} sx={{ marginTop: 1 }}>
                     {expenses.map(
                         (expense) =>

@@ -21,6 +21,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Badge from '@mui/material/Badge/Badge';
 import { createContext, useEffect, useState } from 'react';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
 
 const DRAWER_WIDTH = 240;
@@ -28,6 +29,7 @@ const DRAWER_WIDTH = 240;
 const LINKS = [
     { text: 'Grupos', href: '/groups', icon: GroupsIcon },
     { text: 'Perfil', href: '/profile', icon: PersonIcon },
+    { text: 'Invitaciones', href: '/invitations', icon: PersonAddAlt1Icon },
     { text: 'Notificaciones', href: '/notifications', icon: NotificationsIcon },
     { text: 'Gastos', href: '/expenses', icon: AttachMoneyIcon },
     { text: 'Deudas', href: '/debts', icon: CurrencyExchangeIcon }
@@ -38,14 +40,69 @@ const PLACEHOLDER_LINKS = [
 ];
 
 
-
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const [debtsCount, setDebtsCount] = useState(0)
+    const [invitationsCount, setInvitationsCount] = useState(0)
+    const [notificationsCount, setNotificationsCount] = useState(0)
 
     useEffect(() => {
         getDebts();
+        getInvitations()
+        getNotifications();
     }, []);
+
+    const getNotifications = () => {
+        const jwt = localStorage.getItem("jwtToken");
+
+        if (!jwt) {
+            return;
+        }
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/notifications`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`,
+            },
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log("Got notifications: ", data);
+                setNotificationsCount(data.length)
+            });
+    };
+
+    const getInvitations = () => {
+        const jwtToken = localStorage.getItem("jwtToken")
+        const userId = localStorage.getItem("userId")
+        if (!jwtToken || !userId) {
+            return;
+        }
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/invitations/groups`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log("Got invitations: ", data);
+                setInvitationsCount(data.length)
+            });
+    };
+
 
     const getDebts = () => {
         const jwt = localStorage.getItem("jwtToken");
@@ -122,8 +179,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                                 <Badge badgeContent={debtsCount} color="error">
                                                     <Icon />
                                                 </Badge>
-                                            ) : (
-                                                <Icon />
+                                            ) : text == 'Invitaciones' ? (
+                                                <Badge badgeContent={invitationsCount} color="error">
+                                                    <Icon />
+                                                </Badge>
+                                            ) : text == 'Notificaciones' ? (
+                                                <Badge badgeContent={notificationsCount} color="error">
+                                                    <Icon />
+                                                </Badge>
+                                            ): (
+                                                    <Icon />
                                             )}
 
 

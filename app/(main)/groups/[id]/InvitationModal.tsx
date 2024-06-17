@@ -12,8 +12,8 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 300,
-    height: 250,
+    width: '20%',
+    height: '30%',
     bgcolor: "background.paper",
     boxShadow: 5,
     borderRadius: 2,
@@ -32,6 +32,7 @@ export default function InvitationModal({
     open,
     onClose,
 }: InvitationModalProps) {
+
 
     const form = useForm<FormValues>({
         defaultValues: {
@@ -74,7 +75,7 @@ export default function InvitationModal({
                     setShowLoading(false);
                     setErrorText(data)
                     setShowErrorModal(true)
-                }
+                    }
             })
     }
 

@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CustomModal from "app/CustomModal";
 import LoadingModal from "app/LoadingModal";
-import { subheaderTheme } from "app/fonts";
+import { subheaderTheme, titleTheme } from "app/fonts";
 
 type FormValues = {
     email: string;
@@ -106,7 +106,7 @@ export default function LoginPage() {
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
-    return (
+    return  (
         <Box
             display="flex"
             flex="1"
@@ -114,6 +114,10 @@ export default function LoginPage() {
             height="100vh"
             alignItems="center"
             justifyContent="center"
+            sx={{
+                background: 'linear-gradient(to bottom right, #FFFFFF 80%, #5696d1 100%)' // Cambio para que el degradado se dirija hacia la esquina inferior derecha
+            }}
+
         >
             {showErrorModal && (
                 <CustomModal
@@ -152,8 +156,8 @@ export default function LoginPage() {
                         alt="The house from the offer."
                         src="https://i.imgur.com/ZP4O5bA.png"
                     />
-                    <ThemeProvider theme={subheaderTheme}>
-                        <Typography variant="h4">FIUBASPLIT</Typography>
+                    <ThemeProvider theme={titleTheme}>
+                        <Typography sx={{color: '#2c4d6b'}}variant="h3">FIUBASPLIT</Typography>
                     </ThemeProvider>
 
                 </Box>
@@ -178,7 +182,7 @@ export default function LoginPage() {
                         <TextField
                             id="email"
                             label="Email"
-                            sx={{ marginTop: '3%' }}
+                            sx={{ marginTop: '3%'}}
                             {...register("email", {
                                 required: "Enter you email",
                                 pattern: {

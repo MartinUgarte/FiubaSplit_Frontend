@@ -97,7 +97,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
             })
             .then((data) => {
                 console.log("Got DATA: ", data);
-                getInvitations()
+                window.location.reload();
             });
     };
 
@@ -121,7 +121,7 @@ export default function InvitationCard({ invitation, getInvitations }: Invitatio
             })
             .then((data) => {
                 console.log("Got DATA: ", data);
-                getInvitations()
+                window.location.reload();
             });
     };
 
