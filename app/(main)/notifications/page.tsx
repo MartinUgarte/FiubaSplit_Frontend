@@ -2,31 +2,30 @@
 
 import { useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { Group, Invitation, dumpGroup, dumpInvitation } from "app/types";
+import { Group, Invitation, PaymentNotification, dumpGroup, dumpInvitation } from "app/types";
 import LoadingModal from 'app/LoadingModal';
+import NotificationCard from "./NotificationCard";
 
 
 export default function NotificationsHome() {
-    const [invitations, setInvitations] = useState<Invitation[]>([]);
-    const [showCreateGroupModal, setShowCreateGroupModal] = useState(false);
-    const [showLoading, setShowLoading] = useState(false);
+    const [notifications, setNotifications] = useState<PaymentNotification[]>([]);
 
     useEffect(() => {
-        getInvitations();
+        getNotifications();
     }, []);
 
-    const getInvitations = () => {
-        const jwtToken = localStorage.getItem("jwtToken")
-        const userId = localStorage.getItem("userId")
-        if (!jwtToken || !userId) {
+    const getNotifications = () => {
+        const jwt = localStorage.getItem("jwtToken");
+
+        if (!jwt) {
             return;
         }
-        setShowLoading(true);
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/invitations/groups`, {
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/notifications`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${jwtToken}`,
+                Authorization: `Bearer ${jwt}`,
             },
         })
             .then((res) => {
@@ -36,32 +35,30 @@ export default function NotificationsHome() {
                 return res.json();
             })
             .then((data) => {
-                console.log("Got invitations: ", data);
-                setInvitations(
-                    data.map((invitation: Invitation) => {
+                console.log("Got notifications: ", data);
+                setNotifications(
+                    data.map((notification: PaymentNotification) => {
                         return {
-                            id: invitation.id,
-                            group_id: invitation.group_id,
-                            invited_by_id: invitation.invited_by_id,
-                            invited_user_id: invitation.invited_user_id,
-                            status: invitation.status
+                            id: notification.id,
+                            group_id: notification.group_id,
+                            debtor_id: notification.debtor_id,
+                            user_id: notification.user_id,
+                            amount: notification.amount
                         };
                     })
                 );
-                setShowLoading(false);
             });
     };
 
     return (
         <Box display="flex" flex="1" flexDirection="column">
-            <LoadingModal open={showLoading} onClose={() => setShowLoading(false)} />
             <Box display="flex" flexDirection='column' flex="1">
                 <Grid container spacing={5} sx={{ marginTop: 1 }}>
-                    {invitations.map(
-                        (invitation) =>
+                    {notifications.map(
+                        (notification) =>
                         (
-                            <Grid item xs={12} key={invitation.id}>
-                                <Typography>HOLA</Typography>
+                            <Grid item xs={12} key={notification.id}>
+                                <NotificationCard notification={notification} />
                             </Grid>
                         )
                     )}
