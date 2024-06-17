@@ -21,6 +21,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Badge from '@mui/material/Badge/Badge';
 import { createContext, useEffect, useState } from 'react';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
 
 const DRAWER_WIDTH = 240;
@@ -28,6 +29,7 @@ const DRAWER_WIDTH = 240;
 const LINKS = [
     { text: 'Grupos', href: '/groups', icon: GroupsIcon },
     { text: 'Perfil', href: '/profile', icon: PersonIcon },
+    { text: 'Invitaciones', href: '/invitations', icon: PersonAddAlt1Icon },
     { text: 'Notificaciones', href: '/notifications', icon: NotificationsIcon },
     { text: 'Gastos', href: '/expenses', icon: AttachMoneyIcon },
     { text: 'Deudas', href: '/debts', icon: CurrencyExchangeIcon }
@@ -38,15 +40,14 @@ const PLACEHOLDER_LINKS = [
 ];
 
 
-
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const [debtsCount, setDebtsCount] = useState(0)
+    const [invitationsCount, setInvitationsCount] = useState(0)
     const [notificationsCount, setNotificationsCount] = useState(0)
 
     useEffect(() => {
         getDebts();
-        // getInvitations()
+        getInvitations()
         getNotifications();
     }, []);
     
@@ -98,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             })
             .then((data) => {
                 console.log("Got invitations: ", data);
-                //setNotificationsCount(data.length)
+                setInvitationsCount(data.length)
             });
     };
 
@@ -178,8 +179,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                                 <Badge badgeContent={debtsCount} color="error">
                                                     <Icon />
                                                 </Badge>
-                                            ) : text == 'Notificaciones' ? (
-                                                <Badge badgeContent={notificationsCount} color="error">
+                                            ) : text == 'Invitaciones' ? (
+                                                <Badge badgeContent={invitationsCount} color="error">
                                                     <Icon />
                                                 </Badge>
                                             ) : (

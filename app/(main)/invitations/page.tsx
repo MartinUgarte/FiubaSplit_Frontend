@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import InvitationCard from "./InvitationCard";
+import { Box, Button, Grid } from "@mui/material";
 import { Group, Invitation, dumpGroup, dumpInvitation } from "app/types";
 import LoadingModal from 'app/LoadingModal';
 
@@ -61,7 +62,7 @@ export default function NotificationsHome() {
                         (invitation) =>
                         (
                             <Grid item xs={12} key={invitation.id}>
-                                <Typography>HOLA</Typography>
+                                <InvitationCard invitation={invitation} getInvitations={() => getInvitations()} />
                             </Grid>
                         )
                     )}
