@@ -58,7 +58,7 @@ export default function NotificationsHome() {
                         (notification) =>
                         (
                             <Grid item xs={12} key={notification.id}>
-                                <NotificationCard notification={notification} />
+                                <NotificationCard notification={notification} getNotifications={() => getNotifications()}/>
                             </Grid>
                         )
                     )}

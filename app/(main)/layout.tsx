@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         getInvitations()
         getNotifications();
     }, []);
-    
+
     const getNotifications = () => {
         const jwt = localStorage.getItem("jwtToken");
 
@@ -76,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 setNotificationsCount(data.length)
             });
     };
-    
+
     const getInvitations = () => {
         const jwtToken = localStorage.getItem("jwtToken")
         const userId = localStorage.getItem("userId")
@@ -183,8 +183,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                                 <Badge badgeContent={invitationsCount} color="error">
                                                     <Icon />
                                                 </Badge>
-                                            ) : (
-                                                <Icon />
+                                            ) : text == 'Notificaciones' ? (
+                                                <Badge badgeContent={notificationsCount} color="error">
+                                                    <Icon />
+                                                </Badge>
+                                            ): (
+                                                    <Icon />
                                             )}
 
 
