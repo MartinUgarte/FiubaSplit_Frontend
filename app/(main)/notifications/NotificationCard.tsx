@@ -12,6 +12,7 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Invitation, PaymentNotification } from "app/types";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 
 type NotificationCardProps = {
@@ -81,20 +82,11 @@ export default function NotificationCard({ notification }: NotificationCardProps
         <Card style={{ borderTop: "2px solid #64a8e3", height: 100 }}>
             <Box flex='1' display='flex' flexDirection='row' height="100%">
                 <Box flex='1' display='flex' flexDirection='row' justifyContent='flex-start' alignItems='center' sx={{ marginLeft: 5 }}>
-                    <GroupAddIcon sx={{ fontSize: 40 }} />
+                    <NotificationsActiveIcon sx={{ fontSize: 40 }} />
                     <Typography gutterBottom variant="h5" component="div" sx={{ marginTop: 2, marginLeft: 2 }}>
-                        {debtorName} te ha pagado {notification.amount} del grupo {groupName}
-                        {/* {debtorName} te ha invitado al grupo {groupName} */}
+                        {debtorName} te ha pagado ${notification.amount * -1} del grupo {groupName}
                     </Typography>
                 </Box>
-                {/* <Box flex='0.5' display='flex' flexDirection='row' justifyContent='flex-end' alignItems='center' sx={{ marginRight: 5 }}>
-                    <Button variant='outlined' size="small" onClick={() => acceptInvitation()}>
-                        Aceptar
-                    </Button>
-                    <Button variant='outlined' size="small" sx={{ marginLeft: 2 }} onClick={() => rejectInvitation()}>
-                        Rechazar
-                    </Button>
-                </Box> */}
             </Box>
 
         </Card>
