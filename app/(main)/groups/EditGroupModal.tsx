@@ -108,7 +108,8 @@ export default function EditGroupModal({
                 category: selectedCategory,
                 creator_id: group.creator_id,
                 members: group.members,
-                admin: group.admins
+                admin: group.admins,
+                balances: {}
             }),
         })
             .then((res) => {
