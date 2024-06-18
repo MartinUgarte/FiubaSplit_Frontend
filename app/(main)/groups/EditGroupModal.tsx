@@ -154,7 +154,7 @@ export default function EditGroupModal({
                     height="100%"
                     justifyContent="center"
                     alignItems="center"
-                    sx={{ backgroundColor: "#5c93c4" }}
+                    sx={{ backgroundColor: "#5c93c4"}}
                 >
                     <ThemeProvider theme={modalTheme}>
                         <Typography color='white'>Editar grupo</Typography>

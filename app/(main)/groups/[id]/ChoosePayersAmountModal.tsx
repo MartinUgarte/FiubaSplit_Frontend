@@ -22,8 +22,8 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
-    height: 400,
+    width: '20%',
+    height: '60%',
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 10,
@@ -141,6 +141,8 @@ export default function ChoosePayersAmountModal({
                     justifyContent="center"
                     alignItems="center"
                     width="80%"
+                    maxHeight='100%'
+                    sx={{ marginTop: '5%', maxHeight: '100%', overflowY: 'auto' }}
                 >
                     {fields.map((field, index) => (
                         <TextField
