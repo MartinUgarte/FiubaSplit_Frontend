@@ -23,8 +23,8 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
-    height: 400,
+    width: '20%',
+    height: '60%',
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 10,
@@ -168,10 +168,12 @@ export default function ChooseExpensePercentagesAmountModal({
                 <Box
                     display="flex"
                     flexDirection="column"
-                    flex="0.8"
-                    justifyContent="center"
+                    flex="0.7"
+                    //justifyContent="center"
                     alignItems="center"
                     width="80%"
+                    maxHeight='100%'
+                    sx={{ marginTop: '5%', maxHeight: '100%', overflowY: 'auto' }}
                 >
                     {fields.map((field, index) => (
                         <TextField
@@ -191,6 +193,16 @@ export default function ChooseExpensePercentagesAmountModal({
                             focused
                         />
                     ))}
+                </Box>
+                <Box
+                display="flex"
+                flex="0.1"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection='row'
+                width='80%'
+                sx={{marginTop: '5%'}}
+                >
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -201,6 +213,7 @@ export default function ChooseExpensePercentagesAmountModal({
                         }
                         label="Partes iguales"
                     />
+
                 </Box>
                 <Box
                     display="flex"

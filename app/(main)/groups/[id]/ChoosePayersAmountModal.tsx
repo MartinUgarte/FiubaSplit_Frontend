@@ -138,11 +138,11 @@ export default function ChoosePayersAmountModal({
                     display="flex"
                     flexDirection="column"
                     flex="0.8"
-                    justifyContent="center"
+                    //justifyContent="center"
                     alignItems="center"
                     width="80%"
                     maxHeight='100%'
-                    sx={{ marginTop: '5%', maxHeight: '100%', overflowY: 'auto' }}
+                    sx={{ marginTop: '5%', maxHeight: '100%', overflowY: 'scroll' }}
                 >
                     {fields.map((field, index) => (
                         <TextField
